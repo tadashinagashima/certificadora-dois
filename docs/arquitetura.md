@@ -22,6 +22,9 @@ O firmware será desenvolvido em C/C++ no ecossistema Arduino. Seus módulos e a
 
 ![Diagrama de componentes do firmware](diagramas/componentes.svg)
 
+Os diagramas também estão disponíveis no
+[projeto Astah editável](diagramas/tabuleiro-xadrez-sensorial.asta).
+
 ## 3. Estados e processamento das jogadas
 
 A interpretação das jogadas utiliza três informações:

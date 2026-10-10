@@ -1,0 +1,8 @@
+# Apoio local do Codex à geração dos diagramas.
+/docs/diagramas/README.md
+/docs/diagramas/geracao/
+
+# Arquivos auxiliares locais do Astah e da compilação Java.
+/docs/diagramas/**/*.asta.lock
+/docs/diagramas/**/*.asta.bak
+/docs/diagramas/**/*.class

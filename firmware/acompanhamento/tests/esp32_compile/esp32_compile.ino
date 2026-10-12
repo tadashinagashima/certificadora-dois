@@ -1,4 +1,3 @@
-// Compilation probe only: no GPIO, sensors, serial, storage or chess logic.
 #include <MoveTracker.h>
 
 chessboard::MoveTracker tracker;

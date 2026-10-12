@@ -39,10 +39,9 @@ class MoveTracker {
   // Call instead of observe when a read fails or acquisition continuity is lost.
   void markInputInterrupted();
 
-  // Independent value copy: later observations/discards cannot change it.
   AttemptSnapshot snapshot() const;
 
-  // Start another attempt at the last observed occupancy. Does not restore pieces.
+  // Start another attempt at the last observed occupancy.
   // A missing reading remains unavailable until observe receives a valid one.
   void discardAttempt();
 

@@ -19,7 +19,7 @@ void MoveTracker::observe(Occupancy occupancy, std::uint32_t timestampMs) {
   attempt_.currentOccupancy = occupancy;
   attempt_.readingAvailable = true;
 
-  // Keep only the complete prefix after a loss; never fabricate a delta over a gap.
+  // Preserve the complete history prefix after a loss of observations.
   if (attempt_.historyOverflow || attempt_.inputInterrupted || previous == occupancy) {
     return;
   }
@@ -46,7 +46,6 @@ AttemptSnapshot MoveTracker::snapshot() const {
 
 void MoveTracker::discardAttempt() {
   attempt_.initialOccupancy = attempt_.currentOccupancy;
-  // Only frames before frameCount are valid; observe fully overwrites reused slots.
   attempt_.frameCount = 0;
   attempt_.historyOverflow = false;
   // Discarding while acquisition is unavailable cannot make it trustworthy.

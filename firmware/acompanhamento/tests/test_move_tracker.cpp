@@ -163,7 +163,6 @@ bool groupedChanges() {
   const auto initial = square('e', '1') | square('h', '1');
   const auto final = square('f', '1') | square('g', '1');
   CHECK(sequence(initial, {{final, initial, final}}));
-  // All 64 bits can change in one observation, including bit 63.
   return sequence(0, {{Occupancy{0xFFFFFFFFFFFFFFFFULL}, 0, Occupancy{0xFFFFFFFFFFFFFFFFULL}},
                       {0, Occupancy{0xFFFFFFFFFFFFFFFFULL}, 0}});
 }
@@ -185,7 +184,7 @@ bool discardAndCorrection() {
   tracker.observe(e2, 0);
   tracker.observe(0, 25);
   tracker.observe(e3, 50);
-  tracker.discardAttempt();  // The controller decides when to discard, not this module.
+  tracker.discardAttempt();
   const auto fresh = tracker.snapshot();
   CHECK(fresh.initialOccupancy == e3 && fresh.currentOccupancy == e3);
   CHECK(fresh.frameCount == 0 && fresh.reliable());
@@ -235,7 +234,7 @@ bool capacityAndOverflow() {
   const auto full = tracker.snapshot();
   CHECK(full.frameCount == kHistoryCapacity && full.reliable());
   for (unsigned i = 0; i < 100; ++i) tracker.observe(full.currentOccupancy, 100);
-  CHECK(tracker.snapshot().reliable());  // Full is not yet overflowed.
+  CHECK(tracker.snapshot().reliable());
   tracker.observe(h8, 200);
   tracker.observe(d5, 225);
   const auto lost = tracker.snapshot();
@@ -298,7 +297,7 @@ bool discardDuringInterruption() {
   CHECK(!tracker.snapshot().reliable() && !tracker.snapshot().readingAvailable);
   tracker.observe(e4, 100);
   CHECK(!tracker.snapshot().reliable());
-  CHECK(tracker.snapshot().frameCount == 0);  // No invented e2 -> e4 transition.
+  CHECK(tracker.snapshot().frameCount == 0);  // No delta across an acquisition gap.
   tracker.discardAttempt();
   CHECK(tracker.snapshot().reliable() && tracker.snapshot().initialOccupancy == e4);
   return true;

@@ -15,7 +15,7 @@ O código é C++14, sem dependência de Arduino, relógio real, periféricos ou 
 | `discardAttempt()` | Limpa o histórico e usa a ocupação corrente como referência inicial da próxima tentativa. Não restaura peças nem altera posição lógica. |
 | `markInputInterrupted()` | Informa falha de leitura ou perda conhecida de continuidade. Preserva a última ocupação válida, sem fabricar um quadro vazio. |
 
-`AttemptSnapshot.frames[0..frameCount)` contém os quadros com alterações. Cada `FrameChanges` tem as máscaras `removed` e `added`, além do tempo informado pelo chamador, em milissegundos. As máscaras de um quadro são disjuntas. Uma casa retirada e depois recolocada aparece em dois quadros, mesmo quando a ocupação final coincide com a inicial.
+`AttemptSnapshot.frames[0..frameCount)` contém os quadros com alterações. As posições a partir de `frameCount` não são válidas e não devem ser consultadas: o descarte zera o contador, sem limpar o vetor, e novas alterações sobrescrevem integralmente as posições reutilizadas. Cada `FrameChanges` tem as máscaras `removed` e `added`, além do tempo informado pelo chamador, em milissegundos. As máscaras de um quadro são disjuntas. Uma casa retirada e depois recolocada aparece em dois quadros, mesmo quando a ocupação final coincide com a inicial.
 
 A ordem do vetor corresponde à ordem de recebimento das observações. Não existe ordem atribuída às casas dentro de um mesmo quadro, nem inferência de simultaneidade física. Quadros sem alterações não consomem histórico. Tempos iguais ou o retorno a zero de um contador de 32 bits não reordenam nem mesclam quadros; o módulo não calcula intervalos ou aplica debounce.
 

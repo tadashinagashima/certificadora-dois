@@ -1,0 +1,6 @@
+Versão do MSBuild 17.11.9+a69bbaaf5 para .NET Framework
+
+  MoveTracker.cpp
+  move_tracker.vcxproj -> C:\Users\danie\Desktop\certificadora-dois\firmware\acompanhamento\build\native\Release\move_tracker.lib
+  test_move_tracker.cpp
+  move_tracker_tests.vcxproj -> C:\Users\danie\Desktop\certificadora-dois\firmware\acompanhamento\build\native\Release\move_tracker_tests.exe

@@ -1,0 +1,44 @@
+{
+  "performedAtUtc": "2026-10-12T10:29:53.9277919Z",
+  "success": true,
+  "failure": null,
+  "cmakeVersion": "cmake version 3.29.5-msvc4\r\n\r\nCMake suite maintained and supported by Kitware (kitware.com/cmake).",
+  "arduinoCliVersion": "arduino-cli  Version: 1.5.2-rc.1 Commit: fef6e48df Date: 2026-07-23T11:13:25Z",
+  "installedCores": "ID          Installed Latest Name\r\narduino:avr 1.8.6     1.8.8  Arduino AVR Boards\r\nesp32:esp32 3.3.12    3.3.12 esp32",
+  "nativeConfiguration": "MSVC x64 Release, C++14, /W4 /WX",
+  "fqbn": "esp32:esp32:esp32",
+  "steps": [
+    {
+      "name": "native-configure",
+      "exitCode": 0,
+      "log": "native-configure.log"
+    },
+    {
+      "name": "native-build",
+      "exitCode": 0,
+      "log": "native-build.log"
+    },
+    {
+      "name": "native-tests",
+      "exitCode": 0,
+      "log": "native-tests.log"
+    },
+    {
+      "name": "esp32-compile",
+      "exitCode": 0,
+      "log": "esp32-compile.log"
+    }
+  ],
+  "sourceSha256": {
+    "src/MoveTracker.h": "385e34c6c3948c69ca69ef394b5ab6459de608483b84f765feffc19b55e23457",
+    "src/MoveTracker.cpp": "cfe9dfe6371eff7a19dc9679e5ae5e7209aeac9601d641073b4200df4fd9a091",
+    "tests/test_move_tracker.cpp": "78ef57e48789ac5700f377dded79c0de4f8a314a88683c1e413e90c1032eb0a3",
+    "tests/esp32_compile/esp32_compile.ino": "b7ca1e29fb10a172318db3949a234612e9b560b23ad38425ffa2ad75e74ae6ec",
+    "CMakeLists.txt": "e5e4789121b1c0bfabf35a0cd5eda362ca8ef00fe3ad70fa8c0cb6ae4acd6ed3",
+    "library.properties": "48a62da1454cf0e970bc6880c67e8f45d609b082be4a98826c5cec9876bb2d61",
+    "validar.ps1": "83311dce0fdba3967d46671c6d3b58fae00a7a0f3df12de8e4b43d288851a72f"
+  },
+  "uploadPerformed": false,
+  "physicalTestsPerformed": false,
+  "notes": "Native tests use synthetic observations. ESP32 compilation only; no sensor acquisition, chess interpretation or physical validation."
+}

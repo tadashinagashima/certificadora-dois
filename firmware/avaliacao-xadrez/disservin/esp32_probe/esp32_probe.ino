@@ -1,6 +1,6 @@
 #include <chess.hpp>
 
-// Keep the legal-move generator and its tables in the link. No peripheral access.
+// Keep the legal-move generator and its tables in the link.
 volatile unsigned int legalMoveCount = 0;
 
 void setup() {

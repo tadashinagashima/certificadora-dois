@@ -221,7 +221,7 @@ for i,(x,y) in enumerate(mounts):
     pilot_bottom = cylinder(f"PilotoInferior{i}", "Pilot/2", "10 mm", x,y,"Base")
     pilot_top = cylinder(f"PilotoSuperior{i}", "Pilot/2", "10 mm", x,y,"CarrierZ-10 mm")
     finish(cut(f"Apoio{i}", support_raw, [pilot_bottom,pilot_top]), f"A0{i+1} | Apoio 12 x 12 - furos piloto", "Estrutura", MDF)
-    # Screw hardware omitted: no false thread geometry / screw-length decision.
+    # Fasteners are omitted until screw dimensions are defined.
     px = "30 mm" if i in [0,2] else "Outer-30 mm"
     py = "30 mm" if i in [0,1] else "Outer-30 mm"
     finish(cylinder(f"Pe{i}", "FootDiameter/2", "FootHeight", px,py,"-FootHeight"), f"P0{i+1} | Pe elastomerico", "Estrutura", BLACK)
@@ -245,7 +245,6 @@ for name,label,L,W,H,x,y,z,col in [
 magnet = finish(cylinder("ImaReferencia","MagnetDiameter/2","MagnetHeight","Margin+Pitch/2","Margin+Pitch/2","Height+0.2 mm"),
                 "REF | Ima ferrite 12 x 3 - exemplo a1, folga feltro0.2 provisoria", "Matriz", (0.27,0.28,0.29),role="envelope")
 
-# 64 cell assemblies, each with one glass reed envelope and one diode envelope.
 for row in range(8):
     for col in range(8):
         sq = chr(97+col)+str(row+1)
@@ -302,7 +301,6 @@ def val(name):
 
 params = {name:round(val(name),6) for name,_,_ in PARAMS}
 
-# Demonstrate expressions actually resize geometry, then restore baseline.
 baseline = (base.Shape.BoundBox.XLength, doc.getObject("Reed_h8").Shape.CenterOfMass.x)
 original_outer = sheet.getContents(f"B{rows['Outer']}")
 sheet.set(f"B{rows['Outer']}",str(params["Outer"]+10)+" mm")
@@ -359,7 +357,7 @@ Import.export(finals,str(OUT/"tabuleiro_sensorial.step"))
 doc.recompute()
 doc.saveAs(str(ROOT/"tabuleiro_sensorial.FCStd"))
 
-# Export triangulated actual BReps for a reproducible renderer independent of GPU.
+# Mesh data for the CPU renderer.
 import MeshPart
 build=ROOT/"build"
 build.mkdir(exist_ok=True)

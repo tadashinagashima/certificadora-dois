@@ -1,0 +1,65 @@
+PASS 20 initial legal moves
+PASS occupancy a1=0 / h8=63
+PASS reject illegal e2e5
+PASS e2e4
+PASS e4
+PASS SAN preserves complete source board
+PASS expected position after makeMove
+PASS independent copy preserves position
+PASS unmakeMove restores complete state
+PASS e4d5
+PASS exd5
+PASS SAN preserves complete source board
+PASS expected position after makeMove
+PASS independent copy preserves position
+PASS unmakeMove restores complete state
+PASS e1g1
+PASS O-O
+PASS SAN preserves complete source board
+PASS expected position after makeMove
+PASS independent copy preserves position
+PASS unmakeMove restores complete state
+PASS e1c1
+PASS O-O-O
+PASS SAN preserves complete source board
+PASS expected position after makeMove
+PASS independent copy preserves position
+PASS unmakeMove restores complete state
+PASS e5d6
+PASS exd6
+PASS SAN preserves complete source board
+PASS expected position after makeMove
+PASS independent copy preserves position
+PASS unmakeMove restores complete state
+PASS a7a8q
+PASS a8=Q+
+PASS SAN preserves complete source board
+PASS expected position after makeMove
+PASS independent copy preserves position
+PASS unmakeMove restores complete state
+PASS a7a8r
+PASS a8=R+
+PASS SAN preserves complete source board
+PASS expected position after makeMove
+PASS independent copy preserves position
+PASS unmakeMove restores complete state
+PASS a7a8b
+PASS a8=B
+PASS SAN preserves complete source board
+PASS expected position after makeMove
+PASS independent copy preserves position
+PASS unmakeMove restores complete state
+PASS a7a8n
+PASS a8=N
+PASS SAN preserves complete source board
+PASS expected position after makeMove
+PASS independent copy preserves position
+PASS unmakeMove restores complete state
+PASS 7k/6Q1/5K2/8/8/8/8/8 b - - 0 1
+PASS 7k/5K2/6Q1/8/8/8/8/8 b - - 0 1
+PASS 4k3/8/8/8/8/8/8/4K3 w - - 0 1
+PASS 4k3/8/8/8/8/8/8/R3K3 w - - 100 51
+PASS threefold repetition with history
+PASS_TOTAL 62
+SIZEOF_BOARD 248 SIZEOF_MOVELIST 1028
+SLIDING_ATTACK_TABLE_BYTES 861184

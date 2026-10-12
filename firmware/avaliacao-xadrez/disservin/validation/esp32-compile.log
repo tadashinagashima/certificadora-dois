@@ -1,0 +1,15 @@
+In file included from C:\Users\danie\Desktop\certificadora-dois\firmware\avaliacao-xadrez\disservin\esp32_probe\esp32_probe.ino:1:
+C:\Users\danie\Desktop\certificadora-dois\firmware\avaliacao-xadrez\disservin\build\library\src/chess.hpp:3243:41: error: macro "sq" passed 2 arguments, but takes just 1
+ 3243 |             const Square sq(f, back_rank);
+      |                                         ^
+In file included from C:\Users\danie\Desktop\certificadora-dois\firmware\avaliacao-xadrez\disservin\build\esp32\sketch\esp32_probe.ino.cpp.merged:1:
+C:\Users\danie\AppData\Local\Arduino15\packages\esp32\hardware\esp32\3.3.12\cores\esp32/Arduino.h:83:9: note: macro "sq" defined here
+   83 | #define sq(x)                     ((x) * (x))
+      |         ^~
+Error during build: exit status 1
+
+Used library        Version Path
+DisservinEvaluation 0.9.4   C:\Users\danie\Desktop\certificadora-dois\firmware\avaliacao-xadrez\disservin\build\library
+
+Used platform Version Path
+esp32:esp32   3.3.12  C:\Users\danie\AppData\Local\Arduino15\packages\esp32\hardware\esp32\3.3.12

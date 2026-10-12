@@ -1,4 +1,3 @@
-// Diagnostic bring-up only. No chess rules, move recording or PGN generation.
 #include <Arduino.h>
 #include <Wire.h>
 #include <SPI.h>
@@ -158,7 +157,6 @@ void reportSnapshot(uint64_t next) {
 }
 
 void checkSD() {
-  // No automatic format, no write API, no recursive traversal. Reinsert only when idle.
   SD.end();
   if (!SD.begin(board::SD_CS, SPI, 1000000, "/sd", 1, false)) {
     Serial.println("SD: montagem falhou (cartao/contatos/alimentacao/FAT). Sem formatacao.");
@@ -231,7 +229,6 @@ void testSDWrite() {
     SD.end();
     return;
   }
-  // This diagnostic owns the card while mounted. Never reuse or remove a test file.
   File file = SD.open(path, FILE_WRITE);
   if (!file) {
     Serial.println("SD escrita: nao foi possivel criar arquivo novo.");

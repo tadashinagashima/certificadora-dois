@@ -1,0 +1,48 @@
+{
+  "performedAtUtc": "2026-10-12T10:29:16.3448155Z",
+  "success": true,
+  "failure": null,
+  "upstreamCommit": "aa217cb9b4d759cd7c07e11c98526b0187b0a64b",
+  "cmakeVersion": "cmake version 3.29.5-msvc4\r\n\r\nCMake suite maintained and supported by Kitware (kitware.com/cmake).",
+  "arduinoCliVersion": "arduino-cli  Version: 1.5.2-rc.1 Commit: fef6e48df Date: 2026-07-23T11:13:25Z",
+  "installedCores": "ID          Installed Latest Name\r\narduino:avr 1.8.6     1.8.8  Arduino AVR Boards\r\nesp32:esp32 3.3.12    3.3.12 esp32",
+  "nativeConfiguration": "MSVC x64 Release C++14; test harness /W4 /WX; upstream unchanged",
+  "fqbn": "esp32:esp32:esp32",
+  "steps": [
+    {
+      "name": "native-configure",
+      "exitCode": 0,
+      "log": "native-configure.log"
+    },
+    {
+      "name": "native-build",
+      "exitCode": 0,
+      "log": "native-build.log"
+    },
+    {
+      "name": "native-tests",
+      "exitCode": 0,
+      "log": "native-tests.log"
+    },
+    {
+      "name": "esp32-compile",
+      "exitCode": 0,
+      "log": "esp32-compile.log"
+    }
+  ],
+  "sourceSha256": {
+    "upstream.json": "adb4192522ed4294d0fc24cdc65b3fbefe03fe82751c271c749deba270f19b06",
+    "vendor/src/thc.h": "aafb455bfd91a159692d690e07937c9dd40dc2825d00d5a1734e057b2e5a3dcc",
+    "vendor/src/thc.cpp": "9702a396f5ada214bb383909bdbd5368db62ca99c8b726149a79ba5fbe1fd401",
+    "vendor/LICENSE": "5f5adae90290d855dd2fa2ea560da48e2bd4c6fa97aa000bed872d6567ac023b",
+    "tests/essential_tests.h": "0db397de8e03f5d51bad52a8f5745da49e1ed35b30f3ad96862f1b068de3d1c6",
+    "tests/essential_tests.cpp": "0c4546e93ecbc057d79fb99c3ddd7a5e9d521b8157ecde776b500e47db4e5e04",
+    "tests/native_main.cpp": "46d5850d6e761e47cb158afc879f08c1a2b815a9c26a54a1ddaca15831a06dde",
+    "tests/esp32_probe.ino": "5d5e33d5e9f30e98090b29285eabe887b7ffc91ea07dc84fc9ba074cf953ae32",
+    "CMakeLists.txt": "8763cb3e48b9c85e15d7d01af708bf8a86f0b11e640fc784d78e2180aa4bf697",
+    "validar.ps1": "c40f1aaa7435a1a7a2cd435ddd513ee7bc60dfd5ea2af7755037f98dd20a2e88"
+  },
+  "uploadPerformed": false,
+  "hardwareExecutionPerformed": false,
+  "scope": "Isolated library evaluation. Native functional tests plus ESP32 compile/link only. No MoveTracker or main firmware integration."
+}

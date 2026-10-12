@@ -1,0 +1,12 @@
+Versão do MSBuild 17.11.9+a69bbaaf5 para .NET Framework
+
+  1>Checking Build System
+  Building Custom Rule C:/Users/danie/Desktop/certificadora-dois/firmware/avaliacao-xadrez/thc/CMakeLists.txt
+  thc.cpp
+  thc_upstream.vcxproj -> C:\Users\danie\Desktop\certificadora-dois\firmware\avaliacao-xadrez\thc\build\native\Release\thc_upstream.lib
+  Building Custom Rule C:/Users/danie/Desktop/certificadora-dois/firmware/avaliacao-xadrez/thc/CMakeLists.txt
+  native_main.cpp
+  essential_tests.cpp
+  Gerando Código...
+  thc_evaluation.vcxproj -> C:\Users\danie\Desktop\certificadora-dois\firmware\avaliacao-xadrez\thc\build\native\Release\thc_evaluation.exe
+  Building Custom Rule C:/Users/danie/Desktop/certificadora-dois/firmware/avaliacao-xadrez/thc/CMakeLists.txt

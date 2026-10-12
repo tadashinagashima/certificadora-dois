@@ -38,7 +38,6 @@ for rank in range(1,9):
     resistor=f'R{15+rank}'
     assert components[resistor]=='47k',('row pull-up value',resistor)
     expected(resistor,1,'3V3_IO');expected(resistor,2,f'ROW_{rank}')
-    # Exactly eight diode anodes, one external pull-up and one MCP input per row.
     row_nodes={(f'D{8*(rank-1)+c}','2') for c in range(1,9)}
     row_nodes|={(resistor,'2'),('U1',str(rank if rank<8 else 27))}
     assert nets[f'ROW_{rank}']==row_nodes,('direct row topology',rank)

@@ -1,4 +1,4 @@
-"""Render CPU da geometria BRep tessellada pelo FreeCAD (nao e imagem gerada por IA)."""
+"""Render CPU da geometria BRep tessellada pelo FreeCAD."""
 from pathlib import Path
 import json
 import numpy as np

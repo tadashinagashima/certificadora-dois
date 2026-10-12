@@ -3,8 +3,6 @@
 Symbol geometry is vendored in Sensory.kicad_sym from the installed KiCad 10.
 No ERC settings or exclusions are changed. Coordinates below are in mil-grid units
 (one unit = 2.54 mm); global labels are intentional inter-sheet connections.
-Sheet annotations cover electrical operation, identification and assembly only.
-Validation procedures belong in docs/plano-testes-fisicos.md, not on the sheets.
 """
 from pathlib import Path
 import re, uuid, json, math, argparse

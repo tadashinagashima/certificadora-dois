@@ -41,6 +41,7 @@ A estrutura física utilizará uma base de **MDF** e um **tabuleiro de vidro rem
 - [Mecânica](docs/mecanica.md): dimensões, modelo FreeCAD e exportações.
 - [Diagnóstico Arduino](docs/firmware-diagnostico.md): configuração, compilação e operação.
 - [Acompanhamento da jogada](docs/firmware-acompanhamento.md): módulo C++ independente, contrato e testes automatizados.
+- [Avaliação de bibliotecas de xadrez](docs/avaliacao-bibliotecas-xadrez.md): comparação isolada, testes reproduzíveis e recomendação para ESP32.
 - [Decisões elétricas](docs/revisao-componentes-adicionais.md): leitura direta, alimentação e alternativas condicionadas aos testes.
 - [Plano de testes físicos](docs/plano-testes-fisicos.md): resultados preliminares e critérios de validação.
 

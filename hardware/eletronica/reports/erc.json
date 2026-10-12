@@ -1,0 +1,47 @@
+{
+    "$schema": "https://schemas.kicad.org/erc.v1.json",
+    "coordinate_units": "mm",
+    "date": "2026-10-11T23:20:38",
+    "ignored_checks": [
+        {
+            "description": "Global label only appears once in the schematic",
+            "key": "single_global_label"
+        },
+        {
+            "description": "Four connection points are joined together",
+            "key": "four_way_junction"
+        },
+        {
+            "description": "SPICE model issue",
+            "key": "simulation_model_issue"
+        },
+        {
+            "description": "Assigned footprint doesn't match footprint filters",
+            "key": "footprint_filter"
+        }
+    ],
+    "included_severities": [
+        "error",
+        "warning",
+        "exclusion"
+    ],
+    "kicad_version": "10.0.7",
+    "sheets": [
+        {
+            "path": "/",
+            "uuid_path": "/46e77f82-f508-5314-b208-a58521003af0",
+            "violations": []
+        },
+        {
+            "path": "/02 / Interface e SD/",
+            "uuid_path": "/46e77f82-f508-5314-b208-a58521003af0/453235dc-5653-5b38-90fc-65ce6d2d925d",
+            "violations": []
+        },
+        {
+            "path": "/03 / Matriz 8x8/",
+            "uuid_path": "/46e77f82-f508-5314-b208-a58521003af0/957ba422-6101-5568-8fd4-3b717cbebf9b",
+            "violations": []
+        }
+    ],
+    "source": "tabuleiro-sensorial.kicad_sch"
+}

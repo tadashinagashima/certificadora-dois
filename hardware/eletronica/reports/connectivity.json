@@ -1,0 +1,36 @@
+{
+  "date": "2026-10-11",
+  "revision": "B",
+  "status": "PASS",
+  "pin_or_junction_checks": 336,
+  "reed_switches": 64,
+  "matrix_diodes": 64,
+  "row_pullups_ohms": 47000,
+  "supply": "USB computer -> DevKit V1 onboard regulator -> 3V3_IO",
+  "directed_graph_occupancy_patterns": 12800,
+  "erc_violations": 0,
+  "erc_builtin_ignored_checks": [
+    {
+      "description": "Global label only appears once in the schematic",
+      "key": "single_global_label"
+    },
+    {
+      "description": "Four connection points are joined together",
+      "key": "four_way_junction"
+    },
+    {
+      "description": "SPICE model issue",
+      "key": "simulation_model_issue"
+    },
+    {
+      "description": "Assigned footprint doesn't match footprint filters",
+      "key": "footprint_filter"
+    }
+  ],
+  "netlist_sha256": "f82243eebd6f1acc39ca548a14d82b590962fb2a2756d59260b56960b0c73954",
+  "limitations": [
+    "Ideal diode graph, no SPICE or guaranteed analog margin",
+    "No assembled-matrix electrical, power, SD or buzzer tests performed",
+    "DevKit header reference requires board markings check; MCP/OLED headers represented by logical interfaces"
+  ]
+}

@@ -1,0 +1,1107 @@
+(kicad_sch (version 20250114) (generator "eeschema") (uuid 46e77f82-f508-5314-b208-a58521003af0) (paper "A3")
+              (title_block (title "Controle e alimentação USB") (date "2026-10-11") (rev "B") (company "UTFPR - Engenharia de Computação")
+                (comment 1 "Tabuleiro de Xadrez Sensorial"))
+              (lib_symbols (symbol "Sensory:C"
+		(pin_numbers
+			(hide yes)
+		)
+		(pin_names
+			(offset 0.254)
+		)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(duplicate_pin_numbers_are_jumpers no)
+		(property "Reference" "C"
+			(at 0.635 2.54 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "C"
+			(at 0.635 -2.54 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" ""
+			(at 0.9652 -3.81 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 0 0 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Unpolarized capacitor"
+			(at 0 0 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "ki_keywords" "cap capacitor"
+			(at 0 0 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "ki_fp_filters" "C_*"
+			(at 0 0 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(symbol "C_0_1"
+			(polyline
+				(pts
+					(xy -2.032 0.762) (xy 2.032 0.762)
+				)
+				(stroke
+					(width 0.508)
+					(type default)
+				)
+				(fill
+					(type none)
+				)
+			)
+			(polyline
+				(pts
+					(xy -2.032 -0.762) (xy 2.032 -0.762)
+				)
+				(stroke
+					(width 0.508)
+					(type default)
+				)
+				(fill
+					(type none)
+				)
+			)
+		)
+		(symbol "C_1_1"
+			(pin passive line
+				(at 0 3.81 270)
+				(length 2.794)
+				(name ""
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "1"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+			(pin passive line
+				(at 0 -3.81 90)
+				(length 2.794)
+				(name ""
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "2"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+		)
+		(embedded_fonts no)
+	)
+(symbol "Sensory:ESP32_DevKit_V1_30pin" (pin_names (offset 0.5)) (in_bom yes) (on_board yes)
+      (property "Reference" "A" (at 0 43.18 0) (effects (font (size 1 1))))
+      (property "Value" "ESP32_DevKit_V1_30pin" (at 0 40.64 0) (effects (font (size 1 1))))
+      (property "Footprint" "" (at 0 0 0) (effects (font (size 1 1)) (hide yes)))
+      (property "Datasheet" "" (at 0 0 0) (effects (font (size 1 1)) (hide yes)))
+      (property "Description" "DevKit V1 / ESP-WROOM-32, 30 pinos. Vista dos componentes, antena acima e USB abaixo. L/R: posições do projeto, de cima para baixo; não são números do módulo WROOM." (at 0 0 0) (effects (font (size 1 1)) (hide yes)))
+      (symbol "ESP32_DevKit_V1_30pin_0_1" (rectangle (start -22.86 38.1) (end 22.86 -38.1) (stroke (width 0.254) (type default)) (fill (type background)))) (symbol "ESP32_DevKit_V1_30pin_1_1" (pin input line (at -25.4 35.56 0) (length 2.54) (name "EN" (effects (font (size 1.27 1.27)))) (number "L1" (effects (font (size 1.0 1.0))))) (pin input line (at -25.4 30.48 0) (length 2.54) (name "GPIO36" (effects (font (size 1.27 1.27)))) (number "L2" (effects (font (size 1.0 1.0))))) (pin input line (at -25.4 25.4 0) (length 2.54) (name "GPIO39" (effects (font (size 1.27 1.27)))) (number "L3" (effects (font (size 1.0 1.0))))) (pin input line (at -25.4 20.32 0) (length 2.54) (name "GPIO34" (effects (font (size 1.27 1.27)))) (number "L4" (effects (font (size 1.0 1.0))))) (pin input line (at -25.4 15.24 0) (length 2.54) (name "GPIO35" (effects (font (size 1.27 1.27)))) (number "L5" (effects (font (size 1.0 1.0))))) (pin input line (at -25.4 10.16 0) (length 2.54) (name "GPIO32" (effects (font (size 1.27 1.27)))) (number "L6" (effects (font (size 1.0 1.0))))) (pin input line (at -25.4 5.08 0) (length 2.54) (name "GPIO33" (effects (font (size 1.27 1.27)))) (number "L7" (effects (font (size 1.0 1.0))))) (pin output line (at -25.4 -0.0 0) (length 2.54) (name "GPIO25" (effects (font (size 1.27 1.27)))) (number "L8" (effects (font (size 1.0 1.0))))) (pin output line (at -25.4 -5.08 0) (length 2.54) (name "GPIO26" (effects (font (size 1.27 1.27)))) (number "L9" (effects (font (size 1.0 1.0))))) (pin output line (at -25.4 -10.16 0) (length 2.54) (name "GPIO27" (effects (font (size 1.27 1.27)))) (number "L10" (effects (font (size 1.0 1.0))))) (pin output line (at -25.4 -15.24 0) (length 2.54) (name "GPIO14" (effects (font (size 1.27 1.27)))) (number "L11" (effects (font (size 1.0 1.0))))) (pin bidirectional line (at -25.4 -20.32 0) (length 2.54) (name "GPIO12" (effects (font (size 1.27 1.27)))) (number "L12" (effects (font (size 1.0 1.0))))) (pin output line (at -25.4 -25.4 0) (length 2.54) (name "GPIO13" (effects (font (size 1.27 1.27)))) (number "L13" (effects (font (size 1.0 1.0))))) (pin power_in line (at -25.4 -30.48 0) (length 2.54) (name "GND" (effects (font (size 1.27 1.27)))) (number "L14" (effects (font (size 1.0 1.0))))) (pin power_in line (at -25.4 -35.56 0) (length 2.54) (name "VIN" (effects (font (size 1.27 1.27)))) (number "L15" (effects (font (size 1.0 1.0))))) (pin output line (at 25.4 35.56 180) (length 2.54) (name "GPIO23" (effects (font (size 1.27 1.27)))) (number "R1" (effects (font (size 1.0 1.0))))) (pin output line (at 25.4 30.48 180) (length 2.54) (name "GPIO22" (effects (font (size 1.27 1.27)))) (number "R2" (effects (font (size 1.0 1.0))))) (pin bidirectional line (at 25.4 25.4 180) (length 2.54) (name "GPIO1" (effects (font (size 1.27 1.27)))) (number "R3" (effects (font (size 1.0 1.0))))) (pin bidirectional line (at 25.4 20.32 180) (length 2.54) (name "GPIO3" (effects (font (size 1.27 1.27)))) (number "R4" (effects (font (size 1.0 1.0))))) (pin bidirectional line (at 25.4 15.24 180) (length 2.54) (name "GPIO21" (effects (font (size 1.27 1.27)))) (number "R5" (effects (font (size 1.0 1.0))))) (pin input line (at 25.4 10.16 180) (length 2.54) (name "GPIO19" (effects (font (size 1.27 1.27)))) (number "R6" (effects (font (size 1.0 1.0))))) (pin output line (at 25.4 5.08 180) (length 2.54) (name "GPIO18" (effects (font (size 1.27 1.27)))) (number "R7" (effects (font (size 1.0 1.0))))) (pin bidirectional line (at 25.4 -0.0 180) (length 2.54) (name "GPIO5" (effects (font (size 1.27 1.27)))) (number "R8" (effects (font (size 1.0 1.0))))) (pin bidirectional line (at 25.4 -5.08 180) (length 2.54) (name "GPIO17" (effects (font (size 1.27 1.27)))) (number "R9" (effects (font (size 1.0 1.0))))) (pin bidirectional line (at 25.4 -10.16 180) (length 2.54) (name "GPIO16" (effects (font (size 1.27 1.27)))) (number "R10" (effects (font (size 1.0 1.0))))) (pin bidirectional line (at 25.4 -15.24 180) (length 2.54) (name "GPIO4" (effects (font (size 1.27 1.27)))) (number "R11" (effects (font (size 1.0 1.0))))) (pin bidirectional line (at 25.4 -20.32 180) (length 2.54) (name "GPIO2" (effects (font (size 1.27 1.27)))) (number "R12" (effects (font (size 1.0 1.0))))) (pin bidirectional line (at 25.4 -25.4 180) (length 2.54) (name "GPIO15" (effects (font (size 1.27 1.27)))) (number "R13" (effects (font (size 1.0 1.0))))) (pin power_in line (at 25.4 -30.48 180) (length 2.54) (name "GND" (effects (font (size 1.27 1.27)))) (number "R14" (effects (font (size 1.0 1.0))))) (pin power_out line (at 25.4 -35.56 180) (length 2.54) (name "3V3" (effects (font (size 1.27 1.27)))) (number "R15" (effects (font (size 1.0 1.0)))))))
+(symbol "Sensory:MCP23017"
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(duplicate_pin_numbers_are_jumpers no)
+		(property "Reference" "U"
+			(at -9.398 24.638 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "MCP23017"
+			(at 11.176 24.638 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Package_SO:SOIC-28W_7.5x17.9mm_P1.27mm"
+			(at 5.08 -25.4 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Datasheet" "https://ww1.microchip.com/downloads/aemDocuments/documents/APID/ProductDocuments/DataSheets/MCP23017-Data-Sheet-DS20001952.pdf"
+			(at 5.08 -27.94 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Description" "16-bit I/O expander, I2C, interrupts, w pull-ups, GPA7/GPB7 output only (https://microchip.my.site.com/s/article/GPA7---GPB7-Cannot-Be-Used-as-Inputs-In-MCP23017),  SOIC-28"
+			(at 0 0 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "ki_keywords" "Microchip port-expander GPIO"
+			(at 0 0 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "ki_fp_filters" "SOIC*7.5x17.9mm*P1.27mm*"
+			(at 0 0 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(symbol "MCP23017_0_1"
+			(rectangle
+				(start -10.16 22.86)
+				(end 10.16 -22.86)
+				(stroke
+					(width 0.254)
+					(type default)
+				)
+				(fill
+					(type background)
+				)
+			)
+		)
+		(symbol "MCP23017_1_1"
+			(pin bidirectional line
+				(at 12.7 -2.54 180)
+				(length 2.54)
+				(name "GPB0"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "1"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+			(pin bidirectional line
+				(at 12.7 -5.08 180)
+				(length 2.54)
+				(name "GPB1"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "2"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+			(pin bidirectional line
+				(at 12.7 -7.62 180)
+				(length 2.54)
+				(name "GPB2"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "3"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+			(pin bidirectional line
+				(at 12.7 -10.16 180)
+				(length 2.54)
+				(name "GPB3"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "4"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+			(pin bidirectional line
+				(at 12.7 -12.7 180)
+				(length 2.54)
+				(name "GPB4"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "5"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+			(pin bidirectional line
+				(at 12.7 -15.24 180)
+				(length 2.54)
+				(name "GPB5"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "6"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+			(pin bidirectional line
+				(at 12.7 -17.78 180)
+				(length 2.54)
+				(name "GPB6"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "7"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+			(pin output line
+				(at 12.7 -20.32 180)
+				(length 2.54)
+				(name "GPB7"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "8"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+			(pin power_in line
+				(at 0 25.4 270)
+				(length 2.54)
+				(name "V_{DD}"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "9"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+			(pin power_in line
+				(at 0 -25.4 90)
+				(length 2.54)
+				(name "V_{SS}"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "10"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+			(pin no_connect line
+				(at -10.16 15.24 0)
+				(length 2.54)
+				(hide yes)
+				(name "NC"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "11"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+			(pin input line
+				(at -12.7 20.32 0)
+				(length 2.54)
+				(name "SCK"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "12"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+			(pin bidirectional line
+				(at -12.7 17.78 0)
+				(length 2.54)
+				(name "SDA"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "13"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+			(pin no_connect line
+				(at -10.16 12.7 0)
+				(length 2.54)
+				(hide yes)
+				(name "NC"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "14"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+			(pin input line
+				(at -12.7 -15.24 0)
+				(length 2.54)
+				(name "A0"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "15"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+			(pin input line
+				(at -12.7 -17.78 0)
+				(length 2.54)
+				(name "A1"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "16"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+			(pin input line
+				(at -12.7 -20.32 0)
+				(length 2.54)
+				(name "A2"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "17"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+			(pin input line
+				(at -12.7 -2.54 0)
+				(length 2.54)
+				(name "~{RESET}"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "18"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+			(pin tri_state line
+				(at -12.7 2.54 0)
+				(length 2.54)
+				(name "INTB"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "19"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+			(pin tri_state line
+				(at -12.7 5.08 0)
+				(length 2.54)
+				(name "INTA"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "20"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+			(pin bidirectional line
+				(at 12.7 20.32 180)
+				(length 2.54)
+				(name "GPA0"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "21"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+			(pin bidirectional line
+				(at 12.7 17.78 180)
+				(length 2.54)
+				(name "GPA1"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "22"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+			(pin bidirectional line
+				(at 12.7 15.24 180)
+				(length 2.54)
+				(name "GPA2"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "23"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+			(pin bidirectional line
+				(at 12.7 12.7 180)
+				(length 2.54)
+				(name "GPA3"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "24"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+			(pin bidirectional line
+				(at 12.7 10.16 180)
+				(length 2.54)
+				(name "GPA4"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "25"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+			(pin bidirectional line
+				(at 12.7 7.62 180)
+				(length 2.54)
+				(name "GPA5"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "26"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+			(pin bidirectional line
+				(at 12.7 5.08 180)
+				(length 2.54)
+				(name "GPA6"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "27"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+			(pin output line
+				(at 12.7 2.54 180)
+				(length 2.54)
+				(name "GPA7"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "28"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+		)
+		(embedded_fonts no)
+	)
+(symbol "Sensory:PWR_FLAG"
+		(power global)
+		(pin_numbers
+			(hide yes)
+		)
+		(pin_names
+			(offset 0)
+			(hide yes)
+		)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(duplicate_pin_numbers_are_jumpers no)
+		(property "Reference" "#FLG"
+			(at 0 1.905 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "PWR_FLAG"
+			(at 0 3.81 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 0 0 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 0 0 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Special symbol for telling ERC where power comes from"
+			(at 0 0 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "ki_keywords" "flag power"
+			(at 0 0 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(symbol "PWR_FLAG_0_0"
+			(pin power_out line
+				(at 0 0 90)
+				(length 0)
+				(name ""
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "1"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+		)
+		(symbol "PWR_FLAG_0_1"
+			(polyline
+				(pts
+					(xy 0 0) (xy 0 1.27) (xy -1.016 1.905) (xy 0 2.54) (xy 1.016 1.905) (xy 0 1.27)
+				)
+				(stroke
+					(width 0)
+					(type default)
+				)
+				(fill
+					(type none)
+				)
+			)
+		)
+		(embedded_fonts no)
+	)
+(symbol "Sensory:R"
+		(pin_numbers
+			(hide yes)
+		)
+		(pin_names
+			(offset 0)
+		)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(duplicate_pin_numbers_are_jumpers no)
+		(property "Reference" "R"
+			(at 2.032 0 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "R"
+			(at 0 0 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at -1.778 0 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 0 0 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Resistor"
+			(at 0 0 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "ki_keywords" "R res resistor"
+			(at 0 0 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "ki_fp_filters" "R_*"
+			(at 0 0 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(symbol "R_0_1"
+			(rectangle
+				(start -1.016 -2.54)
+				(end 1.016 2.54)
+				(stroke
+					(width 0.254)
+					(type default)
+				)
+				(fill
+					(type none)
+				)
+			)
+		)
+		(symbol "R_1_1"
+			(pin passive line
+				(at 0 3.81 270)
+				(length 1.27)
+				(name ""
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "1"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+			(pin passive line
+				(at 0 -3.81 90)
+				(length 1.27)
+				(name ""
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "2"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+		)
+		(embedded_fonts no)
+	)) (text "CONTROLE E ALIMENTAÇÃO" (at 20.32 15.24 0) (effects (font (size 2.5 2.5)) (justify left top)) (uuid 4f77c0e3-7a52-58f7-8ba8-a3dafef875f9)) (text "Alimentação pelo USB do computador; periféricos pelo 3V3 da DevKit." (at 20.32 27.94 0) (effects (font (size 1.8 1.8)) (justify left top)) (uuid d575ac45-0221-5c28-b5d1-2d342eddcf93)) (text "CONTROLADOR" (at 20.32 53.34 0) (effects (font (size 2.0 2.0)) (justify left top)) (uuid a807a94d-4f17-5380-94d2-a4299eca2946)) (text "ENTRADAS DA MATRIZ / PULL-UPS" (at 167.64 45.72 0) (effects (font (size 2.0 2.0)) (justify left top)) (uuid 8d90fecc-9e07-5b3a-9b5a-c53ad81a2788)) (symbol (lib_id "Sensory:ESP32_DevKit_V1_30pin") (at 83.82 114.3 0) (unit 1) (in_bom yes) (on_board yes) (dnp no) (uuid c4dc8642-9574-54c3-bb75-2e81ab29f67a)
+              (property "Reference" "A1" (at 83.82 68.58 0) (effects (font (size 1.27 1.27))))
+              (property "Value" "ESP32 DEVKIT V1 / 30 pinos" (at 83.82 71.882 0) (effects (font (size 1.27 1.27))))
+              (property "Footprint" "" (at 83.82 114.3 0) (effects (font (size 1 1)) (hide yes)))
+              (property "Assembly_note" "Alimentação pelo USB do computador; 3V3 da placa alimenta os periféricos. L/R: posições do projeto, de cima para baixo, na vista dos componentes com antena acima e USB abaixo." (at 83.82 114.3 0) (effects (font (size 1 1)) (hide yes)))
+              (instances (project "tabuleiro-sensorial" (path "/46e77f82-f508-5314-b208-a58521003af0" (reference "A1") (unit 1))))) (no_connect (at 58.42 78.74) (uuid 03068282-612e-5296-96f4-c45629bfbe5d)) (no_connect (at 58.42 83.82) (uuid 25f1ab2e-d2c6-5834-afe1-1e5b6d7f3f1b)) (no_connect (at 58.42 88.9) (uuid adb06eb5-c713-56e5-8a7c-16d5a6be496c)) (wire (pts (xy 58.42 93.98) (xy 50.8 93.98)) (stroke (width 0) (type default)) (uuid ae0fbc5e-dcc4-5a58-b5b2-c1e33ddf79f3)) (global_label "BTN_END" (shape bidirectional) (at 50.8 93.98 0) (effects (font (size 1.27 1.27)) (justify right)) (uuid 3f5a3227-8b60-599e-b22a-818f3703fbea)) (no_connect (at 58.42 99.06) (uuid 84d963c4-ad50-5e20-989a-6e187c4b97f7)) (wire (pts (xy 58.42 104.14) (xy 50.8 104.14)) (stroke (width 0) (type default)) (uuid f3f4f67f-65b3-5702-8cef-f1fc30efd39a)) (global_label "BTN_CONFIRM" (shape bidirectional) (at 50.8 104.14 0) (effects (font (size 1.27 1.27)) (justify right)) (uuid 76a0e7a2-75f4-5639-9109-a77b9527e8ee)) (wire (pts (xy 58.42 109.22) (xy 50.8 109.22)) (stroke (width 0) (type default)) (uuid 1b0299cb-ab89-547b-9843-64d6628b4e99)) (global_label "BTN_PROMOTE" (shape bidirectional) (at 50.8 109.22 0) (effects (font (size 1.27 1.27)) (justify right)) (uuid 88c44692-ff6f-5197-a079-1aac3c585fa3)) (wire (pts (xy 58.42 114.3) (xy 50.8 114.3)) (stroke (width 0) (type default)) (uuid f1d4978b-3627-52b9-9a69-4d28b669be7d)) (global_label "LED_GREEN" (shape bidirectional) (at 50.8 114.3 0) (effects (font (size 1.27 1.27)) (justify right)) (uuid e807b0e6-2e07-5391-aff7-62b4b5816545)) (wire (pts (xy 58.42 119.38) (xy 50.8 119.38)) (stroke (width 0) (type default)) (uuid 0aaf8ab6-45fd-516c-9d14-b3b9c60145d3)) (global_label "LED_RED" (shape bidirectional) (at 50.8 119.38 0) (effects (font (size 1.27 1.27)) (justify right)) (uuid b8dac0f9-2124-5244-a96a-cd7ff1f64e4a)) (wire (pts (xy 58.42 124.46) (xy 50.8 124.46)) (stroke (width 0) (type default)) (uuid fdeb9a05-dd62-53e9-b318-81e57e22b715)) (global_label "BUZZER_EN" (shape bidirectional) (at 50.8 124.46 0) (effects (font (size 1.27 1.27)) (justify right)) (uuid 5f6e9cff-f409-5a62-b182-562026ec1369)) (wire (pts (xy 58.42 129.54) (xy 50.8 129.54)) (stroke (width 0) (type default)) (uuid 53aa1c02-7901-53e6-92bc-e5ee7be77bbb)) (global_label "MCP_RESET" (shape bidirectional) (at 50.8 129.54 0) (effects (font (size 1.27 1.27)) (justify right)) (uuid 91bca1a8-5025-5214-9caa-13fa7c404e2e)) (no_connect (at 58.42 134.62) (uuid 7c6ca110-e114-5fc4-8985-92801aaebb37)) (wire (pts (xy 58.42 139.7) (xy 50.8 139.7)) (stroke (width 0) (type default)) (uuid f97a9f02-0a67-564d-99fe-adc2fdede58c)) (global_label "SD_CS" (shape bidirectional) (at 50.8 139.7 0) (effects (font (size 1.27 1.27)) (justify right)) (uuid d32dafd8-0fef-5280-afa2-a421b3ad6e07)) (wire (pts (xy 58.42 144.78) (xy 50.8 144.78)) (stroke (width 0) (type default)) (uuid 92a30e73-6f5b-58f0-9b16-3fb3d880afc4)) (global_label "GND" (shape bidirectional) (at 50.8 144.78 0) (effects (font (size 1.27 1.27)) (justify right)) (uuid d38b8f21-27e8-55c5-aeb9-efbe26544365)) (no_connect (at 58.42 149.86) (uuid 2a0900ae-06d9-50d4-b41f-96ce75edfd37)) (wire (pts (xy 109.22 78.74) (xy 116.84 78.74)) (stroke (width 0) (type default)) (uuid 875355c5-0d11-5656-9dca-57cede708151)) (global_label "SPI_MOSI" (shape bidirectional) (at 116.84 78.74 180) (effects (font (size 1.27 1.27)) (justify left)) (uuid 396cfb52-3e5a-5895-a433-5e2da5be9ae6)) (wire (pts (xy 109.22 83.82) (xy 116.84 83.82)) (stroke (width 0) (type default)) (uuid 303b8002-5ca9-57a8-97bf-b2e85b165782)) (global_label "I2C_SCL" (shape bidirectional) (at 116.84 83.82 180) (effects (font (size 1.27 1.27)) (justify left)) (uuid 2d9b7efc-1620-5790-9504-afc7cbe60743)) (no_connect (at 109.22 88.9) (uuid 46125d79-cf33-593d-bbef-67d3c2dbfaa0)) (no_connect (at 109.22 93.98) (uuid 6ee21c35-d3e9-5f34-acd9-ac9fbab1508a)) (wire (pts (xy 109.22 99.06) (xy 116.84 99.06)) (stroke (width 0) (type default)) (uuid d3edd515-e838-5ca8-9003-d0ab93358025)) (global_label "I2C_SDA" (shape bidirectional) (at 116.84 99.06 180) (effects (font (size 1.27 1.27)) (justify left)) (uuid 4979025b-74df-59a6-8d63-2b8907290e66)) (wire (pts (xy 109.22 104.14) (xy 116.84 104.14)) (stroke (width 0) (type default)) (uuid 04ade2e5-70d4-5f10-b45e-928e177b8914)) (global_label "SPI_MISO" (shape bidirectional) (at 116.84 104.14 180) (effects (font (size 1.27 1.27)) (justify left)) (uuid 4516ad57-ab28-5baf-934f-28b5971a0d5f)) (wire (pts (xy 109.22 109.22) (xy 116.84 109.22)) (stroke (width 0) (type default)) (uuid 2499de2b-bf54-551b-b19d-fcdbed5820ed)) (global_label "SPI_SCK" (shape bidirectional) (at 116.84 109.22 180) (effects (font (size 1.27 1.27)) (justify left)) (uuid ec6ff47c-a3a6-5e27-8ac2-0815ac203cee)) (no_connect (at 109.22 114.3) (uuid 6565ffe2-f76c-5990-8039-2a53ac5b5aee)) (no_connect (at 109.22 119.38) (uuid 1dc58f1e-a4b0-5df1-9826-89255717f31a)) (no_connect (at 109.22 124.46) (uuid 8f1aca60-314b-529a-a02c-05a6bd9fee1b)) (no_connect (at 109.22 129.54) (uuid b44f7f3c-9af6-55cf-a9a0-dd3d2c18c8c4)) (no_connect (at 109.22 134.62) (uuid ebf18b77-ac12-59cf-b4a4-c6df37a0aad3)) (no_connect (at 109.22 139.7) (uuid 27181715-0a26-5648-ace8-9ecfe1cc5797)) (wire (pts (xy 109.22 144.78) (xy 116.84 144.78)) (stroke (width 0) (type default)) (uuid 63192d91-cd20-5795-b8c1-20e2b10f842c)) (global_label "GND" (shape bidirectional) (at 116.84 144.78 180) (effects (font (size 1.27 1.27)) (justify left)) (uuid 54cc53f4-d01d-59c4-afee-c56dd5929e37)) (wire (pts (xy 109.22 149.86) (xy 116.84 149.86)) (stroke (width 0) (type default)) (uuid 515f6e96-4f03-5e1a-8f39-c3353e89a422)) (global_label "3V3_IO" (shape bidirectional) (at 116.84 149.86 180) (effects (font (size 1.27 1.27)) (justify left)) (uuid bb075f35-c695-56a0-8b6f-9824cbfd33b4)) (text "A1: vista dos componentes, antena acima e USB abaixo.\nL1-L15 e R1-R15: posições do projeto, de cima para baixo.\nGPIO34: entrada sem pull-up interno." (at 20.32 162.56 0) (effects (font (size 1.8 1.8)) (justify left top)) (uuid 23d2f839-b8f7-51e5-b67f-7e54bda69e44)) (symbol (lib_id "Sensory:R") (at 190.5 71.12 0) (unit 1) (in_bom yes) (on_board yes) (dnp no) (uuid ae843fd7-1a8b-564c-9a48-e9b5f9c28c87)
+              (property "Reference" "R16" (at 198.12 66.04 0) (effects (font (size 1.27 1.27))))
+              (property "Value" "47k" (at 198.12 69.342 0) (effects (font (size 1.27 1.27))))
+              (property "Footprint" "" (at 190.5 71.12 0) (effects (font (size 1 1)) (hide yes)))
+              (property "Assembly_note" "Pull-up externo da entrada de matriz. Pull-ups internos do MCP desabilitados." (at 190.5 71.12 0) (effects (font (size 1 1)) (hide yes)))
+              (instances (project "tabuleiro-sensorial" (path "/46e77f82-f508-5314-b208-a58521003af0" (reference "R16") (unit 1))))) (wire (pts (xy 190.5 67.31) (xy 190.5 59.69)) (stroke (width 0) (type default)) (uuid 04240dc8-4f41-5d64-98a5-b0dcfaef727c)) (global_label "3V3_IO" (shape bidirectional) (at 190.5 59.69 0) (effects (font (size 1.27 1.27)) (justify right)) (uuid d7b48941-c12f-5246-9606-4a592106b031)) (wire (pts (xy 190.5 74.93) (xy 190.5 82.55)) (stroke (width 0) (type default)) (uuid 543ce057-36ee-5d40-ad62-f8b6acf2f43d)) (global_label "ROW_1" (shape bidirectional) (at 190.5 82.55 0) (effects (font (size 1.27 1.27)) (justify right)) (uuid 88235e9a-0ab5-5081-9301-4e0b25bfc61f)) (symbol (lib_id "Sensory:R") (at 248.92 71.12 0) (unit 1) (in_bom yes) (on_board yes) (dnp no) (uuid 1696d046-ba65-5d5c-9ea6-5c0178e15e22)
+              (property "Reference" "R17" (at 256.54 66.04 0) (effects (font (size 1.27 1.27))))
+              (property "Value" "47k" (at 256.54 69.342 0) (effects (font (size 1.27 1.27))))
+              (property "Footprint" "" (at 248.92 71.12 0) (effects (font (size 1 1)) (hide yes)))
+              (property "Assembly_note" "Pull-up externo da entrada de matriz. Pull-ups internos do MCP desabilitados." (at 248.92 71.12 0) (effects (font (size 1 1)) (hide yes)))
+              (instances (project "tabuleiro-sensorial" (path "/46e77f82-f508-5314-b208-a58521003af0" (reference "R17") (unit 1))))) (wire (pts (xy 248.92 67.31) (xy 248.92 59.69)) (stroke (width 0) (type default)) (uuid 123cf9b9-a6c1-573c-a39f-55763d3a40b8)) (global_label "3V3_IO" (shape bidirectional) (at 248.92 59.69 0) (effects (font (size 1.27 1.27)) (justify right)) (uuid 74a8dfb4-18a6-5ed1-8b10-fe46f01aedf7)) (wire (pts (xy 248.92 74.93) (xy 248.92 82.55)) (stroke (width 0) (type default)) (uuid 5c858295-3325-5695-806f-b5ff13006d74)) (global_label "ROW_2" (shape bidirectional) (at 248.92 82.55 0) (effects (font (size 1.27 1.27)) (justify right)) (uuid 5e4c0f77-5b37-5c46-a9f8-e7f8cce78b2e)) (symbol (lib_id "Sensory:R") (at 307.34 71.12 0) (unit 1) (in_bom yes) (on_board yes) (dnp no) (uuid 6676b568-3bf3-5c0c-b94d-3694c759cf84)
+              (property "Reference" "R18" (at 314.96 66.04 0) (effects (font (size 1.27 1.27))))
+              (property "Value" "47k" (at 314.96 69.342 0) (effects (font (size 1.27 1.27))))
+              (property "Footprint" "" (at 307.34 71.12 0) (effects (font (size 1 1)) (hide yes)))
+              (property "Assembly_note" "Pull-up externo da entrada de matriz. Pull-ups internos do MCP desabilitados." (at 307.34 71.12 0) (effects (font (size 1 1)) (hide yes)))
+              (instances (project "tabuleiro-sensorial" (path "/46e77f82-f508-5314-b208-a58521003af0" (reference "R18") (unit 1))))) (wire (pts (xy 307.34 67.31) (xy 307.34 59.69)) (stroke (width 0) (type default)) (uuid 15e85464-8048-5794-b989-337ec6c1140c)) (global_label "3V3_IO" (shape bidirectional) (at 307.34 59.69 0) (effects (font (size 1.27 1.27)) (justify right)) (uuid a13e754f-d445-5b47-9202-2b4f741258d4)) (wire (pts (xy 307.34 74.93) (xy 307.34 82.55)) (stroke (width 0) (type default)) (uuid 3f5b8be1-323f-52ad-8c04-2224215309a6)) (global_label "ROW_3" (shape bidirectional) (at 307.34 82.55 0) (effects (font (size 1.27 1.27)) (justify right)) (uuid 924e27e9-2b85-5eed-b5e1-d8faea61ef55)) (symbol (lib_id "Sensory:R") (at 365.76 71.12 0) (unit 1) (in_bom yes) (on_board yes) (dnp no) (uuid 4c0806d5-3ac4-54d6-9831-d96bd76741ca)
+              (property "Reference" "R19" (at 373.38 66.04 0) (effects (font (size 1.27 1.27))))
+              (property "Value" "47k" (at 373.38 69.342 0) (effects (font (size 1.27 1.27))))
+              (property "Footprint" "" (at 365.76 71.12 0) (effects (font (size 1 1)) (hide yes)))
+              (property "Assembly_note" "Pull-up externo da entrada de matriz. Pull-ups internos do MCP desabilitados." (at 365.76 71.12 0) (effects (font (size 1 1)) (hide yes)))
+              (instances (project "tabuleiro-sensorial" (path "/46e77f82-f508-5314-b208-a58521003af0" (reference "R19") (unit 1))))) (wire (pts (xy 365.76 67.31) (xy 365.76 59.69)) (stroke (width 0) (type default)) (uuid 617f9e3d-ba96-5050-a3bd-e4dc5f77a877)) (global_label "3V3_IO" (shape bidirectional) (at 365.76 59.69 0) (effects (font (size 1.27 1.27)) (justify right)) (uuid 94e7bcdf-efe8-591f-b0c4-2d6c2fd31d0a)) (wire (pts (xy 365.76 74.93) (xy 365.76 82.55)) (stroke (width 0) (type default)) (uuid 39e352f2-666a-5c62-a126-a2f616419acc)) (global_label "ROW_4" (shape bidirectional) (at 365.76 82.55 0) (effects (font (size 1.27 1.27)) (justify right)) (uuid 43434a53-4318-5214-a0c0-8c2099b69028)) (symbol (lib_id "Sensory:R") (at 190.5 111.76 0) (unit 1) (in_bom yes) (on_board yes) (dnp no) (uuid 823c9bce-1550-5419-9b04-dc27db87e950)
+              (property "Reference" "R20" (at 198.12 106.68 0) (effects (font (size 1.27 1.27))))
+              (property "Value" "47k" (at 198.12 109.982 0) (effects (font (size 1.27 1.27))))
+              (property "Footprint" "" (at 190.5 111.76 0) (effects (font (size 1 1)) (hide yes)))
+              (property "Assembly_note" "Pull-up externo da entrada de matriz. Pull-ups internos do MCP desabilitados." (at 190.5 111.76 0) (effects (font (size 1 1)) (hide yes)))
+              (instances (project "tabuleiro-sensorial" (path "/46e77f82-f508-5314-b208-a58521003af0" (reference "R20") (unit 1))))) (wire (pts (xy 190.5 107.95) (xy 190.5 100.33)) (stroke (width 0) (type default)) (uuid f12d2a7b-a380-5793-9b98-c8ec2208777f)) (global_label "3V3_IO" (shape bidirectional) (at 190.5 100.33 0) (effects (font (size 1.27 1.27)) (justify right)) (uuid dee59dde-b955-5f18-89ce-8da2fa2b30c5)) (wire (pts (xy 190.5 115.57) (xy 190.5 123.19)) (stroke (width 0) (type default)) (uuid ac526b1d-0410-5c73-a525-18adf3dd2c6f)) (global_label "ROW_5" (shape bidirectional) (at 190.5 123.19 0) (effects (font (size 1.27 1.27)) (justify right)) (uuid 58a666c4-6c1e-50f1-a1b8-9b4bd93bbc14)) (symbol (lib_id "Sensory:R") (at 248.92 111.76 0) (unit 1) (in_bom yes) (on_board yes) (dnp no) (uuid e2e3e589-4908-5ae4-b950-0b647e565780)
+              (property "Reference" "R21" (at 256.54 106.68 0) (effects (font (size 1.27 1.27))))
+              (property "Value" "47k" (at 256.54 109.982 0) (effects (font (size 1.27 1.27))))
+              (property "Footprint" "" (at 248.92 111.76 0) (effects (font (size 1 1)) (hide yes)))
+              (property "Assembly_note" "Pull-up externo da entrada de matriz. Pull-ups internos do MCP desabilitados." (at 248.92 111.76 0) (effects (font (size 1 1)) (hide yes)))
+              (instances (project "tabuleiro-sensorial" (path "/46e77f82-f508-5314-b208-a58521003af0" (reference "R21") (unit 1))))) (wire (pts (xy 248.92 107.95) (xy 248.92 100.33)) (stroke (width 0) (type default)) (uuid 34f0e8e2-040f-52cb-8eb6-6d41be590e1b)) (global_label "3V3_IO" (shape bidirectional) (at 248.92 100.33 0) (effects (font (size 1.27 1.27)) (justify right)) (uuid 1ad97d62-85e2-5cf5-ab0d-bdb2bfc82575)) (wire (pts (xy 248.92 115.57) (xy 248.92 123.19)) (stroke (width 0) (type default)) (uuid 38d6724d-2ebd-5e2d-ae96-70b542c81bd6)) (global_label "ROW_6" (shape bidirectional) (at 248.92 123.19 0) (effects (font (size 1.27 1.27)) (justify right)) (uuid a77150a7-aee7-5729-8dde-237ab5ea37ba)) (symbol (lib_id "Sensory:R") (at 307.34 111.76 0) (unit 1) (in_bom yes) (on_board yes) (dnp no) (uuid 26a4a0ed-26bf-53c7-a4dd-2c40a6465d05)
+              (property "Reference" "R22" (at 314.96 106.68 0) (effects (font (size 1.27 1.27))))
+              (property "Value" "47k" (at 314.96 109.982 0) (effects (font (size 1.27 1.27))))
+              (property "Footprint" "" (at 307.34 111.76 0) (effects (font (size 1 1)) (hide yes)))
+              (property "Assembly_note" "Pull-up externo da entrada de matriz. Pull-ups internos do MCP desabilitados." (at 307.34 111.76 0) (effects (font (size 1 1)) (hide yes)))
+              (instances (project "tabuleiro-sensorial" (path "/46e77f82-f508-5314-b208-a58521003af0" (reference "R22") (unit 1))))) (wire (pts (xy 307.34 107.95) (xy 307.34 100.33)) (stroke (width 0) (type default)) (uuid 5bacdb66-e63c-58d7-beb9-a41a47e767d0)) (global_label "3V3_IO" (shape bidirectional) (at 307.34 100.33 0) (effects (font (size 1.27 1.27)) (justify right)) (uuid eb5011c9-3cef-5288-9ca5-ad01926629f6)) (wire (pts (xy 307.34 115.57) (xy 307.34 123.19)) (stroke (width 0) (type default)) (uuid a01802eb-1335-5a35-a70e-b4d28b9a3320)) (global_label "ROW_7" (shape bidirectional) (at 307.34 123.19 0) (effects (font (size 1.27 1.27)) (justify right)) (uuid e75fb6ba-bbdb-5781-b36a-1308fa62ec5c)) (symbol (lib_id "Sensory:R") (at 365.76 111.76 0) (unit 1) (in_bom yes) (on_board yes) (dnp no) (uuid fddfb3ba-adeb-5f61-936a-1ef78f5b7204)
+              (property "Reference" "R23" (at 373.38 106.68 0) (effects (font (size 1.27 1.27))))
+              (property "Value" "47k" (at 373.38 109.982 0) (effects (font (size 1.27 1.27))))
+              (property "Footprint" "" (at 365.76 111.76 0) (effects (font (size 1 1)) (hide yes)))
+              (property "Assembly_note" "Pull-up externo da entrada de matriz. Pull-ups internos do MCP desabilitados." (at 365.76 111.76 0) (effects (font (size 1 1)) (hide yes)))
+              (instances (project "tabuleiro-sensorial" (path "/46e77f82-f508-5314-b208-a58521003af0" (reference "R23") (unit 1))))) (wire (pts (xy 365.76 107.95) (xy 365.76 100.33)) (stroke (width 0) (type default)) (uuid 75b646be-85e5-50c6-b434-42a9161634a8)) (global_label "3V3_IO" (shape bidirectional) (at 365.76 100.33 0) (effects (font (size 1.27 1.27)) (justify right)) (uuid 2adaefa7-814b-57e1-b7ed-a6f82fa35667)) (wire (pts (xy 365.76 115.57) (xy 365.76 123.19)) (stroke (width 0) (type default)) (uuid 86162bb1-3600-57bc-9ede-f0eb8d475106)) (global_label "ROW_8" (shape bidirectional) (at 365.76 123.19 0) (effects (font (size 1.27 1.27)) (justify right)) (uuid 7304ce6d-fd78-5f6b-bff9-6886dea4e731)) (text "ROW_1-ROW_8: entradas ativas LOW.\nUma coluna LOW por vez; demais em alta impedância." (at 167.64 129.54 0) (effects (font (size 1.8 1.8)) (justify left top)) (uuid 476a507a-d0ab-5bed-acc9-d2c910da841a)) (text "EXPANSOR I²C" (at 167.64 142.24 0) (effects (font (size 2.0 2.0)) (justify left top)) (uuid c62e2f75-fdd1-51ce-88f0-98f14f42bf93)) (symbol (lib_id "Sensory:PWR_FLAG") (at 190.5 154.94 0) (unit 1) (in_bom yes) (on_board yes) (dnp no) (uuid e379d0b6-84b3-5556-86c3-c541d06a0747)
+              (property "Reference" "#FLG01" (at 190.5 147.32 0) (effects (font (size 1.27 1.27))))
+              (property "Value" "PWR_FLAG" (at 190.5 150.622 0) (effects (font (size 1.27 1.27))))
+              (property "Footprint" "" (at 190.5 154.94 0) (effects (font (size 1 1)) (hide yes)))
+              (property "Assembly_note" "" (at 190.5 154.94 0) (effects (font (size 1 1)) (hide yes)))
+              (instances (project "tabuleiro-sensorial" (path "/46e77f82-f508-5314-b208-a58521003af0" (reference "#FLG01") (unit 1))))) (wire (pts (xy 190.5 154.94) (xy 190.5 162.56)) (stroke (width 0) (type default)) (uuid b83fd2b4-8d20-5e09-b9a2-d565b9ab0220)) (global_label "GND" (shape bidirectional) (at 190.5 162.56 0) (effects (font (size 1.27 1.27)) (justify right)) (uuid 39bac903-8a4d-5c06-86ae-c1a58300aac5)) (symbol (lib_id "Sensory:MCP23017") (at 259.08 200.66 0) (unit 1) (in_bom yes) (on_board yes) (dnp no) (uuid 0b9c5927-5aba-5f95-b72b-0ad038508bad)
+              (property "Reference" "U1" (at 259.08 152.4 0) (effects (font (size 1.27 1.27))))
+              (property "Value" "MCP23017-E/SS / CJMCU-2317" (at 259.08 155.702 0) (effects (font (size 1.27 1.27))))
+              (property "Footprint" "" (at 259.08 200.66 0) (effects (font (size 1 1)) (hide yes)))
+              (property "Assembly_note" "Módulo CJMCU-2317. Numeração do CI SSOP28, não dos headers do módulo." (at 259.08 200.66 0) (effects (font (size 1 1)) (hide yes)))
+              (instances (project "tabuleiro-sensorial" (path "/46e77f82-f508-5314-b208-a58521003af0" (reference "U1") (unit 1))))) (wire (pts (xy 271.78 203.2) (xy 279.4 203.2)) (stroke (width 0) (type default)) (uuid f824e134-2822-579d-b032-f19d0d8b3d6a)) (global_label "ROW_1" (shape bidirectional) (at 279.4 203.2 180) (effects (font (size 1.27 1.27)) (justify left)) (uuid 9953252d-c0d4-52e9-ba51-9cdd8506f8b9)) (wire (pts (xy 271.78 205.74) (xy 279.4 205.74)) (stroke (width 0) (type default)) (uuid 3730835e-9cac-56f0-9cbe-0022fb7696a7)) (global_label "ROW_2" (shape bidirectional) (at 279.4 205.74 180) (effects (font (size 1.27 1.27)) (justify left)) (uuid 95379b13-cfa5-55cc-b30b-870d7589eb32)) (wire (pts (xy 271.78 208.28) (xy 279.4 208.28)) (stroke (width 0) (type default)) (uuid be571def-ef99-5fe3-a8c4-bd75fce583ab)) (global_label "ROW_3" (shape bidirectional) (at 279.4 208.28 180) (effects (font (size 1.27 1.27)) (justify left)) (uuid 6695b1c4-b519-5712-bd0a-19933e1fc960)) (wire (pts (xy 271.78 210.82) (xy 279.4 210.82)) (stroke (width 0) (type default)) (uuid 18c6ef8a-047a-5feb-bc35-5f42fced814e)) (global_label "ROW_4" (shape bidirectional) (at 279.4 210.82 180) (effects (font (size 1.27 1.27)) (justify left)) (uuid 74595db2-2eb9-5375-9bdc-e47809c01bd7)) (wire (pts (xy 271.78 213.36) (xy 279.4 213.36)) (stroke (width 0) (type default)) (uuid 551d3e89-08cc-55e8-bd68-d44bfd915433)) (global_label "ROW_5" (shape bidirectional) (at 279.4 213.36 180) (effects (font (size 1.27 1.27)) (justify left)) (uuid 78f8be6b-b3bf-537b-bd8d-168d2de5e7f9)) (wire (pts (xy 271.78 215.9) (xy 279.4 215.9)) (stroke (width 0) (type default)) (uuid ccd0702c-cac0-51b9-8870-c9777a961f67)) (global_label "ROW_6" (shape bidirectional) (at 279.4 215.9 180) (effects (font (size 1.27 1.27)) (justify left)) (uuid 58412ca3-2c1a-54c5-a2cd-8d37cf58f68e)) (wire (pts (xy 271.78 218.44) (xy 279.4 218.44)) (stroke (width 0) (type default)) (uuid 95c18d00-f1d7-51fa-b755-e05bedf38839)) (global_label "ROW_7" (shape bidirectional) (at 279.4 218.44 180) (effects (font (size 1.27 1.27)) (justify left)) (uuid 356e5a68-a39b-58e9-8a91-661791dc37bb)) (wire (pts (xy 271.78 220.98) (xy 279.4 220.98)) (stroke (width 0) (type default)) (uuid c6c1671d-b314-5177-b32c-3333935ad1f5)) (global_label "COL_h" (shape bidirectional) (at 279.4 220.98 180) (effects (font (size 1.27 1.27)) (justify left)) (uuid 98d5b476-dd30-5de6-b38f-10bea8b2ba02)) (wire (pts (xy 259.08 175.26) (xy 259.08 167.64)) (stroke (width 0) (type default)) (uuid 5924cd73-081a-5229-a459-bbaf2c264567)) (global_label "3V3_IO" (shape bidirectional) (at 259.08 167.64 0) (effects (font (size 1.27 1.27)) (justify right)) (uuid 77e39b42-6588-5110-9bfd-db15dc65dfd4)) (wire (pts (xy 259.08 226.06) (xy 259.08 233.68)) (stroke (width 0) (type default)) (uuid b606bad8-5959-553f-a3ef-0f84a186f67b)) (global_label "GND" (shape bidirectional) (at 259.08 233.68 0) (effects (font (size 1.27 1.27)) (justify right)) (uuid ce03c0b4-5d57-5c66-baa9-63d4f4160663)) (no_connect (at 248.92 185.42) (uuid 28239a56-6967-5d45-93f0-0e586ffa4c48)) (wire (pts (xy 246.38 180.34) (xy 238.76 180.34)) (stroke (width 0) (type default)) (uuid b55b2a4a-8f25-599b-959e-804b6b693757)) (global_label "I2C_SCL" (shape bidirectional) (at 238.76 180.34 0) (effects (font (size 1.27 1.27)) (justify right)) (uuid 047661b4-1ea8-595a-adba-46bec0e47ff7)) (wire (pts (xy 246.38 182.88) (xy 238.76 182.88)) (stroke (width 0) (type default)) (uuid 672633b0-e344-57b8-a19a-5cea8aae3b83)) (global_label "I2C_SDA" (shape bidirectional) (at 238.76 182.88 0) (effects (font (size 1.27 1.27)) (justify right)) (uuid 85983adf-cfaf-5c45-9253-5b722a7fa54b)) (no_connect (at 248.92 187.96) (uuid ed849fed-8bb6-5b22-8a55-855154414734)) (wire (pts (xy 246.38 215.9) (xy 238.76 215.9)) (stroke (width 0) (type default)) (uuid 7a8f7bdf-4528-5ca5-9c47-ac525a98ecbb)) (global_label "GND" (shape bidirectional) (at 238.76 215.9 0) (effects (font (size 1.27 1.27)) (justify right)) (uuid ca3d9ae2-e620-52e0-ae39-73c1c58118ce)) (wire (pts (xy 246.38 218.44) (xy 238.76 218.44)) (stroke (width 0) (type default)) (uuid ddfd7d41-abc3-5348-9e3c-9aa37e849464)) (global_label "GND" (shape bidirectional) (at 238.76 218.44 0) (effects (font (size 1.27 1.27)) (justify right)) (uuid ea04be73-6828-5109-85db-b126a2b5e96c)) (wire (pts (xy 246.38 220.98) (xy 238.76 220.98)) (stroke (width 0) (type default)) (uuid 3604fc4c-60d7-506a-89c2-2e3bce6e8eea)) (global_label "GND" (shape bidirectional) (at 238.76 220.98 0) (effects (font (size 1.27 1.27)) (justify right)) (uuid c1e57f54-6411-58f9-b019-dd9c6f3d797d)) (wire (pts (xy 246.38 203.2) (xy 238.76 203.2)) (stroke (width 0) (type default)) (uuid de373aa7-8035-5a56-a737-2280fc0a5fee)) (global_label "MCP_RESET" (shape bidirectional) (at 238.76 203.2 0) (effects (font (size 1.27 1.27)) (justify right)) (uuid dd84214f-66ec-5a51-96f4-3af2492fc4e0)) (no_connect (at 246.38 198.12) (uuid 06ef9b76-6136-5a9c-98f7-d85b7ad074a5)) (no_connect (at 246.38 195.58) (uuid efdd39e8-0948-56f8-a5fc-b0a8cc1a1c3b)) (wire (pts (xy 271.78 180.34) (xy 279.4 180.34)) (stroke (width 0) (type default)) (uuid 5100b26f-7489-5389-a197-f731a33f7c80)) (global_label "COL_a" (shape bidirectional) (at 279.4 180.34 180) (effects (font (size 1.27 1.27)) (justify left)) (uuid 3e03efe8-f38b-561c-b083-be2ceb59eadb)) (wire (pts (xy 271.78 182.88) (xy 279.4 182.88)) (stroke (width 0) (type default)) (uuid efde2e53-ef97-5b1b-8d05-c226905ba4b3)) (global_label "COL_b" (shape bidirectional) (at 279.4 182.88 180) (effects (font (size 1.27 1.27)) (justify left)) (uuid 0e63b667-d3d3-552a-a1ed-2217ceceb989)) (wire (pts (xy 271.78 185.42) (xy 279.4 185.42)) (stroke (width 0) (type default)) (uuid 4dc98fbe-a838-57ac-9ed6-5623c13958c7)) (global_label "COL_c" (shape bidirectional) (at 279.4 185.42 180) (effects (font (size 1.27 1.27)) (justify left)) (uuid fb8aadf8-76cb-5210-8765-45fb659c1364)) (wire (pts (xy 271.78 187.96) (xy 279.4 187.96)) (stroke (width 0) (type default)) (uuid e083c208-b7f1-5db4-9f47-c716c76f4d55)) (global_label "COL_d" (shape bidirectional) (at 279.4 187.96 180) (effects (font (size 1.27 1.27)) (justify left)) (uuid 826a1350-40b8-5a45-bfdb-088f4659bd85)) (wire (pts (xy 271.78 190.5) (xy 279.4 190.5)) (stroke (width 0) (type default)) (uuid 9de4f578-cac0-5554-a507-617f40f830a9)) (global_label "COL_e" (shape bidirectional) (at 279.4 190.5 180) (effects (font (size 1.27 1.27)) (justify left)) (uuid 70a80bb5-ecc8-56b8-ae45-ea6430817a5b)) (wire (pts (xy 271.78 193.04) (xy 279.4 193.04)) (stroke (width 0) (type default)) (uuid e99923db-427d-59dc-aebc-63a4bdb7d9df)) (global_label "COL_f" (shape bidirectional) (at 279.4 193.04 180) (effects (font (size 1.27 1.27)) (justify left)) (uuid 2efaefa9-7fd9-5ff0-ade9-aea51faaacb3)) (wire (pts (xy 271.78 195.58) (xy 279.4 195.58)) (stroke (width 0) (type default)) (uuid 6ce7df30-1a94-56a0-a8da-c2ad7d2ac757)) (global_label "ROW_8" (shape bidirectional) (at 279.4 195.58 180) (effects (font (size 1.27 1.27)) (justify left)) (uuid 4d44d688-4de1-5b50-b1dd-0cd0dd56ad70)) (wire (pts (xy 271.78 198.12) (xy 279.4 198.12)) (stroke (width 0) (type default)) (uuid e3069127-ce83-58e0-bc3b-17d4f558823b)) (global_label "COL_g" (shape bidirectional) (at 279.4 198.12 180) (effects (font (size 1.27 1.27)) (justify left)) (uuid 23f67179-259a-53dc-9991-0a04deb83b0e)) (symbol (lib_id "Sensory:R") (at 162.56 182.88 0) (unit 1) (in_bom yes) (on_board yes) (dnp no) (uuid edc04f20-70b2-5f71-afca-c694b605a3e2)
+              (property "Reference" "R1" (at 170.18 177.8 0) (effects (font (size 1.27 1.27))))
+              (property "Value" "4.7k" (at 170.18 181.102 0) (effects (font (size 1.27 1.27))))
+              (property "Footprint" "" (at 162.56 182.88 0) (effects (font (size 1 1)) (hide yes)))
+              (property "Assembly_note" "Não duplicar pull-up equivalente já presente no módulo." (at 162.56 182.88 0) (effects (font (size 1 1)) (hide yes)))
+              (instances (project "tabuleiro-sensorial" (path "/46e77f82-f508-5314-b208-a58521003af0" (reference "R1") (unit 1))))) (wire (pts (xy 162.56 179.07) (xy 162.56 171.45)) (stroke (width 0) (type default)) (uuid 41a9dda1-eaa8-59c3-bf26-cec19ec23975)) (global_label "3V3_IO" (shape bidirectional) (at 162.56 171.45 0) (effects (font (size 1.27 1.27)) (justify right)) (uuid 8a359ab7-3695-5cb2-867e-51a1f68aa62a)) (wire (pts (xy 162.56 186.69) (xy 162.56 194.31)) (stroke (width 0) (type default)) (uuid cfd07844-0e1c-5564-8db6-6ab89208ae48)) (global_label "I2C_SDA" (shape bidirectional) (at 162.56 194.31 0) (effects (font (size 1.27 1.27)) (justify right)) (uuid 820a974d-2ca5-59c2-b82a-ceaa44dc9b33)) (symbol (lib_id "Sensory:R") (at 195.58 182.88 0) (unit 1) (in_bom yes) (on_board yes) (dnp no) (uuid b484de52-afc1-5ff2-9d58-1ea42cc0eb39)
+              (property "Reference" "R2" (at 203.2 177.8 0) (effects (font (size 1.27 1.27))))
+              (property "Value" "4.7k" (at 203.2 181.102 0) (effects (font (size 1.27 1.27))))
+              (property "Footprint" "" (at 195.58 182.88 0) (effects (font (size 1 1)) (hide yes)))
+              (property "Assembly_note" "Não duplicar pull-up equivalente já presente no módulo." (at 195.58 182.88 0) (effects (font (size 1 1)) (hide yes)))
+              (instances (project "tabuleiro-sensorial" (path "/46e77f82-f508-5314-b208-a58521003af0" (reference "R2") (unit 1))))) (wire (pts (xy 195.58 179.07) (xy 195.58 171.45)) (stroke (width 0) (type default)) (uuid cb57ba5e-c3c9-5bbf-86bf-23f3337ddd4c)) (global_label "3V3_IO" (shape bidirectional) (at 195.58 171.45 0) (effects (font (size 1.27 1.27)) (justify right)) (uuid 03491cf2-6d3d-5570-9eab-7178e26a2be4)) (wire (pts (xy 195.58 186.69) (xy 195.58 194.31)) (stroke (width 0) (type default)) (uuid fc19a9cd-2d3f-5090-a0dd-ccfe6016a61c)) (global_label "I2C_SCL" (shape bidirectional) (at 195.58 194.31 0) (effects (font (size 1.27 1.27)) (justify right)) (uuid 1385bbf0-a946-50d3-a364-a4b568144531)) (symbol (lib_id "Sensory:R") (at 340.36 182.88 0) (unit 1) (in_bom yes) (on_board yes) (dnp no) (uuid 6dd6aea7-e06b-5f72-8fd9-f21cd50f2f15)
+              (property "Reference" "R3" (at 347.98 177.8 0) (effects (font (size 1.27 1.27))))
+              (property "Value" "10k" (at 347.98 181.102 0) (effects (font (size 1.27 1.27))))
+              (property "Footprint" "" (at 340.36 182.88 0) (effects (font (size 1 1)) (hide yes)))
+              (property "Assembly_note" "Não duplicar pull-up equivalente já presente no módulo." (at 340.36 182.88 0) (effects (font (size 1 1)) (hide yes)))
+              (instances (project "tabuleiro-sensorial" (path "/46e77f82-f508-5314-b208-a58521003af0" (reference "R3") (unit 1))))) (wire (pts (xy 340.36 179.07) (xy 340.36 171.45)) (stroke (width 0) (type default)) (uuid ec609b2b-4afa-5ca9-be8e-4ed3370b809a)) (global_label "3V3_IO" (shape bidirectional) (at 340.36 171.45 0) (effects (font (size 1.27 1.27)) (justify right)) (uuid db959b7a-d4b8-526c-9941-95d2d3d40dc5)) (wire (pts (xy 340.36 186.69) (xy 340.36 194.31)) (stroke (width 0) (type default)) (uuid e603b555-502e-536b-b2c3-80767ed98ab0)) (global_label "MCP_RESET" (shape bidirectional) (at 340.36 194.31 0) (effects (font (size 1.27 1.27)) (justify right)) (uuid abd8ffa7-62d1-58fe-907e-b8a24a3d8257)) (symbol (lib_id "Sensory:C") (at 347.98 223.52 0) (unit 1) (in_bom yes) (on_board yes) (dnp no) (uuid 9988ac33-7e61-5c76-97ed-83e982be820a)
+              (property "Reference" "C4" (at 355.6 218.44 0) (effects (font (size 1.27 1.27))))
+              (property "Value" "100nF" (at 355.6 221.742 0) (effects (font (size 1.27 1.27))))
+              (property "Footprint" "" (at 347.98 223.52 0) (effects (font (size 1 1)) (hide yes)))
+              (property "Assembly_note" "Desacoplamento junto a VDD/VSS do MCP; pode estar incorporado ao módulo." (at 347.98 223.52 0) (effects (font (size 1 1)) (hide yes)))
+              (instances (project "tabuleiro-sensorial" (path "/46e77f82-f508-5314-b208-a58521003af0" (reference "C4") (unit 1))))) (wire (pts (xy 347.98 219.71) (xy 347.98 212.09)) (stroke (width 0) (type default)) (uuid bc5f350b-2843-54bd-8b0f-a9054ca63b44)) (global_label "3V3_IO" (shape bidirectional) (at 347.98 212.09 0) (effects (font (size 1.27 1.27)) (justify right)) (uuid b6cb39e7-8383-578f-8d76-789b4d3895b6)) (wire (pts (xy 347.98 227.33) (xy 347.98 234.95)) (stroke (width 0) (type default)) (uuid 0e35219a-75ce-5180-914f-9022707ce7d2)) (global_label "GND" (shape bidirectional) (at 347.98 234.95 0) (effects (font (size 1.27 1.27)) (justify right)) (uuid 6f4b9bfc-cc2f-5fcc-8881-30cfde4e7bb5)) (text "U1 / I²C: endereço 0x20.\nGPA7 e GPB7 usados somente como saídas.\nOLAT=0; seleção de coluna por IODIR; GPPU=0." (at 20.32 200.66 0) (effects (font (size 1.8 1.8)) (justify left top)) (uuid 902c904a-52b2-58c8-8854-5d775034dc7a)) (text "U1: numeração do CI SSOP28, não dos headers do módulo.\nNão duplicar pull-ups e desacoplamento já presentes nos módulos.\nC4 junto a VDD/VSS." (at 165.1 246.38 0) (effects (font (size 1.8 1.8)) (justify left top)) (uuid e39532e7-6ad4-5446-b5f3-c4a77db16111)) (sheet (at 20.32 261.62) (size 38.1 15.24) (stroke (width 0.254) (type default)) (fill (color 0 0 0 0)) (uuid 453235dc-5653-5b38-90fc-65ce6d2d925d)
+              (property "Sheetname" "02 / Interface e SD" (at 20.32 259.08 0) (effects (font (size 1.27 1.27)) (justify left bottom)))
+              (property "Sheetfile" "perifericos.kicad_sch" (at 20.32 279.4 0) (effects (font (size 1 1)) (justify left top)))
+              (instances (project "tabuleiro-sensorial" (path "/46e77f82-f508-5314-b208-a58521003af0" (page "2"))))) (sheet (at 129.54 261.62) (size 38.1 15.24) (stroke (width 0.254) (type default)) (fill (color 0 0 0 0)) (uuid 957ba422-6101-5568-8fd4-3b717cbebf9b)
+              (property "Sheetname" "03 / Matriz 8x8" (at 129.54 259.08 0) (effects (font (size 1.27 1.27)) (justify left bottom)))
+              (property "Sheetfile" "matriz.kicad_sch" (at 129.54 279.4 0) (effects (font (size 1 1)) (justify left top)))
+              (instances (project "tabuleiro-sensorial" (path "/46e77f82-f508-5314-b208-a58521003af0" (page "3"))))) (embedded_fonts no))

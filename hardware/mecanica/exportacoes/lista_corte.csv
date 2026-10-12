@@ -1,0 +1,11 @@
+﻿id,quantidade,material,comprimento_mm,largura_mm,espessura_mm,observacoes
+M01,1,MDF,350.0,350.0,6.0,4 furos3.4 escareados inferiores; conferir modelo
+M02,1,MDF,350.0,44.0,9.0,Frente: 3 furos12.0 e 2 furos5.0
+M03,1,MDF,350.0,44.0,9.0,Traseira
+M04,1,MDF,332.0,44.0,9.0,Lateral esquerda
+M05,1,MDF,332.0,44.0,9.0,Lateral direita: acesso70x20
+M06,1,MDF,350.0,350.0,6.0,64 furos2.8; canais3.0x2.0 com coletores; pegasR10; passagem8x28;4escareados
+M07,1,MDF,332.0,12,9.0,Travessa central entre colunas d/e sob suporte
+A01-A04,4,MDF empilhado / madeira,12.0,12.0,44.0,Pilotos2.5x10 em faces superior/inferior
+V01,1,Vidro existente,350.0,350.0,3.0,MEDIR tamanho real; bordas lapidadas; sem corte presumido
+J01,1,Elastomero,346.0,346.0,1.0,Anel largura10.0; espessura instalada

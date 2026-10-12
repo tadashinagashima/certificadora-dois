@@ -1,0 +1,16 @@
+{
+  "checked_at_utc": "2026-10-12T02:20:41.804363+00:00",
+  "scope": "Revisao B: contratos entre exportacoes CAD, netlist, BOM e firmware. Baseline 350/300/37.5 mm. Nao simula eletricidade, magnetismo ou montagem.",
+  "checks": 992,
+  "passed": 992,
+  "failures": [],
+  "source_sha256": {
+    "hardware/eletronica/exports/tabuleiro-sensorial.xml": "f82243eebd6f1acc39ca548a14d82b590962fb2a2756d59260b56960b0c73954",
+    "hardware/eletronica/exports/bom.csv": "100a20bd47849cd9ca58a34cbb8aa282517ed3db35aaffa3ec4f55b8d4ed811a",
+    "hardware/mecanica/exportacoes/coordenadas_sensores.csv": "b713dc9e90780a434deafd25b87f6a0123c45dbc414f4f443681a99dbcf8cf01",
+    "firmware/validation/resultado.json": "62b7024a5413b89ac870a332d69b7d51eedd38b2d7d3b37d84759dac92ff1b1d",
+    "hardware/eletronica/reports/erc.json": "879c6f8451060587fd3e1946568b004733550b5cc5fc268f257801f02c8e1189",
+    "hardware/mecanica/exportacoes/verificacao_geometrica.json": "071829c6b54d55e5958235aedaee45837d415e8c0d8f0c880372343ce371984f"
+  },
+  "physical_tests_performed": false
+}

@@ -11,10 +11,10 @@ flowchart LR
     E -->|Sinalização| S["LEDs e buzzer"]
     E -->|SPI| SD["Adaptador SD + cartão microSD"]
     E -.->|I²C — opcional| O["OLED SSD1315"]
-    U["Alimentação USB"] --> E
+    U["USB do computador"] --> E
 ```
 
-O MCP23017 seleciona sequencialmente as colunas e lê as linhas da matriz. O OLED, caso utilizado, compartilhará o barramento I²C. A pinagem definitiva será estabelecida durante a implementação.
+O MCP23017 seleciona uma coluna LOW por vez, mantendo as demais em alta impedância, e lê diretamente as linhas com pull-ups de 47 kΩ. A DevKit V1 de 30 pinos fornece 3,3 V aos periféricos pelo regulador da própria placa. O OLED é opcional e compartilha o I²C quando instalado. A [documentação elétrica](eletronica.md) define a pinagem e as conexões adotadas; [board_config.h](../firmware/diagnostico/board_config.h) mantém a referência no firmware.
 
 ## 2. Organização do firmware
 
@@ -24,6 +24,8 @@ O firmware será desenvolvido em C/C++ no ecossistema Arduino. Seus módulos e a
 
 Os diagramas também estão disponíveis no
 [projeto Astah editável](diagramas/tabuleiro-xadrez-sensorial.asta).
+
+O [acompanhamento da jogada](firmware-acompanhamento.md) está implementado como módulo C++ independente. Recebe observações do Controle e fornece uma cópia da tentativa, mantendo as dependências representadas no diagrama. O guia do módulo define o contrato, os limites do histórico e as verificações automatizadas; sua integração com o sensoriamento permanece pendente.
 
 ## 3. Estados e processamento das jogadas
 

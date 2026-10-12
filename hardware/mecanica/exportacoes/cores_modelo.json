@@ -1,0 +1,2778 @@
+{
+  "Fundo": {
+    "rgb": [
+      0.78,
+      0.6,
+      0.38
+    ],
+    "transparency": 0
+  },
+  "Frente": {
+    "rgb": [
+      0.66,
+      0.45,
+      0.25
+    ],
+    "transparency": 0
+  },
+  "Traseira": {
+    "rgb": [
+      0.66,
+      0.45,
+      0.25
+    ],
+    "transparency": 0
+  },
+  "Esquerda": {
+    "rgb": [
+      0.66,
+      0.45,
+      0.25
+    ],
+    "transparency": 0
+  },
+  "Direita": {
+    "rgb": [
+      0.66,
+      0.45,
+      0.25
+    ],
+    "transparency": 0
+  },
+  "Vidro": {
+    "rgb": [
+      0.67,
+      0.85,
+      0.89
+    ],
+    "transparency": 65
+  },
+  "Junta": {
+    "rgb": [
+      0.12,
+      0.15,
+      0.18
+    ],
+    "transparency": 0
+  },
+  "SuporteSensores": {
+    "rgb": [
+      0.58,
+      0.49,
+      0.34
+    ],
+    "transparency": 0
+  },
+  "TravessaCentral": {
+    "rgb": [
+      0.66,
+      0.45,
+      0.25
+    ],
+    "transparency": 0
+  },
+  "Apoio0": {
+    "rgb": [
+      0.66,
+      0.45,
+      0.25
+    ],
+    "transparency": 0
+  },
+  "Pe0": {
+    "rgb": [
+      0.12,
+      0.15,
+      0.18
+    ],
+    "transparency": 0
+  },
+  "Apoio1": {
+    "rgb": [
+      0.66,
+      0.45,
+      0.25
+    ],
+    "transparency": 0
+  },
+  "Pe1": {
+    "rgb": [
+      0.12,
+      0.15,
+      0.18
+    ],
+    "transparency": 0
+  },
+  "Apoio2": {
+    "rgb": [
+      0.66,
+      0.45,
+      0.25
+    ],
+    "transparency": 0
+  },
+  "Pe2": {
+    "rgb": [
+      0.12,
+      0.15,
+      0.18
+    ],
+    "transparency": 0
+  },
+  "Apoio3": {
+    "rgb": [
+      0.66,
+      0.45,
+      0.25
+    ],
+    "transparency": 0
+  },
+  "Pe3": {
+    "rgb": [
+      0.12,
+      0.15,
+      0.18
+    ],
+    "transparency": 0
+  },
+  "Botao0": {
+    "rgb": [
+      0.16,
+      0.24,
+      0.31
+    ],
+    "transparency": 0
+  },
+  "Botao1": {
+    "rgb": [
+      0.16,
+      0.24,
+      0.31
+    ],
+    "transparency": 0
+  },
+  "Botao2": {
+    "rgb": [
+      0.16,
+      0.24,
+      0.31
+    ],
+    "transparency": 0
+  },
+  "Led0": {
+    "rgb": [
+      0.05,
+      0.75,
+      0.43
+    ],
+    "transparency": 0
+  },
+  "Led1": {
+    "rgb": [
+      0.96,
+      0.2,
+      0.18
+    ],
+    "transparency": 0
+  },
+  "VolumeESP32": {
+    "rgb": [
+      0.1,
+      0.22,
+      0.32
+    ],
+    "transparency": 0
+  },
+  "VolumeSD": {
+    "rgb": [
+      0.12,
+      0.33,
+      0.47
+    ],
+    "transparency": 0
+  },
+  "VolumeControle": {
+    "rgb": [
+      0.08,
+      0.42,
+      0.31
+    ],
+    "transparency": 0
+  },
+  "VolumeBuzzer": {
+    "rgb": [
+      0.12,
+      0.15,
+      0.19
+    ],
+    "transparency": 0
+  },
+  "ImaReferencia": {
+    "rgb": [
+      0.27,
+      0.28,
+      0.29
+    ],
+    "transparency": 0
+  },
+  "Reed_a1": {
+    "rgb": [
+      0.31,
+      0.66,
+      0.65
+    ],
+    "transparency": 0
+  },
+  "ReedLeads_a1": {
+    "rgb": [
+      0.72,
+      0.74,
+      0.77
+    ],
+    "transparency": 0
+  },
+  "Diode_a1": {
+    "rgb": [
+      0.86,
+      0.39,
+      0.13
+    ],
+    "transparency": 0
+  },
+  "Cola_a1": {
+    "rgb": [
+      0.81,
+      0.76,
+      0.52
+    ],
+    "transparency": 0
+  },
+  "Casa_a1": {
+    "rgb": [
+      0.14,
+      0.25,
+      0.29
+    ],
+    "transparency": 0
+  },
+  "Reed_b1": {
+    "rgb": [
+      0.31,
+      0.66,
+      0.65
+    ],
+    "transparency": 0
+  },
+  "ReedLeads_b1": {
+    "rgb": [
+      0.72,
+      0.74,
+      0.77
+    ],
+    "transparency": 0
+  },
+  "Diode_b1": {
+    "rgb": [
+      0.86,
+      0.39,
+      0.13
+    ],
+    "transparency": 0
+  },
+  "Cola_b1": {
+    "rgb": [
+      0.81,
+      0.76,
+      0.52
+    ],
+    "transparency": 0
+  },
+  "Casa_b1": {
+    "rgb": [
+      0.87,
+      0.89,
+      0.81
+    ],
+    "transparency": 0
+  },
+  "Reed_c1": {
+    "rgb": [
+      0.31,
+      0.66,
+      0.65
+    ],
+    "transparency": 0
+  },
+  "ReedLeads_c1": {
+    "rgb": [
+      0.72,
+      0.74,
+      0.77
+    ],
+    "transparency": 0
+  },
+  "Diode_c1": {
+    "rgb": [
+      0.86,
+      0.39,
+      0.13
+    ],
+    "transparency": 0
+  },
+  "Cola_c1": {
+    "rgb": [
+      0.81,
+      0.76,
+      0.52
+    ],
+    "transparency": 0
+  },
+  "Casa_c1": {
+    "rgb": [
+      0.14,
+      0.25,
+      0.29
+    ],
+    "transparency": 0
+  },
+  "Reed_d1": {
+    "rgb": [
+      0.31,
+      0.66,
+      0.65
+    ],
+    "transparency": 0
+  },
+  "ReedLeads_d1": {
+    "rgb": [
+      0.72,
+      0.74,
+      0.77
+    ],
+    "transparency": 0
+  },
+  "Diode_d1": {
+    "rgb": [
+      0.86,
+      0.39,
+      0.13
+    ],
+    "transparency": 0
+  },
+  "Cola_d1": {
+    "rgb": [
+      0.81,
+      0.76,
+      0.52
+    ],
+    "transparency": 0
+  },
+  "Casa_d1": {
+    "rgb": [
+      0.87,
+      0.89,
+      0.81
+    ],
+    "transparency": 0
+  },
+  "Reed_e1": {
+    "rgb": [
+      0.31,
+      0.66,
+      0.65
+    ],
+    "transparency": 0
+  },
+  "ReedLeads_e1": {
+    "rgb": [
+      0.72,
+      0.74,
+      0.77
+    ],
+    "transparency": 0
+  },
+  "Diode_e1": {
+    "rgb": [
+      0.86,
+      0.39,
+      0.13
+    ],
+    "transparency": 0
+  },
+  "Cola_e1": {
+    "rgb": [
+      0.81,
+      0.76,
+      0.52
+    ],
+    "transparency": 0
+  },
+  "Casa_e1": {
+    "rgb": [
+      0.14,
+      0.25,
+      0.29
+    ],
+    "transparency": 0
+  },
+  "Reed_f1": {
+    "rgb": [
+      0.31,
+      0.66,
+      0.65
+    ],
+    "transparency": 0
+  },
+  "ReedLeads_f1": {
+    "rgb": [
+      0.72,
+      0.74,
+      0.77
+    ],
+    "transparency": 0
+  },
+  "Diode_f1": {
+    "rgb": [
+      0.86,
+      0.39,
+      0.13
+    ],
+    "transparency": 0
+  },
+  "Cola_f1": {
+    "rgb": [
+      0.81,
+      0.76,
+      0.52
+    ],
+    "transparency": 0
+  },
+  "Casa_f1": {
+    "rgb": [
+      0.87,
+      0.89,
+      0.81
+    ],
+    "transparency": 0
+  },
+  "Reed_g1": {
+    "rgb": [
+      0.31,
+      0.66,
+      0.65
+    ],
+    "transparency": 0
+  },
+  "ReedLeads_g1": {
+    "rgb": [
+      0.72,
+      0.74,
+      0.77
+    ],
+    "transparency": 0
+  },
+  "Diode_g1": {
+    "rgb": [
+      0.86,
+      0.39,
+      0.13
+    ],
+    "transparency": 0
+  },
+  "Cola_g1": {
+    "rgb": [
+      0.81,
+      0.76,
+      0.52
+    ],
+    "transparency": 0
+  },
+  "Casa_g1": {
+    "rgb": [
+      0.14,
+      0.25,
+      0.29
+    ],
+    "transparency": 0
+  },
+  "Reed_h1": {
+    "rgb": [
+      0.31,
+      0.66,
+      0.65
+    ],
+    "transparency": 0
+  },
+  "ReedLeads_h1": {
+    "rgb": [
+      0.72,
+      0.74,
+      0.77
+    ],
+    "transparency": 0
+  },
+  "Diode_h1": {
+    "rgb": [
+      0.86,
+      0.39,
+      0.13
+    ],
+    "transparency": 0
+  },
+  "Cola_h1": {
+    "rgb": [
+      0.81,
+      0.76,
+      0.52
+    ],
+    "transparency": 0
+  },
+  "Casa_h1": {
+    "rgb": [
+      0.87,
+      0.89,
+      0.81
+    ],
+    "transparency": 0
+  },
+  "Reed_a2": {
+    "rgb": [
+      0.31,
+      0.66,
+      0.65
+    ],
+    "transparency": 0
+  },
+  "ReedLeads_a2": {
+    "rgb": [
+      0.72,
+      0.74,
+      0.77
+    ],
+    "transparency": 0
+  },
+  "Diode_a2": {
+    "rgb": [
+      0.86,
+      0.39,
+      0.13
+    ],
+    "transparency": 0
+  },
+  "Cola_a2": {
+    "rgb": [
+      0.81,
+      0.76,
+      0.52
+    ],
+    "transparency": 0
+  },
+  "Casa_a2": {
+    "rgb": [
+      0.87,
+      0.89,
+      0.81
+    ],
+    "transparency": 0
+  },
+  "Reed_b2": {
+    "rgb": [
+      0.31,
+      0.66,
+      0.65
+    ],
+    "transparency": 0
+  },
+  "ReedLeads_b2": {
+    "rgb": [
+      0.72,
+      0.74,
+      0.77
+    ],
+    "transparency": 0
+  },
+  "Diode_b2": {
+    "rgb": [
+      0.86,
+      0.39,
+      0.13
+    ],
+    "transparency": 0
+  },
+  "Cola_b2": {
+    "rgb": [
+      0.81,
+      0.76,
+      0.52
+    ],
+    "transparency": 0
+  },
+  "Casa_b2": {
+    "rgb": [
+      0.14,
+      0.25,
+      0.29
+    ],
+    "transparency": 0
+  },
+  "Reed_c2": {
+    "rgb": [
+      0.31,
+      0.66,
+      0.65
+    ],
+    "transparency": 0
+  },
+  "ReedLeads_c2": {
+    "rgb": [
+      0.72,
+      0.74,
+      0.77
+    ],
+    "transparency": 0
+  },
+  "Diode_c2": {
+    "rgb": [
+      0.86,
+      0.39,
+      0.13
+    ],
+    "transparency": 0
+  },
+  "Cola_c2": {
+    "rgb": [
+      0.81,
+      0.76,
+      0.52
+    ],
+    "transparency": 0
+  },
+  "Casa_c2": {
+    "rgb": [
+      0.87,
+      0.89,
+      0.81
+    ],
+    "transparency": 0
+  },
+  "Reed_d2": {
+    "rgb": [
+      0.31,
+      0.66,
+      0.65
+    ],
+    "transparency": 0
+  },
+  "ReedLeads_d2": {
+    "rgb": [
+      0.72,
+      0.74,
+      0.77
+    ],
+    "transparency": 0
+  },
+  "Diode_d2": {
+    "rgb": [
+      0.86,
+      0.39,
+      0.13
+    ],
+    "transparency": 0
+  },
+  "Cola_d2": {
+    "rgb": [
+      0.81,
+      0.76,
+      0.52
+    ],
+    "transparency": 0
+  },
+  "Casa_d2": {
+    "rgb": [
+      0.14,
+      0.25,
+      0.29
+    ],
+    "transparency": 0
+  },
+  "Reed_e2": {
+    "rgb": [
+      0.31,
+      0.66,
+      0.65
+    ],
+    "transparency": 0
+  },
+  "ReedLeads_e2": {
+    "rgb": [
+      0.72,
+      0.74,
+      0.77
+    ],
+    "transparency": 0
+  },
+  "Diode_e2": {
+    "rgb": [
+      0.86,
+      0.39,
+      0.13
+    ],
+    "transparency": 0
+  },
+  "Cola_e2": {
+    "rgb": [
+      0.81,
+      0.76,
+      0.52
+    ],
+    "transparency": 0
+  },
+  "Casa_e2": {
+    "rgb": [
+      0.87,
+      0.89,
+      0.81
+    ],
+    "transparency": 0
+  },
+  "Reed_f2": {
+    "rgb": [
+      0.31,
+      0.66,
+      0.65
+    ],
+    "transparency": 0
+  },
+  "ReedLeads_f2": {
+    "rgb": [
+      0.72,
+      0.74,
+      0.77
+    ],
+    "transparency": 0
+  },
+  "Diode_f2": {
+    "rgb": [
+      0.86,
+      0.39,
+      0.13
+    ],
+    "transparency": 0
+  },
+  "Cola_f2": {
+    "rgb": [
+      0.81,
+      0.76,
+      0.52
+    ],
+    "transparency": 0
+  },
+  "Casa_f2": {
+    "rgb": [
+      0.14,
+      0.25,
+      0.29
+    ],
+    "transparency": 0
+  },
+  "Reed_g2": {
+    "rgb": [
+      0.31,
+      0.66,
+      0.65
+    ],
+    "transparency": 0
+  },
+  "ReedLeads_g2": {
+    "rgb": [
+      0.72,
+      0.74,
+      0.77
+    ],
+    "transparency": 0
+  },
+  "Diode_g2": {
+    "rgb": [
+      0.86,
+      0.39,
+      0.13
+    ],
+    "transparency": 0
+  },
+  "Cola_g2": {
+    "rgb": [
+      0.81,
+      0.76,
+      0.52
+    ],
+    "transparency": 0
+  },
+  "Casa_g2": {
+    "rgb": [
+      0.87,
+      0.89,
+      0.81
+    ],
+    "transparency": 0
+  },
+  "Reed_h2": {
+    "rgb": [
+      0.31,
+      0.66,
+      0.65
+    ],
+    "transparency": 0
+  },
+  "ReedLeads_h2": {
+    "rgb": [
+      0.72,
+      0.74,
+      0.77
+    ],
+    "transparency": 0
+  },
+  "Diode_h2": {
+    "rgb": [
+      0.86,
+      0.39,
+      0.13
+    ],
+    "transparency": 0
+  },
+  "Cola_h2": {
+    "rgb": [
+      0.81,
+      0.76,
+      0.52
+    ],
+    "transparency": 0
+  },
+  "Casa_h2": {
+    "rgb": [
+      0.14,
+      0.25,
+      0.29
+    ],
+    "transparency": 0
+  },
+  "Reed_a3": {
+    "rgb": [
+      0.31,
+      0.66,
+      0.65
+    ],
+    "transparency": 0
+  },
+  "ReedLeads_a3": {
+    "rgb": [
+      0.72,
+      0.74,
+      0.77
+    ],
+    "transparency": 0
+  },
+  "Diode_a3": {
+    "rgb": [
+      0.86,
+      0.39,
+      0.13
+    ],
+    "transparency": 0
+  },
+  "Cola_a3": {
+    "rgb": [
+      0.81,
+      0.76,
+      0.52
+    ],
+    "transparency": 0
+  },
+  "Casa_a3": {
+    "rgb": [
+      0.14,
+      0.25,
+      0.29
+    ],
+    "transparency": 0
+  },
+  "Reed_b3": {
+    "rgb": [
+      0.31,
+      0.66,
+      0.65
+    ],
+    "transparency": 0
+  },
+  "ReedLeads_b3": {
+    "rgb": [
+      0.72,
+      0.74,
+      0.77
+    ],
+    "transparency": 0
+  },
+  "Diode_b3": {
+    "rgb": [
+      0.86,
+      0.39,
+      0.13
+    ],
+    "transparency": 0
+  },
+  "Cola_b3": {
+    "rgb": [
+      0.81,
+      0.76,
+      0.52
+    ],
+    "transparency": 0
+  },
+  "Casa_b3": {
+    "rgb": [
+      0.87,
+      0.89,
+      0.81
+    ],
+    "transparency": 0
+  },
+  "Reed_c3": {
+    "rgb": [
+      0.31,
+      0.66,
+      0.65
+    ],
+    "transparency": 0
+  },
+  "ReedLeads_c3": {
+    "rgb": [
+      0.72,
+      0.74,
+      0.77
+    ],
+    "transparency": 0
+  },
+  "Diode_c3": {
+    "rgb": [
+      0.86,
+      0.39,
+      0.13
+    ],
+    "transparency": 0
+  },
+  "Cola_c3": {
+    "rgb": [
+      0.81,
+      0.76,
+      0.52
+    ],
+    "transparency": 0
+  },
+  "Casa_c3": {
+    "rgb": [
+      0.14,
+      0.25,
+      0.29
+    ],
+    "transparency": 0
+  },
+  "Reed_d3": {
+    "rgb": [
+      0.31,
+      0.66,
+      0.65
+    ],
+    "transparency": 0
+  },
+  "ReedLeads_d3": {
+    "rgb": [
+      0.72,
+      0.74,
+      0.77
+    ],
+    "transparency": 0
+  },
+  "Diode_d3": {
+    "rgb": [
+      0.86,
+      0.39,
+      0.13
+    ],
+    "transparency": 0
+  },
+  "Cola_d3": {
+    "rgb": [
+      0.81,
+      0.76,
+      0.52
+    ],
+    "transparency": 0
+  },
+  "Casa_d3": {
+    "rgb": [
+      0.87,
+      0.89,
+      0.81
+    ],
+    "transparency": 0
+  },
+  "Reed_e3": {
+    "rgb": [
+      0.31,
+      0.66,
+      0.65
+    ],
+    "transparency": 0
+  },
+  "ReedLeads_e3": {
+    "rgb": [
+      0.72,
+      0.74,
+      0.77
+    ],
+    "transparency": 0
+  },
+  "Diode_e3": {
+    "rgb": [
+      0.86,
+      0.39,
+      0.13
+    ],
+    "transparency": 0
+  },
+  "Cola_e3": {
+    "rgb": [
+      0.81,
+      0.76,
+      0.52
+    ],
+    "transparency": 0
+  },
+  "Casa_e3": {
+    "rgb": [
+      0.14,
+      0.25,
+      0.29
+    ],
+    "transparency": 0
+  },
+  "Reed_f3": {
+    "rgb": [
+      0.31,
+      0.66,
+      0.65
+    ],
+    "transparency": 0
+  },
+  "ReedLeads_f3": {
+    "rgb": [
+      0.72,
+      0.74,
+      0.77
+    ],
+    "transparency": 0
+  },
+  "Diode_f3": {
+    "rgb": [
+      0.86,
+      0.39,
+      0.13
+    ],
+    "transparency": 0
+  },
+  "Cola_f3": {
+    "rgb": [
+      0.81,
+      0.76,
+      0.52
+    ],
+    "transparency": 0
+  },
+  "Casa_f3": {
+    "rgb": [
+      0.87,
+      0.89,
+      0.81
+    ],
+    "transparency": 0
+  },
+  "Reed_g3": {
+    "rgb": [
+      0.31,
+      0.66,
+      0.65
+    ],
+    "transparency": 0
+  },
+  "ReedLeads_g3": {
+    "rgb": [
+      0.72,
+      0.74,
+      0.77
+    ],
+    "transparency": 0
+  },
+  "Diode_g3": {
+    "rgb": [
+      0.86,
+      0.39,
+      0.13
+    ],
+    "transparency": 0
+  },
+  "Cola_g3": {
+    "rgb": [
+      0.81,
+      0.76,
+      0.52
+    ],
+    "transparency": 0
+  },
+  "Casa_g3": {
+    "rgb": [
+      0.14,
+      0.25,
+      0.29
+    ],
+    "transparency": 0
+  },
+  "Reed_h3": {
+    "rgb": [
+      0.31,
+      0.66,
+      0.65
+    ],
+    "transparency": 0
+  },
+  "ReedLeads_h3": {
+    "rgb": [
+      0.72,
+      0.74,
+      0.77
+    ],
+    "transparency": 0
+  },
+  "Diode_h3": {
+    "rgb": [
+      0.86,
+      0.39,
+      0.13
+    ],
+    "transparency": 0
+  },
+  "Cola_h3": {
+    "rgb": [
+      0.81,
+      0.76,
+      0.52
+    ],
+    "transparency": 0
+  },
+  "Casa_h3": {
+    "rgb": [
+      0.87,
+      0.89,
+      0.81
+    ],
+    "transparency": 0
+  },
+  "Reed_a4": {
+    "rgb": [
+      0.31,
+      0.66,
+      0.65
+    ],
+    "transparency": 0
+  },
+  "ReedLeads_a4": {
+    "rgb": [
+      0.72,
+      0.74,
+      0.77
+    ],
+    "transparency": 0
+  },
+  "Diode_a4": {
+    "rgb": [
+      0.86,
+      0.39,
+      0.13
+    ],
+    "transparency": 0
+  },
+  "Cola_a4": {
+    "rgb": [
+      0.81,
+      0.76,
+      0.52
+    ],
+    "transparency": 0
+  },
+  "Casa_a4": {
+    "rgb": [
+      0.87,
+      0.89,
+      0.81
+    ],
+    "transparency": 0
+  },
+  "Reed_b4": {
+    "rgb": [
+      0.31,
+      0.66,
+      0.65
+    ],
+    "transparency": 0
+  },
+  "ReedLeads_b4": {
+    "rgb": [
+      0.72,
+      0.74,
+      0.77
+    ],
+    "transparency": 0
+  },
+  "Diode_b4": {
+    "rgb": [
+      0.86,
+      0.39,
+      0.13
+    ],
+    "transparency": 0
+  },
+  "Cola_b4": {
+    "rgb": [
+      0.81,
+      0.76,
+      0.52
+    ],
+    "transparency": 0
+  },
+  "Casa_b4": {
+    "rgb": [
+      0.14,
+      0.25,
+      0.29
+    ],
+    "transparency": 0
+  },
+  "Reed_c4": {
+    "rgb": [
+      0.31,
+      0.66,
+      0.65
+    ],
+    "transparency": 0
+  },
+  "ReedLeads_c4": {
+    "rgb": [
+      0.72,
+      0.74,
+      0.77
+    ],
+    "transparency": 0
+  },
+  "Diode_c4": {
+    "rgb": [
+      0.86,
+      0.39,
+      0.13
+    ],
+    "transparency": 0
+  },
+  "Cola_c4": {
+    "rgb": [
+      0.81,
+      0.76,
+      0.52
+    ],
+    "transparency": 0
+  },
+  "Casa_c4": {
+    "rgb": [
+      0.87,
+      0.89,
+      0.81
+    ],
+    "transparency": 0
+  },
+  "Reed_d4": {
+    "rgb": [
+      0.31,
+      0.66,
+      0.65
+    ],
+    "transparency": 0
+  },
+  "ReedLeads_d4": {
+    "rgb": [
+      0.72,
+      0.74,
+      0.77
+    ],
+    "transparency": 0
+  },
+  "Diode_d4": {
+    "rgb": [
+      0.86,
+      0.39,
+      0.13
+    ],
+    "transparency": 0
+  },
+  "Cola_d4": {
+    "rgb": [
+      0.81,
+      0.76,
+      0.52
+    ],
+    "transparency": 0
+  },
+  "Casa_d4": {
+    "rgb": [
+      0.14,
+      0.25,
+      0.29
+    ],
+    "transparency": 0
+  },
+  "Reed_e4": {
+    "rgb": [
+      0.31,
+      0.66,
+      0.65
+    ],
+    "transparency": 0
+  },
+  "ReedLeads_e4": {
+    "rgb": [
+      0.72,
+      0.74,
+      0.77
+    ],
+    "transparency": 0
+  },
+  "Diode_e4": {
+    "rgb": [
+      0.86,
+      0.39,
+      0.13
+    ],
+    "transparency": 0
+  },
+  "Cola_e4": {
+    "rgb": [
+      0.81,
+      0.76,
+      0.52
+    ],
+    "transparency": 0
+  },
+  "Casa_e4": {
+    "rgb": [
+      0.87,
+      0.89,
+      0.81
+    ],
+    "transparency": 0
+  },
+  "Reed_f4": {
+    "rgb": [
+      0.31,
+      0.66,
+      0.65
+    ],
+    "transparency": 0
+  },
+  "ReedLeads_f4": {
+    "rgb": [
+      0.72,
+      0.74,
+      0.77
+    ],
+    "transparency": 0
+  },
+  "Diode_f4": {
+    "rgb": [
+      0.86,
+      0.39,
+      0.13
+    ],
+    "transparency": 0
+  },
+  "Cola_f4": {
+    "rgb": [
+      0.81,
+      0.76,
+      0.52
+    ],
+    "transparency": 0
+  },
+  "Casa_f4": {
+    "rgb": [
+      0.14,
+      0.25,
+      0.29
+    ],
+    "transparency": 0
+  },
+  "Reed_g4": {
+    "rgb": [
+      0.31,
+      0.66,
+      0.65
+    ],
+    "transparency": 0
+  },
+  "ReedLeads_g4": {
+    "rgb": [
+      0.72,
+      0.74,
+      0.77
+    ],
+    "transparency": 0
+  },
+  "Diode_g4": {
+    "rgb": [
+      0.86,
+      0.39,
+      0.13
+    ],
+    "transparency": 0
+  },
+  "Cola_g4": {
+    "rgb": [
+      0.81,
+      0.76,
+      0.52
+    ],
+    "transparency": 0
+  },
+  "Casa_g4": {
+    "rgb": [
+      0.87,
+      0.89,
+      0.81
+    ],
+    "transparency": 0
+  },
+  "Reed_h4": {
+    "rgb": [
+      0.31,
+      0.66,
+      0.65
+    ],
+    "transparency": 0
+  },
+  "ReedLeads_h4": {
+    "rgb": [
+      0.72,
+      0.74,
+      0.77
+    ],
+    "transparency": 0
+  },
+  "Diode_h4": {
+    "rgb": [
+      0.86,
+      0.39,
+      0.13
+    ],
+    "transparency": 0
+  },
+  "Cola_h4": {
+    "rgb": [
+      0.81,
+      0.76,
+      0.52
+    ],
+    "transparency": 0
+  },
+  "Casa_h4": {
+    "rgb": [
+      0.14,
+      0.25,
+      0.29
+    ],
+    "transparency": 0
+  },
+  "Reed_a5": {
+    "rgb": [
+      0.31,
+      0.66,
+      0.65
+    ],
+    "transparency": 0
+  },
+  "ReedLeads_a5": {
+    "rgb": [
+      0.72,
+      0.74,
+      0.77
+    ],
+    "transparency": 0
+  },
+  "Diode_a5": {
+    "rgb": [
+      0.86,
+      0.39,
+      0.13
+    ],
+    "transparency": 0
+  },
+  "Cola_a5": {
+    "rgb": [
+      0.81,
+      0.76,
+      0.52
+    ],
+    "transparency": 0
+  },
+  "Casa_a5": {
+    "rgb": [
+      0.14,
+      0.25,
+      0.29
+    ],
+    "transparency": 0
+  },
+  "Reed_b5": {
+    "rgb": [
+      0.31,
+      0.66,
+      0.65
+    ],
+    "transparency": 0
+  },
+  "ReedLeads_b5": {
+    "rgb": [
+      0.72,
+      0.74,
+      0.77
+    ],
+    "transparency": 0
+  },
+  "Diode_b5": {
+    "rgb": [
+      0.86,
+      0.39,
+      0.13
+    ],
+    "transparency": 0
+  },
+  "Cola_b5": {
+    "rgb": [
+      0.81,
+      0.76,
+      0.52
+    ],
+    "transparency": 0
+  },
+  "Casa_b5": {
+    "rgb": [
+      0.87,
+      0.89,
+      0.81
+    ],
+    "transparency": 0
+  },
+  "Reed_c5": {
+    "rgb": [
+      0.31,
+      0.66,
+      0.65
+    ],
+    "transparency": 0
+  },
+  "ReedLeads_c5": {
+    "rgb": [
+      0.72,
+      0.74,
+      0.77
+    ],
+    "transparency": 0
+  },
+  "Diode_c5": {
+    "rgb": [
+      0.86,
+      0.39,
+      0.13
+    ],
+    "transparency": 0
+  },
+  "Cola_c5": {
+    "rgb": [
+      0.81,
+      0.76,
+      0.52
+    ],
+    "transparency": 0
+  },
+  "Casa_c5": {
+    "rgb": [
+      0.14,
+      0.25,
+      0.29
+    ],
+    "transparency": 0
+  },
+  "Reed_d5": {
+    "rgb": [
+      0.31,
+      0.66,
+      0.65
+    ],
+    "transparency": 0
+  },
+  "ReedLeads_d5": {
+    "rgb": [
+      0.72,
+      0.74,
+      0.77
+    ],
+    "transparency": 0
+  },
+  "Diode_d5": {
+    "rgb": [
+      0.86,
+      0.39,
+      0.13
+    ],
+    "transparency": 0
+  },
+  "Cola_d5": {
+    "rgb": [
+      0.81,
+      0.76,
+      0.52
+    ],
+    "transparency": 0
+  },
+  "Casa_d5": {
+    "rgb": [
+      0.87,
+      0.89,
+      0.81
+    ],
+    "transparency": 0
+  },
+  "Reed_e5": {
+    "rgb": [
+      0.31,
+      0.66,
+      0.65
+    ],
+    "transparency": 0
+  },
+  "ReedLeads_e5": {
+    "rgb": [
+      0.72,
+      0.74,
+      0.77
+    ],
+    "transparency": 0
+  },
+  "Diode_e5": {
+    "rgb": [
+      0.86,
+      0.39,
+      0.13
+    ],
+    "transparency": 0
+  },
+  "Cola_e5": {
+    "rgb": [
+      0.81,
+      0.76,
+      0.52
+    ],
+    "transparency": 0
+  },
+  "Casa_e5": {
+    "rgb": [
+      0.14,
+      0.25,
+      0.29
+    ],
+    "transparency": 0
+  },
+  "Reed_f5": {
+    "rgb": [
+      0.31,
+      0.66,
+      0.65
+    ],
+    "transparency": 0
+  },
+  "ReedLeads_f5": {
+    "rgb": [
+      0.72,
+      0.74,
+      0.77
+    ],
+    "transparency": 0
+  },
+  "Diode_f5": {
+    "rgb": [
+      0.86,
+      0.39,
+      0.13
+    ],
+    "transparency": 0
+  },
+  "Cola_f5": {
+    "rgb": [
+      0.81,
+      0.76,
+      0.52
+    ],
+    "transparency": 0
+  },
+  "Casa_f5": {
+    "rgb": [
+      0.87,
+      0.89,
+      0.81
+    ],
+    "transparency": 0
+  },
+  "Reed_g5": {
+    "rgb": [
+      0.31,
+      0.66,
+      0.65
+    ],
+    "transparency": 0
+  },
+  "ReedLeads_g5": {
+    "rgb": [
+      0.72,
+      0.74,
+      0.77
+    ],
+    "transparency": 0
+  },
+  "Diode_g5": {
+    "rgb": [
+      0.86,
+      0.39,
+      0.13
+    ],
+    "transparency": 0
+  },
+  "Cola_g5": {
+    "rgb": [
+      0.81,
+      0.76,
+      0.52
+    ],
+    "transparency": 0
+  },
+  "Casa_g5": {
+    "rgb": [
+      0.14,
+      0.25,
+      0.29
+    ],
+    "transparency": 0
+  },
+  "Reed_h5": {
+    "rgb": [
+      0.31,
+      0.66,
+      0.65
+    ],
+    "transparency": 0
+  },
+  "ReedLeads_h5": {
+    "rgb": [
+      0.72,
+      0.74,
+      0.77
+    ],
+    "transparency": 0
+  },
+  "Diode_h5": {
+    "rgb": [
+      0.86,
+      0.39,
+      0.13
+    ],
+    "transparency": 0
+  },
+  "Cola_h5": {
+    "rgb": [
+      0.81,
+      0.76,
+      0.52
+    ],
+    "transparency": 0
+  },
+  "Casa_h5": {
+    "rgb": [
+      0.87,
+      0.89,
+      0.81
+    ],
+    "transparency": 0
+  },
+  "Reed_a6": {
+    "rgb": [
+      0.31,
+      0.66,
+      0.65
+    ],
+    "transparency": 0
+  },
+  "ReedLeads_a6": {
+    "rgb": [
+      0.72,
+      0.74,
+      0.77
+    ],
+    "transparency": 0
+  },
+  "Diode_a6": {
+    "rgb": [
+      0.86,
+      0.39,
+      0.13
+    ],
+    "transparency": 0
+  },
+  "Cola_a6": {
+    "rgb": [
+      0.81,
+      0.76,
+      0.52
+    ],
+    "transparency": 0
+  },
+  "Casa_a6": {
+    "rgb": [
+      0.87,
+      0.89,
+      0.81
+    ],
+    "transparency": 0
+  },
+  "Reed_b6": {
+    "rgb": [
+      0.31,
+      0.66,
+      0.65
+    ],
+    "transparency": 0
+  },
+  "ReedLeads_b6": {
+    "rgb": [
+      0.72,
+      0.74,
+      0.77
+    ],
+    "transparency": 0
+  },
+  "Diode_b6": {
+    "rgb": [
+      0.86,
+      0.39,
+      0.13
+    ],
+    "transparency": 0
+  },
+  "Cola_b6": {
+    "rgb": [
+      0.81,
+      0.76,
+      0.52
+    ],
+    "transparency": 0
+  },
+  "Casa_b6": {
+    "rgb": [
+      0.14,
+      0.25,
+      0.29
+    ],
+    "transparency": 0
+  },
+  "Reed_c6": {
+    "rgb": [
+      0.31,
+      0.66,
+      0.65
+    ],
+    "transparency": 0
+  },
+  "ReedLeads_c6": {
+    "rgb": [
+      0.72,
+      0.74,
+      0.77
+    ],
+    "transparency": 0
+  },
+  "Diode_c6": {
+    "rgb": [
+      0.86,
+      0.39,
+      0.13
+    ],
+    "transparency": 0
+  },
+  "Cola_c6": {
+    "rgb": [
+      0.81,
+      0.76,
+      0.52
+    ],
+    "transparency": 0
+  },
+  "Casa_c6": {
+    "rgb": [
+      0.87,
+      0.89,
+      0.81
+    ],
+    "transparency": 0
+  },
+  "Reed_d6": {
+    "rgb": [
+      0.31,
+      0.66,
+      0.65
+    ],
+    "transparency": 0
+  },
+  "ReedLeads_d6": {
+    "rgb": [
+      0.72,
+      0.74,
+      0.77
+    ],
+    "transparency": 0
+  },
+  "Diode_d6": {
+    "rgb": [
+      0.86,
+      0.39,
+      0.13
+    ],
+    "transparency": 0
+  },
+  "Cola_d6": {
+    "rgb": [
+      0.81,
+      0.76,
+      0.52
+    ],
+    "transparency": 0
+  },
+  "Casa_d6": {
+    "rgb": [
+      0.14,
+      0.25,
+      0.29
+    ],
+    "transparency": 0
+  },
+  "Reed_e6": {
+    "rgb": [
+      0.31,
+      0.66,
+      0.65
+    ],
+    "transparency": 0
+  },
+  "ReedLeads_e6": {
+    "rgb": [
+      0.72,
+      0.74,
+      0.77
+    ],
+    "transparency": 0
+  },
+  "Diode_e6": {
+    "rgb": [
+      0.86,
+      0.39,
+      0.13
+    ],
+    "transparency": 0
+  },
+  "Cola_e6": {
+    "rgb": [
+      0.81,
+      0.76,
+      0.52
+    ],
+    "transparency": 0
+  },
+  "Casa_e6": {
+    "rgb": [
+      0.87,
+      0.89,
+      0.81
+    ],
+    "transparency": 0
+  },
+  "Reed_f6": {
+    "rgb": [
+      0.31,
+      0.66,
+      0.65
+    ],
+    "transparency": 0
+  },
+  "ReedLeads_f6": {
+    "rgb": [
+      0.72,
+      0.74,
+      0.77
+    ],
+    "transparency": 0
+  },
+  "Diode_f6": {
+    "rgb": [
+      0.86,
+      0.39,
+      0.13
+    ],
+    "transparency": 0
+  },
+  "Cola_f6": {
+    "rgb": [
+      0.81,
+      0.76,
+      0.52
+    ],
+    "transparency": 0
+  },
+  "Casa_f6": {
+    "rgb": [
+      0.14,
+      0.25,
+      0.29
+    ],
+    "transparency": 0
+  },
+  "Reed_g6": {
+    "rgb": [
+      0.31,
+      0.66,
+      0.65
+    ],
+    "transparency": 0
+  },
+  "ReedLeads_g6": {
+    "rgb": [
+      0.72,
+      0.74,
+      0.77
+    ],
+    "transparency": 0
+  },
+  "Diode_g6": {
+    "rgb": [
+      0.86,
+      0.39,
+      0.13
+    ],
+    "transparency": 0
+  },
+  "Cola_g6": {
+    "rgb": [
+      0.81,
+      0.76,
+      0.52
+    ],
+    "transparency": 0
+  },
+  "Casa_g6": {
+    "rgb": [
+      0.87,
+      0.89,
+      0.81
+    ],
+    "transparency": 0
+  },
+  "Reed_h6": {
+    "rgb": [
+      0.31,
+      0.66,
+      0.65
+    ],
+    "transparency": 0
+  },
+  "ReedLeads_h6": {
+    "rgb": [
+      0.72,
+      0.74,
+      0.77
+    ],
+    "transparency": 0
+  },
+  "Diode_h6": {
+    "rgb": [
+      0.86,
+      0.39,
+      0.13
+    ],
+    "transparency": 0
+  },
+  "Cola_h6": {
+    "rgb": [
+      0.81,
+      0.76,
+      0.52
+    ],
+    "transparency": 0
+  },
+  "Casa_h6": {
+    "rgb": [
+      0.14,
+      0.25,
+      0.29
+    ],
+    "transparency": 0
+  },
+  "Reed_a7": {
+    "rgb": [
+      0.31,
+      0.66,
+      0.65
+    ],
+    "transparency": 0
+  },
+  "ReedLeads_a7": {
+    "rgb": [
+      0.72,
+      0.74,
+      0.77
+    ],
+    "transparency": 0
+  },
+  "Diode_a7": {
+    "rgb": [
+      0.86,
+      0.39,
+      0.13
+    ],
+    "transparency": 0
+  },
+  "Cola_a7": {
+    "rgb": [
+      0.81,
+      0.76,
+      0.52
+    ],
+    "transparency": 0
+  },
+  "Casa_a7": {
+    "rgb": [
+      0.14,
+      0.25,
+      0.29
+    ],
+    "transparency": 0
+  },
+  "Reed_b7": {
+    "rgb": [
+      0.31,
+      0.66,
+      0.65
+    ],
+    "transparency": 0
+  },
+  "ReedLeads_b7": {
+    "rgb": [
+      0.72,
+      0.74,
+      0.77
+    ],
+    "transparency": 0
+  },
+  "Diode_b7": {
+    "rgb": [
+      0.86,
+      0.39,
+      0.13
+    ],
+    "transparency": 0
+  },
+  "Cola_b7": {
+    "rgb": [
+      0.81,
+      0.76,
+      0.52
+    ],
+    "transparency": 0
+  },
+  "Casa_b7": {
+    "rgb": [
+      0.87,
+      0.89,
+      0.81
+    ],
+    "transparency": 0
+  },
+  "Reed_c7": {
+    "rgb": [
+      0.31,
+      0.66,
+      0.65
+    ],
+    "transparency": 0
+  },
+  "ReedLeads_c7": {
+    "rgb": [
+      0.72,
+      0.74,
+      0.77
+    ],
+    "transparency": 0
+  },
+  "Diode_c7": {
+    "rgb": [
+      0.86,
+      0.39,
+      0.13
+    ],
+    "transparency": 0
+  },
+  "Cola_c7": {
+    "rgb": [
+      0.81,
+      0.76,
+      0.52
+    ],
+    "transparency": 0
+  },
+  "Casa_c7": {
+    "rgb": [
+      0.14,
+      0.25,
+      0.29
+    ],
+    "transparency": 0
+  },
+  "Reed_d7": {
+    "rgb": [
+      0.31,
+      0.66,
+      0.65
+    ],
+    "transparency": 0
+  },
+  "ReedLeads_d7": {
+    "rgb": [
+      0.72,
+      0.74,
+      0.77
+    ],
+    "transparency": 0
+  },
+  "Diode_d7": {
+    "rgb": [
+      0.86,
+      0.39,
+      0.13
+    ],
+    "transparency": 0
+  },
+  "Cola_d7": {
+    "rgb": [
+      0.81,
+      0.76,
+      0.52
+    ],
+    "transparency": 0
+  },
+  "Casa_d7": {
+    "rgb": [
+      0.87,
+      0.89,
+      0.81
+    ],
+    "transparency": 0
+  },
+  "Reed_e7": {
+    "rgb": [
+      0.31,
+      0.66,
+      0.65
+    ],
+    "transparency": 0
+  },
+  "ReedLeads_e7": {
+    "rgb": [
+      0.72,
+      0.74,
+      0.77
+    ],
+    "transparency": 0
+  },
+  "Diode_e7": {
+    "rgb": [
+      0.86,
+      0.39,
+      0.13
+    ],
+    "transparency": 0
+  },
+  "Cola_e7": {
+    "rgb": [
+      0.81,
+      0.76,
+      0.52
+    ],
+    "transparency": 0
+  },
+  "Casa_e7": {
+    "rgb": [
+      0.14,
+      0.25,
+      0.29
+    ],
+    "transparency": 0
+  },
+  "Reed_f7": {
+    "rgb": [
+      0.31,
+      0.66,
+      0.65
+    ],
+    "transparency": 0
+  },
+  "ReedLeads_f7": {
+    "rgb": [
+      0.72,
+      0.74,
+      0.77
+    ],
+    "transparency": 0
+  },
+  "Diode_f7": {
+    "rgb": [
+      0.86,
+      0.39,
+      0.13
+    ],
+    "transparency": 0
+  },
+  "Cola_f7": {
+    "rgb": [
+      0.81,
+      0.76,
+      0.52
+    ],
+    "transparency": 0
+  },
+  "Casa_f7": {
+    "rgb": [
+      0.87,
+      0.89,
+      0.81
+    ],
+    "transparency": 0
+  },
+  "Reed_g7": {
+    "rgb": [
+      0.31,
+      0.66,
+      0.65
+    ],
+    "transparency": 0
+  },
+  "ReedLeads_g7": {
+    "rgb": [
+      0.72,
+      0.74,
+      0.77
+    ],
+    "transparency": 0
+  },
+  "Diode_g7": {
+    "rgb": [
+      0.86,
+      0.39,
+      0.13
+    ],
+    "transparency": 0
+  },
+  "Cola_g7": {
+    "rgb": [
+      0.81,
+      0.76,
+      0.52
+    ],
+    "transparency": 0
+  },
+  "Casa_g7": {
+    "rgb": [
+      0.14,
+      0.25,
+      0.29
+    ],
+    "transparency": 0
+  },
+  "Reed_h7": {
+    "rgb": [
+      0.31,
+      0.66,
+      0.65
+    ],
+    "transparency": 0
+  },
+  "ReedLeads_h7": {
+    "rgb": [
+      0.72,
+      0.74,
+      0.77
+    ],
+    "transparency": 0
+  },
+  "Diode_h7": {
+    "rgb": [
+      0.86,
+      0.39,
+      0.13
+    ],
+    "transparency": 0
+  },
+  "Cola_h7": {
+    "rgb": [
+      0.81,
+      0.76,
+      0.52
+    ],
+    "transparency": 0
+  },
+  "Casa_h7": {
+    "rgb": [
+      0.87,
+      0.89,
+      0.81
+    ],
+    "transparency": 0
+  },
+  "Reed_a8": {
+    "rgb": [
+      0.31,
+      0.66,
+      0.65
+    ],
+    "transparency": 0
+  },
+  "ReedLeads_a8": {
+    "rgb": [
+      0.72,
+      0.74,
+      0.77
+    ],
+    "transparency": 0
+  },
+  "Diode_a8": {
+    "rgb": [
+      0.86,
+      0.39,
+      0.13
+    ],
+    "transparency": 0
+  },
+  "Cola_a8": {
+    "rgb": [
+      0.81,
+      0.76,
+      0.52
+    ],
+    "transparency": 0
+  },
+  "Casa_a8": {
+    "rgb": [
+      0.87,
+      0.89,
+      0.81
+    ],
+    "transparency": 0
+  },
+  "Reed_b8": {
+    "rgb": [
+      0.31,
+      0.66,
+      0.65
+    ],
+    "transparency": 0
+  },
+  "ReedLeads_b8": {
+    "rgb": [
+      0.72,
+      0.74,
+      0.77
+    ],
+    "transparency": 0
+  },
+  "Diode_b8": {
+    "rgb": [
+      0.86,
+      0.39,
+      0.13
+    ],
+    "transparency": 0
+  },
+  "Cola_b8": {
+    "rgb": [
+      0.81,
+      0.76,
+      0.52
+    ],
+    "transparency": 0
+  },
+  "Casa_b8": {
+    "rgb": [
+      0.14,
+      0.25,
+      0.29
+    ],
+    "transparency": 0
+  },
+  "Reed_c8": {
+    "rgb": [
+      0.31,
+      0.66,
+      0.65
+    ],
+    "transparency": 0
+  },
+  "ReedLeads_c8": {
+    "rgb": [
+      0.72,
+      0.74,
+      0.77
+    ],
+    "transparency": 0
+  },
+  "Diode_c8": {
+    "rgb": [
+      0.86,
+      0.39,
+      0.13
+    ],
+    "transparency": 0
+  },
+  "Cola_c8": {
+    "rgb": [
+      0.81,
+      0.76,
+      0.52
+    ],
+    "transparency": 0
+  },
+  "Casa_c8": {
+    "rgb": [
+      0.87,
+      0.89,
+      0.81
+    ],
+    "transparency": 0
+  },
+  "Reed_d8": {
+    "rgb": [
+      0.31,
+      0.66,
+      0.65
+    ],
+    "transparency": 0
+  },
+  "ReedLeads_d8": {
+    "rgb": [
+      0.72,
+      0.74,
+      0.77
+    ],
+    "transparency": 0
+  },
+  "Diode_d8": {
+    "rgb": [
+      0.86,
+      0.39,
+      0.13
+    ],
+    "transparency": 0
+  },
+  "Cola_d8": {
+    "rgb": [
+      0.81,
+      0.76,
+      0.52
+    ],
+    "transparency": 0
+  },
+  "Casa_d8": {
+    "rgb": [
+      0.14,
+      0.25,
+      0.29
+    ],
+    "transparency": 0
+  },
+  "Reed_e8": {
+    "rgb": [
+      0.31,
+      0.66,
+      0.65
+    ],
+    "transparency": 0
+  },
+  "ReedLeads_e8": {
+    "rgb": [
+      0.72,
+      0.74,
+      0.77
+    ],
+    "transparency": 0
+  },
+  "Diode_e8": {
+    "rgb": [
+      0.86,
+      0.39,
+      0.13
+    ],
+    "transparency": 0
+  },
+  "Cola_e8": {
+    "rgb": [
+      0.81,
+      0.76,
+      0.52
+    ],
+    "transparency": 0
+  },
+  "Casa_e8": {
+    "rgb": [
+      0.87,
+      0.89,
+      0.81
+    ],
+    "transparency": 0
+  },
+  "Reed_f8": {
+    "rgb": [
+      0.31,
+      0.66,
+      0.65
+    ],
+    "transparency": 0
+  },
+  "ReedLeads_f8": {
+    "rgb": [
+      0.72,
+      0.74,
+      0.77
+    ],
+    "transparency": 0
+  },
+  "Diode_f8": {
+    "rgb": [
+      0.86,
+      0.39,
+      0.13
+    ],
+    "transparency": 0
+  },
+  "Cola_f8": {
+    "rgb": [
+      0.81,
+      0.76,
+      0.52
+    ],
+    "transparency": 0
+  },
+  "Casa_f8": {
+    "rgb": [
+      0.14,
+      0.25,
+      0.29
+    ],
+    "transparency": 0
+  },
+  "Reed_g8": {
+    "rgb": [
+      0.31,
+      0.66,
+      0.65
+    ],
+    "transparency": 0
+  },
+  "ReedLeads_g8": {
+    "rgb": [
+      0.72,
+      0.74,
+      0.77
+    ],
+    "transparency": 0
+  },
+  "Diode_g8": {
+    "rgb": [
+      0.86,
+      0.39,
+      0.13
+    ],
+    "transparency": 0
+  },
+  "Cola_g8": {
+    "rgb": [
+      0.81,
+      0.76,
+      0.52
+    ],
+    "transparency": 0
+  },
+  "Casa_g8": {
+    "rgb": [
+      0.87,
+      0.89,
+      0.81
+    ],
+    "transparency": 0
+  },
+  "Reed_h8": {
+    "rgb": [
+      0.31,
+      0.66,
+      0.65
+    ],
+    "transparency": 0
+  },
+  "ReedLeads_h8": {
+    "rgb": [
+      0.72,
+      0.74,
+      0.77
+    ],
+    "transparency": 0
+  },
+  "Diode_h8": {
+    "rgb": [
+      0.86,
+      0.39,
+      0.13
+    ],
+    "transparency": 0
+  },
+  "Cola_h8": {
+    "rgb": [
+      0.81,
+      0.76,
+      0.52
+    ],
+    "transparency": 0
+  },
+  "Casa_h8": {
+    "rgb": [
+      0.14,
+      0.25,
+      0.29
+    ],
+    "transparency": 0
+  }
+}

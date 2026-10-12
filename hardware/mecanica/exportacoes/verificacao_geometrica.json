@@ -1,0 +1,2342 @@
+{
+  "tool": "FreeCAD 1.1.4",
+  "units": "mm",
+  "scope": "Verificacao geometrica por software; nao valida resistencia, campo magnetico ou fabricacao.",
+  "parameters": {
+    "Outer": 350.0,
+    "Pitch": 37.5,
+    "Glass": 3.0,
+    "Height": 60.0,
+    "Base": 6.0,
+    "Wall": 9.0,
+    "Carrier": 6.0,
+    "GlassNominal": 350.0,
+    "Gasket": 1.0,
+    "GasketWidth": 10.0,
+    "SensorGap": 3.0,
+    "ReedDiameter": 2.0,
+    "ReedLength": 14.0,
+    "ReedHole": 2.8,
+    "LeadBelow": 5.0,
+    "LeadAbove": 1.5,
+    "ChannelWidth": 3.0,
+    "ChannelDepth": 2.0,
+    "MagnetDiameter": 12.0,
+    "MagnetHeight": 3.0,
+    "Support": 12.0,
+    "ButtonDiameter": 12.0,
+    "LedDiameter": 5.0,
+    "BaseScrew": 3.4,
+    "Pilot": 2.5,
+    "FootDiameter": 14.0,
+    "FootHeight": 3.0,
+    "Game": 300.0,
+    "Margin": 25.0,
+    "GlassSize": 350.0,
+    "GlassZ": 57.0,
+    "CarrierTop": 56.0,
+    "CarrierZ": 50.0,
+    "SensorTop": 54.0,
+    "SensorZ": 47.0,
+    "WallHeight": 44.0
+  },
+  "final_objects": 283,
+  "objects_valid": true,
+  "document_errors": [],
+  "exact_intersection_pairs": 325,
+  "collisions": [],
+  "parameter_change_test": {
+    "Outer_plus_10_mm": true,
+    "baseline": [
+      350.0,
+      306.25
+    ],
+    "changed": [
+      360.0,
+      311.25
+    ],
+    "restored": true
+  },
+  "geometry": [
+    {
+      "name": "Fundo",
+      "label": "M01 | Fundo MDF 6 mm - removivel",
+      "role": "fisico",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 734699.781028
+    },
+    {
+      "name": "Frente",
+      "label": "M02 | Frente - 3 botoes e 2 LEDs",
+      "role": "fisico",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 135192.942767
+    },
+    {
+      "name": "Traseira",
+      "label": "M03 | Traseira MDF 9 mm",
+      "role": "fisico",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 138600.0
+    },
+    {
+      "name": "Esquerda",
+      "label": "M04 | Lateral esquerda MDF 9 mm",
+      "role": "fisico",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 131472.0
+    },
+    {
+      "name": "Direita",
+      "label": "M05 | Lateral direita - acesso 70 x 20 USB / microSD",
+      "role": "fisico",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 118872.0
+    },
+    {
+      "name": "Vidro",
+      "label": "V01 | Vidro 3 mm removivel - bordas lapidadas",
+      "role": "fisico",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 367500.0
+    },
+    {
+      "name": "Junta",
+      "label": "J01 | Junta periferica 10 mm - apoio vidro",
+      "role": "fisico",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 13440.0
+    },
+    {
+      "name": "SuporteSensores",
+      "label": "M06 | MDF 6 mm - 64 furos, 16 canais e pegas",
+      "role": "fisico",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 698688.499906
+    },
+    {
+      "name": "TravessaCentral",
+      "label": "M07 | Travessa central de apoio - entre colunas d/e",
+      "role": "fisico",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 35856.0
+    },
+    {
+      "name": "Apoio0",
+      "label": "A01 | Apoio 12 x 12 - furos piloto",
+      "role": "fisico",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 6237.82523
+    },
+    {
+      "name": "Pe0",
+      "label": "P01 | Pe elastomerico",
+      "role": "fisico",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 461.81412
+    },
+    {
+      "name": "Apoio1",
+      "label": "A02 | Apoio 12 x 12 - furos piloto",
+      "role": "fisico",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 6237.82523
+    },
+    {
+      "name": "Pe1",
+      "label": "P02 | Pe elastomerico",
+      "role": "fisico",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 461.81412
+    },
+    {
+      "name": "Apoio2",
+      "label": "A03 | Apoio 12 x 12 - furos piloto",
+      "role": "fisico",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 6237.82523
+    },
+    {
+      "name": "Pe2",
+      "label": "P03 | Pe elastomerico",
+      "role": "fisico",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 461.81412
+    },
+    {
+      "name": "Apoio3",
+      "label": "A04 | Apoio 12 x 12 - furos piloto",
+      "role": "fisico",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 6237.82523
+    },
+    {
+      "name": "Pe3",
+      "label": "P04 | Pe elastomerico",
+      "role": "fisico",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 461.81412
+    },
+    {
+      "name": "Botao0",
+      "label": "REF | Botao CONFIRMAR",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 951.148592
+    },
+    {
+      "name": "Botao1",
+      "label": "REF | Botao PROMOCAO",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 951.148592
+    },
+    {
+      "name": "Botao2",
+      "label": "REF | Botao ENCERRAR",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 951.148592
+    },
+    {
+      "name": "Led0",
+      "label": "REF | LED 1",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 162.860163
+    },
+    {
+      "name": "Led1",
+      "label": "REF | LED 2",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 162.860163
+    },
+    {
+      "name": "VolumeESP32",
+      "label": "REF | ESP32 / USB - envelope generico",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 26100.0
+    },
+    {
+      "name": "VolumeSD",
+      "label": "REF | adaptador SD passivo / microSD - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 1612.8
+    },
+    {
+      "name": "VolumeControle",
+      "label": "REF | placa MCP23017 / interfaces - reserva",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 99450.0
+    },
+    {
+      "name": "VolumeBuzzer",
+      "label": "REF | buzzer - reserva",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 3072.0
+    },
+    {
+      "name": "ImaReferencia",
+      "label": "REF | Ima ferrite 12 x 3 - exemplo a1, folga feltro0.2 provisoria",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 339.292007
+    },
+    {
+      "name": "Reed_a1",
+      "label": "S_a1 | Reed - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 43.982297
+    },
+    {
+      "name": "ReedLeads_a1",
+      "label": "S_a1 | Terminais retos - ilustrativos",
+      "role": "envelope",
+      "valid": true,
+      "solids": 2,
+      "volume_mm3": 1.276272
+    },
+    {
+      "name": "Diode_a1",
+      "label": "D_a1 | 1N4148 - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 10.17876
+    },
+    {
+      "name": "Cola_a1",
+      "label": "REF | Cola quente sob MDF a1",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 50.265482
+    },
+    {
+      "name": "Reed_b1",
+      "label": "S_b1 | Reed - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 43.982297
+    },
+    {
+      "name": "ReedLeads_b1",
+      "label": "S_b1 | Terminais retos - ilustrativos",
+      "role": "envelope",
+      "valid": true,
+      "solids": 2,
+      "volume_mm3": 1.276272
+    },
+    {
+      "name": "Diode_b1",
+      "label": "D_b1 | 1N4148 - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 10.17876
+    },
+    {
+      "name": "Cola_b1",
+      "label": "REF | Cola quente sob MDF b1",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 50.265482
+    },
+    {
+      "name": "Reed_c1",
+      "label": "S_c1 | Reed - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 43.982297
+    },
+    {
+      "name": "ReedLeads_c1",
+      "label": "S_c1 | Terminais retos - ilustrativos",
+      "role": "envelope",
+      "valid": true,
+      "solids": 2,
+      "volume_mm3": 1.276272
+    },
+    {
+      "name": "Diode_c1",
+      "label": "D_c1 | 1N4148 - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 10.17876
+    },
+    {
+      "name": "Cola_c1",
+      "label": "REF | Cola quente sob MDF c1",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 50.265482
+    },
+    {
+      "name": "Reed_d1",
+      "label": "S_d1 | Reed - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 43.982297
+    },
+    {
+      "name": "ReedLeads_d1",
+      "label": "S_d1 | Terminais retos - ilustrativos",
+      "role": "envelope",
+      "valid": true,
+      "solids": 2,
+      "volume_mm3": 1.276272
+    },
+    {
+      "name": "Diode_d1",
+      "label": "D_d1 | 1N4148 - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 10.17876
+    },
+    {
+      "name": "Cola_d1",
+      "label": "REF | Cola quente sob MDF d1",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 50.265482
+    },
+    {
+      "name": "Reed_e1",
+      "label": "S_e1 | Reed - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 43.982297
+    },
+    {
+      "name": "ReedLeads_e1",
+      "label": "S_e1 | Terminais retos - ilustrativos",
+      "role": "envelope",
+      "valid": true,
+      "solids": 2,
+      "volume_mm3": 1.276272
+    },
+    {
+      "name": "Diode_e1",
+      "label": "D_e1 | 1N4148 - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 10.17876
+    },
+    {
+      "name": "Cola_e1",
+      "label": "REF | Cola quente sob MDF e1",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 50.265482
+    },
+    {
+      "name": "Reed_f1",
+      "label": "S_f1 | Reed - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 43.982297
+    },
+    {
+      "name": "ReedLeads_f1",
+      "label": "S_f1 | Terminais retos - ilustrativos",
+      "role": "envelope",
+      "valid": true,
+      "solids": 2,
+      "volume_mm3": 1.276272
+    },
+    {
+      "name": "Diode_f1",
+      "label": "D_f1 | 1N4148 - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 10.17876
+    },
+    {
+      "name": "Cola_f1",
+      "label": "REF | Cola quente sob MDF f1",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 50.265482
+    },
+    {
+      "name": "Reed_g1",
+      "label": "S_g1 | Reed - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 43.982297
+    },
+    {
+      "name": "ReedLeads_g1",
+      "label": "S_g1 | Terminais retos - ilustrativos",
+      "role": "envelope",
+      "valid": true,
+      "solids": 2,
+      "volume_mm3": 1.276272
+    },
+    {
+      "name": "Diode_g1",
+      "label": "D_g1 | 1N4148 - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 10.17876
+    },
+    {
+      "name": "Cola_g1",
+      "label": "REF | Cola quente sob MDF g1",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 50.265482
+    },
+    {
+      "name": "Reed_h1",
+      "label": "S_h1 | Reed - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 43.982297
+    },
+    {
+      "name": "ReedLeads_h1",
+      "label": "S_h1 | Terminais retos - ilustrativos",
+      "role": "envelope",
+      "valid": true,
+      "solids": 2,
+      "volume_mm3": 1.276272
+    },
+    {
+      "name": "Diode_h1",
+      "label": "D_h1 | 1N4148 - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 10.17876
+    },
+    {
+      "name": "Cola_h1",
+      "label": "REF | Cola quente sob MDF h1",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 50.265482
+    },
+    {
+      "name": "Reed_a2",
+      "label": "S_a2 | Reed - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 43.982297
+    },
+    {
+      "name": "ReedLeads_a2",
+      "label": "S_a2 | Terminais retos - ilustrativos",
+      "role": "envelope",
+      "valid": true,
+      "solids": 2,
+      "volume_mm3": 1.276272
+    },
+    {
+      "name": "Diode_a2",
+      "label": "D_a2 | 1N4148 - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 10.17876
+    },
+    {
+      "name": "Cola_a2",
+      "label": "REF | Cola quente sob MDF a2",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 50.265482
+    },
+    {
+      "name": "Reed_b2",
+      "label": "S_b2 | Reed - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 43.982297
+    },
+    {
+      "name": "ReedLeads_b2",
+      "label": "S_b2 | Terminais retos - ilustrativos",
+      "role": "envelope",
+      "valid": true,
+      "solids": 2,
+      "volume_mm3": 1.276272
+    },
+    {
+      "name": "Diode_b2",
+      "label": "D_b2 | 1N4148 - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 10.17876
+    },
+    {
+      "name": "Cola_b2",
+      "label": "REF | Cola quente sob MDF b2",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 50.265482
+    },
+    {
+      "name": "Reed_c2",
+      "label": "S_c2 | Reed - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 43.982297
+    },
+    {
+      "name": "ReedLeads_c2",
+      "label": "S_c2 | Terminais retos - ilustrativos",
+      "role": "envelope",
+      "valid": true,
+      "solids": 2,
+      "volume_mm3": 1.276272
+    },
+    {
+      "name": "Diode_c2",
+      "label": "D_c2 | 1N4148 - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 10.17876
+    },
+    {
+      "name": "Cola_c2",
+      "label": "REF | Cola quente sob MDF c2",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 50.265482
+    },
+    {
+      "name": "Reed_d2",
+      "label": "S_d2 | Reed - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 43.982297
+    },
+    {
+      "name": "ReedLeads_d2",
+      "label": "S_d2 | Terminais retos - ilustrativos",
+      "role": "envelope",
+      "valid": true,
+      "solids": 2,
+      "volume_mm3": 1.276272
+    },
+    {
+      "name": "Diode_d2",
+      "label": "D_d2 | 1N4148 - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 10.17876
+    },
+    {
+      "name": "Cola_d2",
+      "label": "REF | Cola quente sob MDF d2",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 50.265482
+    },
+    {
+      "name": "Reed_e2",
+      "label": "S_e2 | Reed - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 43.982297
+    },
+    {
+      "name": "ReedLeads_e2",
+      "label": "S_e2 | Terminais retos - ilustrativos",
+      "role": "envelope",
+      "valid": true,
+      "solids": 2,
+      "volume_mm3": 1.276272
+    },
+    {
+      "name": "Diode_e2",
+      "label": "D_e2 | 1N4148 - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 10.17876
+    },
+    {
+      "name": "Cola_e2",
+      "label": "REF | Cola quente sob MDF e2",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 50.265482
+    },
+    {
+      "name": "Reed_f2",
+      "label": "S_f2 | Reed - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 43.982297
+    },
+    {
+      "name": "ReedLeads_f2",
+      "label": "S_f2 | Terminais retos - ilustrativos",
+      "role": "envelope",
+      "valid": true,
+      "solids": 2,
+      "volume_mm3": 1.276272
+    },
+    {
+      "name": "Diode_f2",
+      "label": "D_f2 | 1N4148 - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 10.17876
+    },
+    {
+      "name": "Cola_f2",
+      "label": "REF | Cola quente sob MDF f2",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 50.265482
+    },
+    {
+      "name": "Reed_g2",
+      "label": "S_g2 | Reed - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 43.982297
+    },
+    {
+      "name": "ReedLeads_g2",
+      "label": "S_g2 | Terminais retos - ilustrativos",
+      "role": "envelope",
+      "valid": true,
+      "solids": 2,
+      "volume_mm3": 1.276272
+    },
+    {
+      "name": "Diode_g2",
+      "label": "D_g2 | 1N4148 - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 10.17876
+    },
+    {
+      "name": "Cola_g2",
+      "label": "REF | Cola quente sob MDF g2",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 50.265482
+    },
+    {
+      "name": "Reed_h2",
+      "label": "S_h2 | Reed - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 43.982297
+    },
+    {
+      "name": "ReedLeads_h2",
+      "label": "S_h2 | Terminais retos - ilustrativos",
+      "role": "envelope",
+      "valid": true,
+      "solids": 2,
+      "volume_mm3": 1.276272
+    },
+    {
+      "name": "Diode_h2",
+      "label": "D_h2 | 1N4148 - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 10.17876
+    },
+    {
+      "name": "Cola_h2",
+      "label": "REF | Cola quente sob MDF h2",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 50.265482
+    },
+    {
+      "name": "Reed_a3",
+      "label": "S_a3 | Reed - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 43.982297
+    },
+    {
+      "name": "ReedLeads_a3",
+      "label": "S_a3 | Terminais retos - ilustrativos",
+      "role": "envelope",
+      "valid": true,
+      "solids": 2,
+      "volume_mm3": 1.276272
+    },
+    {
+      "name": "Diode_a3",
+      "label": "D_a3 | 1N4148 - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 10.17876
+    },
+    {
+      "name": "Cola_a3",
+      "label": "REF | Cola quente sob MDF a3",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 50.265482
+    },
+    {
+      "name": "Reed_b3",
+      "label": "S_b3 | Reed - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 43.982297
+    },
+    {
+      "name": "ReedLeads_b3",
+      "label": "S_b3 | Terminais retos - ilustrativos",
+      "role": "envelope",
+      "valid": true,
+      "solids": 2,
+      "volume_mm3": 1.276272
+    },
+    {
+      "name": "Diode_b3",
+      "label": "D_b3 | 1N4148 - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 10.17876
+    },
+    {
+      "name": "Cola_b3",
+      "label": "REF | Cola quente sob MDF b3",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 50.265482
+    },
+    {
+      "name": "Reed_c3",
+      "label": "S_c3 | Reed - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 43.982297
+    },
+    {
+      "name": "ReedLeads_c3",
+      "label": "S_c3 | Terminais retos - ilustrativos",
+      "role": "envelope",
+      "valid": true,
+      "solids": 2,
+      "volume_mm3": 1.276272
+    },
+    {
+      "name": "Diode_c3",
+      "label": "D_c3 | 1N4148 - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 10.17876
+    },
+    {
+      "name": "Cola_c3",
+      "label": "REF | Cola quente sob MDF c3",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 50.265482
+    },
+    {
+      "name": "Reed_d3",
+      "label": "S_d3 | Reed - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 43.982297
+    },
+    {
+      "name": "ReedLeads_d3",
+      "label": "S_d3 | Terminais retos - ilustrativos",
+      "role": "envelope",
+      "valid": true,
+      "solids": 2,
+      "volume_mm3": 1.276272
+    },
+    {
+      "name": "Diode_d3",
+      "label": "D_d3 | 1N4148 - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 10.17876
+    },
+    {
+      "name": "Cola_d3",
+      "label": "REF | Cola quente sob MDF d3",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 50.265482
+    },
+    {
+      "name": "Reed_e3",
+      "label": "S_e3 | Reed - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 43.982297
+    },
+    {
+      "name": "ReedLeads_e3",
+      "label": "S_e3 | Terminais retos - ilustrativos",
+      "role": "envelope",
+      "valid": true,
+      "solids": 2,
+      "volume_mm3": 1.276272
+    },
+    {
+      "name": "Diode_e3",
+      "label": "D_e3 | 1N4148 - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 10.17876
+    },
+    {
+      "name": "Cola_e3",
+      "label": "REF | Cola quente sob MDF e3",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 50.265482
+    },
+    {
+      "name": "Reed_f3",
+      "label": "S_f3 | Reed - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 43.982297
+    },
+    {
+      "name": "ReedLeads_f3",
+      "label": "S_f3 | Terminais retos - ilustrativos",
+      "role": "envelope",
+      "valid": true,
+      "solids": 2,
+      "volume_mm3": 1.276272
+    },
+    {
+      "name": "Diode_f3",
+      "label": "D_f3 | 1N4148 - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 10.17876
+    },
+    {
+      "name": "Cola_f3",
+      "label": "REF | Cola quente sob MDF f3",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 50.265482
+    },
+    {
+      "name": "Reed_g3",
+      "label": "S_g3 | Reed - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 43.982297
+    },
+    {
+      "name": "ReedLeads_g3",
+      "label": "S_g3 | Terminais retos - ilustrativos",
+      "role": "envelope",
+      "valid": true,
+      "solids": 2,
+      "volume_mm3": 1.276272
+    },
+    {
+      "name": "Diode_g3",
+      "label": "D_g3 | 1N4148 - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 10.17876
+    },
+    {
+      "name": "Cola_g3",
+      "label": "REF | Cola quente sob MDF g3",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 50.265482
+    },
+    {
+      "name": "Reed_h3",
+      "label": "S_h3 | Reed - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 43.982297
+    },
+    {
+      "name": "ReedLeads_h3",
+      "label": "S_h3 | Terminais retos - ilustrativos",
+      "role": "envelope",
+      "valid": true,
+      "solids": 2,
+      "volume_mm3": 1.276272
+    },
+    {
+      "name": "Diode_h3",
+      "label": "D_h3 | 1N4148 - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 10.17876
+    },
+    {
+      "name": "Cola_h3",
+      "label": "REF | Cola quente sob MDF h3",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 50.265482
+    },
+    {
+      "name": "Reed_a4",
+      "label": "S_a4 | Reed - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 43.982297
+    },
+    {
+      "name": "ReedLeads_a4",
+      "label": "S_a4 | Terminais retos - ilustrativos",
+      "role": "envelope",
+      "valid": true,
+      "solids": 2,
+      "volume_mm3": 1.276272
+    },
+    {
+      "name": "Diode_a4",
+      "label": "D_a4 | 1N4148 - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 10.17876
+    },
+    {
+      "name": "Cola_a4",
+      "label": "REF | Cola quente sob MDF a4",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 50.265482
+    },
+    {
+      "name": "Reed_b4",
+      "label": "S_b4 | Reed - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 43.982297
+    },
+    {
+      "name": "ReedLeads_b4",
+      "label": "S_b4 | Terminais retos - ilustrativos",
+      "role": "envelope",
+      "valid": true,
+      "solids": 2,
+      "volume_mm3": 1.276272
+    },
+    {
+      "name": "Diode_b4",
+      "label": "D_b4 | 1N4148 - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 10.17876
+    },
+    {
+      "name": "Cola_b4",
+      "label": "REF | Cola quente sob MDF b4",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 50.265482
+    },
+    {
+      "name": "Reed_c4",
+      "label": "S_c4 | Reed - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 43.982297
+    },
+    {
+      "name": "ReedLeads_c4",
+      "label": "S_c4 | Terminais retos - ilustrativos",
+      "role": "envelope",
+      "valid": true,
+      "solids": 2,
+      "volume_mm3": 1.276272
+    },
+    {
+      "name": "Diode_c4",
+      "label": "D_c4 | 1N4148 - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 10.17876
+    },
+    {
+      "name": "Cola_c4",
+      "label": "REF | Cola quente sob MDF c4",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 50.265482
+    },
+    {
+      "name": "Reed_d4",
+      "label": "S_d4 | Reed - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 43.982297
+    },
+    {
+      "name": "ReedLeads_d4",
+      "label": "S_d4 | Terminais retos - ilustrativos",
+      "role": "envelope",
+      "valid": true,
+      "solids": 2,
+      "volume_mm3": 1.276272
+    },
+    {
+      "name": "Diode_d4",
+      "label": "D_d4 | 1N4148 - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 10.17876
+    },
+    {
+      "name": "Cola_d4",
+      "label": "REF | Cola quente sob MDF d4",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 50.265482
+    },
+    {
+      "name": "Reed_e4",
+      "label": "S_e4 | Reed - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 43.982297
+    },
+    {
+      "name": "ReedLeads_e4",
+      "label": "S_e4 | Terminais retos - ilustrativos",
+      "role": "envelope",
+      "valid": true,
+      "solids": 2,
+      "volume_mm3": 1.276272
+    },
+    {
+      "name": "Diode_e4",
+      "label": "D_e4 | 1N4148 - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 10.17876
+    },
+    {
+      "name": "Cola_e4",
+      "label": "REF | Cola quente sob MDF e4",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 50.265482
+    },
+    {
+      "name": "Reed_f4",
+      "label": "S_f4 | Reed - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 43.982297
+    },
+    {
+      "name": "ReedLeads_f4",
+      "label": "S_f4 | Terminais retos - ilustrativos",
+      "role": "envelope",
+      "valid": true,
+      "solids": 2,
+      "volume_mm3": 1.276272
+    },
+    {
+      "name": "Diode_f4",
+      "label": "D_f4 | 1N4148 - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 10.17876
+    },
+    {
+      "name": "Cola_f4",
+      "label": "REF | Cola quente sob MDF f4",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 50.265482
+    },
+    {
+      "name": "Reed_g4",
+      "label": "S_g4 | Reed - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 43.982297
+    },
+    {
+      "name": "ReedLeads_g4",
+      "label": "S_g4 | Terminais retos - ilustrativos",
+      "role": "envelope",
+      "valid": true,
+      "solids": 2,
+      "volume_mm3": 1.276272
+    },
+    {
+      "name": "Diode_g4",
+      "label": "D_g4 | 1N4148 - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 10.17876
+    },
+    {
+      "name": "Cola_g4",
+      "label": "REF | Cola quente sob MDF g4",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 50.265482
+    },
+    {
+      "name": "Reed_h4",
+      "label": "S_h4 | Reed - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 43.982297
+    },
+    {
+      "name": "ReedLeads_h4",
+      "label": "S_h4 | Terminais retos - ilustrativos",
+      "role": "envelope",
+      "valid": true,
+      "solids": 2,
+      "volume_mm3": 1.276272
+    },
+    {
+      "name": "Diode_h4",
+      "label": "D_h4 | 1N4148 - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 10.17876
+    },
+    {
+      "name": "Cola_h4",
+      "label": "REF | Cola quente sob MDF h4",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 50.265482
+    },
+    {
+      "name": "Reed_a5",
+      "label": "S_a5 | Reed - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 43.982297
+    },
+    {
+      "name": "ReedLeads_a5",
+      "label": "S_a5 | Terminais retos - ilustrativos",
+      "role": "envelope",
+      "valid": true,
+      "solids": 2,
+      "volume_mm3": 1.276272
+    },
+    {
+      "name": "Diode_a5",
+      "label": "D_a5 | 1N4148 - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 10.17876
+    },
+    {
+      "name": "Cola_a5",
+      "label": "REF | Cola quente sob MDF a5",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 50.265482
+    },
+    {
+      "name": "Reed_b5",
+      "label": "S_b5 | Reed - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 43.982297
+    },
+    {
+      "name": "ReedLeads_b5",
+      "label": "S_b5 | Terminais retos - ilustrativos",
+      "role": "envelope",
+      "valid": true,
+      "solids": 2,
+      "volume_mm3": 1.276272
+    },
+    {
+      "name": "Diode_b5",
+      "label": "D_b5 | 1N4148 - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 10.17876
+    },
+    {
+      "name": "Cola_b5",
+      "label": "REF | Cola quente sob MDF b5",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 50.265482
+    },
+    {
+      "name": "Reed_c5",
+      "label": "S_c5 | Reed - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 43.982297
+    },
+    {
+      "name": "ReedLeads_c5",
+      "label": "S_c5 | Terminais retos - ilustrativos",
+      "role": "envelope",
+      "valid": true,
+      "solids": 2,
+      "volume_mm3": 1.276272
+    },
+    {
+      "name": "Diode_c5",
+      "label": "D_c5 | 1N4148 - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 10.17876
+    },
+    {
+      "name": "Cola_c5",
+      "label": "REF | Cola quente sob MDF c5",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 50.265482
+    },
+    {
+      "name": "Reed_d5",
+      "label": "S_d5 | Reed - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 43.982297
+    },
+    {
+      "name": "ReedLeads_d5",
+      "label": "S_d5 | Terminais retos - ilustrativos",
+      "role": "envelope",
+      "valid": true,
+      "solids": 2,
+      "volume_mm3": 1.276272
+    },
+    {
+      "name": "Diode_d5",
+      "label": "D_d5 | 1N4148 - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 10.17876
+    },
+    {
+      "name": "Cola_d5",
+      "label": "REF | Cola quente sob MDF d5",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 50.265482
+    },
+    {
+      "name": "Reed_e5",
+      "label": "S_e5 | Reed - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 43.982297
+    },
+    {
+      "name": "ReedLeads_e5",
+      "label": "S_e5 | Terminais retos - ilustrativos",
+      "role": "envelope",
+      "valid": true,
+      "solids": 2,
+      "volume_mm3": 1.276272
+    },
+    {
+      "name": "Diode_e5",
+      "label": "D_e5 | 1N4148 - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 10.17876
+    },
+    {
+      "name": "Cola_e5",
+      "label": "REF | Cola quente sob MDF e5",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 50.265482
+    },
+    {
+      "name": "Reed_f5",
+      "label": "S_f5 | Reed - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 43.982297
+    },
+    {
+      "name": "ReedLeads_f5",
+      "label": "S_f5 | Terminais retos - ilustrativos",
+      "role": "envelope",
+      "valid": true,
+      "solids": 2,
+      "volume_mm3": 1.276272
+    },
+    {
+      "name": "Diode_f5",
+      "label": "D_f5 | 1N4148 - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 10.17876
+    },
+    {
+      "name": "Cola_f5",
+      "label": "REF | Cola quente sob MDF f5",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 50.265482
+    },
+    {
+      "name": "Reed_g5",
+      "label": "S_g5 | Reed - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 43.982297
+    },
+    {
+      "name": "ReedLeads_g5",
+      "label": "S_g5 | Terminais retos - ilustrativos",
+      "role": "envelope",
+      "valid": true,
+      "solids": 2,
+      "volume_mm3": 1.276272
+    },
+    {
+      "name": "Diode_g5",
+      "label": "D_g5 | 1N4148 - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 10.17876
+    },
+    {
+      "name": "Cola_g5",
+      "label": "REF | Cola quente sob MDF g5",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 50.265482
+    },
+    {
+      "name": "Reed_h5",
+      "label": "S_h5 | Reed - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 43.982297
+    },
+    {
+      "name": "ReedLeads_h5",
+      "label": "S_h5 | Terminais retos - ilustrativos",
+      "role": "envelope",
+      "valid": true,
+      "solids": 2,
+      "volume_mm3": 1.276272
+    },
+    {
+      "name": "Diode_h5",
+      "label": "D_h5 | 1N4148 - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 10.17876
+    },
+    {
+      "name": "Cola_h5",
+      "label": "REF | Cola quente sob MDF h5",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 50.265482
+    },
+    {
+      "name": "Reed_a6",
+      "label": "S_a6 | Reed - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 43.982297
+    },
+    {
+      "name": "ReedLeads_a6",
+      "label": "S_a6 | Terminais retos - ilustrativos",
+      "role": "envelope",
+      "valid": true,
+      "solids": 2,
+      "volume_mm3": 1.276272
+    },
+    {
+      "name": "Diode_a6",
+      "label": "D_a6 | 1N4148 - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 10.17876
+    },
+    {
+      "name": "Cola_a6",
+      "label": "REF | Cola quente sob MDF a6",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 50.265482
+    },
+    {
+      "name": "Reed_b6",
+      "label": "S_b6 | Reed - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 43.982297
+    },
+    {
+      "name": "ReedLeads_b6",
+      "label": "S_b6 | Terminais retos - ilustrativos",
+      "role": "envelope",
+      "valid": true,
+      "solids": 2,
+      "volume_mm3": 1.276272
+    },
+    {
+      "name": "Diode_b6",
+      "label": "D_b6 | 1N4148 - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 10.17876
+    },
+    {
+      "name": "Cola_b6",
+      "label": "REF | Cola quente sob MDF b6",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 50.265482
+    },
+    {
+      "name": "Reed_c6",
+      "label": "S_c6 | Reed - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 43.982297
+    },
+    {
+      "name": "ReedLeads_c6",
+      "label": "S_c6 | Terminais retos - ilustrativos",
+      "role": "envelope",
+      "valid": true,
+      "solids": 2,
+      "volume_mm3": 1.276272
+    },
+    {
+      "name": "Diode_c6",
+      "label": "D_c6 | 1N4148 - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 10.17876
+    },
+    {
+      "name": "Cola_c6",
+      "label": "REF | Cola quente sob MDF c6",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 50.265482
+    },
+    {
+      "name": "Reed_d6",
+      "label": "S_d6 | Reed - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 43.982297
+    },
+    {
+      "name": "ReedLeads_d6",
+      "label": "S_d6 | Terminais retos - ilustrativos",
+      "role": "envelope",
+      "valid": true,
+      "solids": 2,
+      "volume_mm3": 1.276272
+    },
+    {
+      "name": "Diode_d6",
+      "label": "D_d6 | 1N4148 - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 10.17876
+    },
+    {
+      "name": "Cola_d6",
+      "label": "REF | Cola quente sob MDF d6",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 50.265482
+    },
+    {
+      "name": "Reed_e6",
+      "label": "S_e6 | Reed - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 43.982297
+    },
+    {
+      "name": "ReedLeads_e6",
+      "label": "S_e6 | Terminais retos - ilustrativos",
+      "role": "envelope",
+      "valid": true,
+      "solids": 2,
+      "volume_mm3": 1.276272
+    },
+    {
+      "name": "Diode_e6",
+      "label": "D_e6 | 1N4148 - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 10.17876
+    },
+    {
+      "name": "Cola_e6",
+      "label": "REF | Cola quente sob MDF e6",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 50.265482
+    },
+    {
+      "name": "Reed_f6",
+      "label": "S_f6 | Reed - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 43.982297
+    },
+    {
+      "name": "ReedLeads_f6",
+      "label": "S_f6 | Terminais retos - ilustrativos",
+      "role": "envelope",
+      "valid": true,
+      "solids": 2,
+      "volume_mm3": 1.276272
+    },
+    {
+      "name": "Diode_f6",
+      "label": "D_f6 | 1N4148 - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 10.17876
+    },
+    {
+      "name": "Cola_f6",
+      "label": "REF | Cola quente sob MDF f6",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 50.265482
+    },
+    {
+      "name": "Reed_g6",
+      "label": "S_g6 | Reed - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 43.982297
+    },
+    {
+      "name": "ReedLeads_g6",
+      "label": "S_g6 | Terminais retos - ilustrativos",
+      "role": "envelope",
+      "valid": true,
+      "solids": 2,
+      "volume_mm3": 1.276272
+    },
+    {
+      "name": "Diode_g6",
+      "label": "D_g6 | 1N4148 - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 10.17876
+    },
+    {
+      "name": "Cola_g6",
+      "label": "REF | Cola quente sob MDF g6",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 50.265482
+    },
+    {
+      "name": "Reed_h6",
+      "label": "S_h6 | Reed - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 43.982297
+    },
+    {
+      "name": "ReedLeads_h6",
+      "label": "S_h6 | Terminais retos - ilustrativos",
+      "role": "envelope",
+      "valid": true,
+      "solids": 2,
+      "volume_mm3": 1.276272
+    },
+    {
+      "name": "Diode_h6",
+      "label": "D_h6 | 1N4148 - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 10.17876
+    },
+    {
+      "name": "Cola_h6",
+      "label": "REF | Cola quente sob MDF h6",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 50.265482
+    },
+    {
+      "name": "Reed_a7",
+      "label": "S_a7 | Reed - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 43.982297
+    },
+    {
+      "name": "ReedLeads_a7",
+      "label": "S_a7 | Terminais retos - ilustrativos",
+      "role": "envelope",
+      "valid": true,
+      "solids": 2,
+      "volume_mm3": 1.276272
+    },
+    {
+      "name": "Diode_a7",
+      "label": "D_a7 | 1N4148 - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 10.17876
+    },
+    {
+      "name": "Cola_a7",
+      "label": "REF | Cola quente sob MDF a7",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 50.265482
+    },
+    {
+      "name": "Reed_b7",
+      "label": "S_b7 | Reed - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 43.982297
+    },
+    {
+      "name": "ReedLeads_b7",
+      "label": "S_b7 | Terminais retos - ilustrativos",
+      "role": "envelope",
+      "valid": true,
+      "solids": 2,
+      "volume_mm3": 1.276272
+    },
+    {
+      "name": "Diode_b7",
+      "label": "D_b7 | 1N4148 - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 10.17876
+    },
+    {
+      "name": "Cola_b7",
+      "label": "REF | Cola quente sob MDF b7",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 50.265482
+    },
+    {
+      "name": "Reed_c7",
+      "label": "S_c7 | Reed - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 43.982297
+    },
+    {
+      "name": "ReedLeads_c7",
+      "label": "S_c7 | Terminais retos - ilustrativos",
+      "role": "envelope",
+      "valid": true,
+      "solids": 2,
+      "volume_mm3": 1.276272
+    },
+    {
+      "name": "Diode_c7",
+      "label": "D_c7 | 1N4148 - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 10.17876
+    },
+    {
+      "name": "Cola_c7",
+      "label": "REF | Cola quente sob MDF c7",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 50.265482
+    },
+    {
+      "name": "Reed_d7",
+      "label": "S_d7 | Reed - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 43.982297
+    },
+    {
+      "name": "ReedLeads_d7",
+      "label": "S_d7 | Terminais retos - ilustrativos",
+      "role": "envelope",
+      "valid": true,
+      "solids": 2,
+      "volume_mm3": 1.276272
+    },
+    {
+      "name": "Diode_d7",
+      "label": "D_d7 | 1N4148 - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 10.17876
+    },
+    {
+      "name": "Cola_d7",
+      "label": "REF | Cola quente sob MDF d7",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 50.265482
+    },
+    {
+      "name": "Reed_e7",
+      "label": "S_e7 | Reed - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 43.982297
+    },
+    {
+      "name": "ReedLeads_e7",
+      "label": "S_e7 | Terminais retos - ilustrativos",
+      "role": "envelope",
+      "valid": true,
+      "solids": 2,
+      "volume_mm3": 1.276272
+    },
+    {
+      "name": "Diode_e7",
+      "label": "D_e7 | 1N4148 - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 10.17876
+    },
+    {
+      "name": "Cola_e7",
+      "label": "REF | Cola quente sob MDF e7",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 50.265482
+    },
+    {
+      "name": "Reed_f7",
+      "label": "S_f7 | Reed - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 43.982297
+    },
+    {
+      "name": "ReedLeads_f7",
+      "label": "S_f7 | Terminais retos - ilustrativos",
+      "role": "envelope",
+      "valid": true,
+      "solids": 2,
+      "volume_mm3": 1.276272
+    },
+    {
+      "name": "Diode_f7",
+      "label": "D_f7 | 1N4148 - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 10.17876
+    },
+    {
+      "name": "Cola_f7",
+      "label": "REF | Cola quente sob MDF f7",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 50.265482
+    },
+    {
+      "name": "Reed_g7",
+      "label": "S_g7 | Reed - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 43.982297
+    },
+    {
+      "name": "ReedLeads_g7",
+      "label": "S_g7 | Terminais retos - ilustrativos",
+      "role": "envelope",
+      "valid": true,
+      "solids": 2,
+      "volume_mm3": 1.276272
+    },
+    {
+      "name": "Diode_g7",
+      "label": "D_g7 | 1N4148 - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 10.17876
+    },
+    {
+      "name": "Cola_g7",
+      "label": "REF | Cola quente sob MDF g7",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 50.265482
+    },
+    {
+      "name": "Reed_h7",
+      "label": "S_h7 | Reed - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 43.982297
+    },
+    {
+      "name": "ReedLeads_h7",
+      "label": "S_h7 | Terminais retos - ilustrativos",
+      "role": "envelope",
+      "valid": true,
+      "solids": 2,
+      "volume_mm3": 1.276272
+    },
+    {
+      "name": "Diode_h7",
+      "label": "D_h7 | 1N4148 - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 10.17876
+    },
+    {
+      "name": "Cola_h7",
+      "label": "REF | Cola quente sob MDF h7",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 50.265482
+    },
+    {
+      "name": "Reed_a8",
+      "label": "S_a8 | Reed - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 43.982297
+    },
+    {
+      "name": "ReedLeads_a8",
+      "label": "S_a8 | Terminais retos - ilustrativos",
+      "role": "envelope",
+      "valid": true,
+      "solids": 2,
+      "volume_mm3": 1.276272
+    },
+    {
+      "name": "Diode_a8",
+      "label": "D_a8 | 1N4148 - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 10.17876
+    },
+    {
+      "name": "Cola_a8",
+      "label": "REF | Cola quente sob MDF a8",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 50.265482
+    },
+    {
+      "name": "Reed_b8",
+      "label": "S_b8 | Reed - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 43.982297
+    },
+    {
+      "name": "ReedLeads_b8",
+      "label": "S_b8 | Terminais retos - ilustrativos",
+      "role": "envelope",
+      "valid": true,
+      "solids": 2,
+      "volume_mm3": 1.276272
+    },
+    {
+      "name": "Diode_b8",
+      "label": "D_b8 | 1N4148 - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 10.17876
+    },
+    {
+      "name": "Cola_b8",
+      "label": "REF | Cola quente sob MDF b8",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 50.265482
+    },
+    {
+      "name": "Reed_c8",
+      "label": "S_c8 | Reed - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 43.982297
+    },
+    {
+      "name": "ReedLeads_c8",
+      "label": "S_c8 | Terminais retos - ilustrativos",
+      "role": "envelope",
+      "valid": true,
+      "solids": 2,
+      "volume_mm3": 1.276272
+    },
+    {
+      "name": "Diode_c8",
+      "label": "D_c8 | 1N4148 - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 10.17876
+    },
+    {
+      "name": "Cola_c8",
+      "label": "REF | Cola quente sob MDF c8",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 50.265482
+    },
+    {
+      "name": "Reed_d8",
+      "label": "S_d8 | Reed - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 43.982297
+    },
+    {
+      "name": "ReedLeads_d8",
+      "label": "S_d8 | Terminais retos - ilustrativos",
+      "role": "envelope",
+      "valid": true,
+      "solids": 2,
+      "volume_mm3": 1.276272
+    },
+    {
+      "name": "Diode_d8",
+      "label": "D_d8 | 1N4148 - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 10.17876
+    },
+    {
+      "name": "Cola_d8",
+      "label": "REF | Cola quente sob MDF d8",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 50.265482
+    },
+    {
+      "name": "Reed_e8",
+      "label": "S_e8 | Reed - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 43.982297
+    },
+    {
+      "name": "ReedLeads_e8",
+      "label": "S_e8 | Terminais retos - ilustrativos",
+      "role": "envelope",
+      "valid": true,
+      "solids": 2,
+      "volume_mm3": 1.276272
+    },
+    {
+      "name": "Diode_e8",
+      "label": "D_e8 | 1N4148 - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 10.17876
+    },
+    {
+      "name": "Cola_e8",
+      "label": "REF | Cola quente sob MDF e8",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 50.265482
+    },
+    {
+      "name": "Reed_f8",
+      "label": "S_f8 | Reed - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 43.982297
+    },
+    {
+      "name": "ReedLeads_f8",
+      "label": "S_f8 | Terminais retos - ilustrativos",
+      "role": "envelope",
+      "valid": true,
+      "solids": 2,
+      "volume_mm3": 1.276272
+    },
+    {
+      "name": "Diode_f8",
+      "label": "D_f8 | 1N4148 - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 10.17876
+    },
+    {
+      "name": "Cola_f8",
+      "label": "REF | Cola quente sob MDF f8",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 50.265482
+    },
+    {
+      "name": "Reed_g8",
+      "label": "S_g8 | Reed - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 43.982297
+    },
+    {
+      "name": "ReedLeads_g8",
+      "label": "S_g8 | Terminais retos - ilustrativos",
+      "role": "envelope",
+      "valid": true,
+      "solids": 2,
+      "volume_mm3": 1.276272
+    },
+    {
+      "name": "Diode_g8",
+      "label": "D_g8 | 1N4148 - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 10.17876
+    },
+    {
+      "name": "Cola_g8",
+      "label": "REF | Cola quente sob MDF g8",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 50.265482
+    },
+    {
+      "name": "Reed_h8",
+      "label": "S_h8 | Reed - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 43.982297
+    },
+    {
+      "name": "ReedLeads_h8",
+      "label": "S_h8 | Terminais retos - ilustrativos",
+      "role": "envelope",
+      "valid": true,
+      "solids": 2,
+      "volume_mm3": 1.276272
+    },
+    {
+      "name": "Diode_h8",
+      "label": "D_h8 | 1N4148 - envelope",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 10.17876
+    },
+    {
+      "name": "Cola_h8",
+      "label": "REF | Cola quente sob MDF h8",
+      "role": "envelope",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 50.265482
+    }
+  ],
+  "limitations": [
+    "Envelopes eletronicos genericos, nao footprints de fornecedor.",
+    "Roteamento de fios, cabos, soldas, terminais dobrados e ferragens nao modelados.",
+    "Rigidez da moldura e suporte, campo magnetico e ativacao de reeds exigem prototipo.",
+    "Suporte apoiado no perimetro e travessa central; avaliar flecha e rigidez por prototipo.",
+    "Vidro requer bordas lapidadas e junta compativel, sem aperto pontual.",
+    "SensorGap mede vidro ate ponta do corpo reed, nao ate contato magnetico; centro do corpo fica10mm abaixo da face inferior do vidro neste envelope. Contato real e campo nao simulados.",
+    "Prototipo de uma casa com reed vertical e ima ferrite12x3 obrigatorio antes de replicar64; envelope pode nao acionar.",
+    "Furos escareados exigem parafusos de cabeca embutida e comprimento confirmado, nao modelados.",
+    "Folga placa/terminais calculada para envelopes retos sem solda/cabos; confirmar ocupacao real e isolacao antes da montagem. Altura60mm deixa7mm nesta referencia."
+  ],
+  "clearances_mm": {
+    "control_board_to_reed_lower_leads": 7.0,
+    "glass_to_body_top": 3.0,
+    "glass_to_body_center": 10.0
+  }
+}

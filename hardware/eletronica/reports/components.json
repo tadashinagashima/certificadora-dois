@@ -1,0 +1,1532 @@
+[
+  {
+    "reference": "A1",
+    "value": "ESP32 DEVKIT V1 / 30 pinos",
+    "symbol": "ESP32_DevKit_V1_30pin",
+    "footprint": "",
+    "note": "Alimentação pelo USB do computador; 3V3 da placa alimenta os periféricos. L/R: posições do projeto, de cima para baixo, na vista dos componentes com antena acima e USB abaixo.",
+    "dnp": false,
+    "sheet": "tabuleiro-sensorial"
+  },
+  {
+    "reference": "R16",
+    "value": "47k",
+    "symbol": "R",
+    "footprint": "",
+    "note": "Pull-up externo da entrada de matriz. Pull-ups internos do MCP desabilitados.",
+    "dnp": false,
+    "sheet": "tabuleiro-sensorial"
+  },
+  {
+    "reference": "R17",
+    "value": "47k",
+    "symbol": "R",
+    "footprint": "",
+    "note": "Pull-up externo da entrada de matriz. Pull-ups internos do MCP desabilitados.",
+    "dnp": false,
+    "sheet": "tabuleiro-sensorial"
+  },
+  {
+    "reference": "R18",
+    "value": "47k",
+    "symbol": "R",
+    "footprint": "",
+    "note": "Pull-up externo da entrada de matriz. Pull-ups internos do MCP desabilitados.",
+    "dnp": false,
+    "sheet": "tabuleiro-sensorial"
+  },
+  {
+    "reference": "R19",
+    "value": "47k",
+    "symbol": "R",
+    "footprint": "",
+    "note": "Pull-up externo da entrada de matriz. Pull-ups internos do MCP desabilitados.",
+    "dnp": false,
+    "sheet": "tabuleiro-sensorial"
+  },
+  {
+    "reference": "R20",
+    "value": "47k",
+    "symbol": "R",
+    "footprint": "",
+    "note": "Pull-up externo da entrada de matriz. Pull-ups internos do MCP desabilitados.",
+    "dnp": false,
+    "sheet": "tabuleiro-sensorial"
+  },
+  {
+    "reference": "R21",
+    "value": "47k",
+    "symbol": "R",
+    "footprint": "",
+    "note": "Pull-up externo da entrada de matriz. Pull-ups internos do MCP desabilitados.",
+    "dnp": false,
+    "sheet": "tabuleiro-sensorial"
+  },
+  {
+    "reference": "R22",
+    "value": "47k",
+    "symbol": "R",
+    "footprint": "",
+    "note": "Pull-up externo da entrada de matriz. Pull-ups internos do MCP desabilitados.",
+    "dnp": false,
+    "sheet": "tabuleiro-sensorial"
+  },
+  {
+    "reference": "R23",
+    "value": "47k",
+    "symbol": "R",
+    "footprint": "",
+    "note": "Pull-up externo da entrada de matriz. Pull-ups internos do MCP desabilitados.",
+    "dnp": false,
+    "sheet": "tabuleiro-sensorial"
+  },
+  {
+    "reference": "#FLG01",
+    "value": "PWR_FLAG",
+    "symbol": "PWR_FLAG",
+    "footprint": "",
+    "note": "",
+    "dnp": false,
+    "sheet": "tabuleiro-sensorial"
+  },
+  {
+    "reference": "U1",
+    "value": "MCP23017-E/SS / CJMCU-2317",
+    "symbol": "MCP23017",
+    "footprint": "",
+    "note": "Módulo CJMCU-2317. Numeração do CI SSOP28, não dos headers do módulo.",
+    "dnp": false,
+    "sheet": "tabuleiro-sensorial"
+  },
+  {
+    "reference": "R1",
+    "value": "4.7k",
+    "symbol": "R",
+    "footprint": "",
+    "note": "Não duplicar pull-up equivalente já presente no módulo.",
+    "dnp": false,
+    "sheet": "tabuleiro-sensorial"
+  },
+  {
+    "reference": "R2",
+    "value": "4.7k",
+    "symbol": "R",
+    "footprint": "",
+    "note": "Não duplicar pull-up equivalente já presente no módulo.",
+    "dnp": false,
+    "sheet": "tabuleiro-sensorial"
+  },
+  {
+    "reference": "R3",
+    "value": "10k",
+    "symbol": "R",
+    "footprint": "",
+    "note": "Não duplicar pull-up equivalente já presente no módulo.",
+    "dnp": false,
+    "sheet": "tabuleiro-sensorial"
+  },
+  {
+    "reference": "C4",
+    "value": "100nF",
+    "symbol": "C",
+    "footprint": "",
+    "note": "Desacoplamento junto a VDD/VSS do MCP; pode estar incorporado ao módulo.",
+    "dnp": false,
+    "sheet": "tabuleiro-sensorial"
+  },
+  {
+    "reference": "R4",
+    "value": "10k",
+    "symbol": "R",
+    "footprint": "",
+    "note": "",
+    "dnp": false,
+    "sheet": "perifericos"
+  },
+  {
+    "reference": "SW65",
+    "value": "CONFIRMAR",
+    "symbol": "Button",
+    "footprint": "",
+    "note": "",
+    "dnp": false,
+    "sheet": "perifericos"
+  },
+  {
+    "reference": "C5",
+    "value": "100nF",
+    "symbol": "C",
+    "footprint": "",
+    "note": "",
+    "dnp": false,
+    "sheet": "perifericos"
+  },
+  {
+    "reference": "R5",
+    "value": "10k",
+    "symbol": "R",
+    "footprint": "",
+    "note": "",
+    "dnp": false,
+    "sheet": "perifericos"
+  },
+  {
+    "reference": "SW66",
+    "value": "PROMOVER",
+    "symbol": "Button",
+    "footprint": "",
+    "note": "",
+    "dnp": false,
+    "sheet": "perifericos"
+  },
+  {
+    "reference": "C6",
+    "value": "100nF",
+    "symbol": "C",
+    "footprint": "",
+    "note": "",
+    "dnp": false,
+    "sheet": "perifericos"
+  },
+  {
+    "reference": "R6",
+    "value": "10k",
+    "symbol": "R",
+    "footprint": "",
+    "note": "",
+    "dnp": false,
+    "sheet": "perifericos"
+  },
+  {
+    "reference": "SW67",
+    "value": "ENCERRAR",
+    "symbol": "Button",
+    "footprint": "",
+    "note": "",
+    "dnp": false,
+    "sheet": "perifericos"
+  },
+  {
+    "reference": "C7",
+    "value": "100nF",
+    "symbol": "C",
+    "footprint": "",
+    "note": "",
+    "dnp": false,
+    "sheet": "perifericos"
+  },
+  {
+    "reference": "R7",
+    "value": "1k",
+    "symbol": "R",
+    "footprint": "",
+    "note": "",
+    "dnp": false,
+    "sheet": "perifericos"
+  },
+  {
+    "reference": "D65",
+    "value": "VERDE",
+    "symbol": "LED",
+    "footprint": "",
+    "note": "",
+    "dnp": false,
+    "sheet": "perifericos"
+  },
+  {
+    "reference": "R8",
+    "value": "1k",
+    "symbol": "R",
+    "footprint": "",
+    "note": "",
+    "dnp": false,
+    "sheet": "perifericos"
+  },
+  {
+    "reference": "D66",
+    "value": "VERMELHO",
+    "symbol": "LED",
+    "footprint": "",
+    "note": "",
+    "dnp": false,
+    "sheet": "perifericos"
+  },
+  {
+    "reference": "Q1",
+    "value": "2N3904",
+    "symbol": "NPN",
+    "footprint": "Package_TO_SOT_THT:TO-92_Inline",
+    "note": "",
+    "dnp": false,
+    "sheet": "perifericos"
+  },
+  {
+    "reference": "R9",
+    "value": "680R",
+    "symbol": "R",
+    "footprint": "",
+    "note": "",
+    "dnp": false,
+    "sheet": "perifericos"
+  },
+  {
+    "reference": "R10",
+    "value": "100k",
+    "symbol": "R",
+    "footprint": "",
+    "note": "",
+    "dnp": false,
+    "sheet": "perifericos"
+  },
+  {
+    "reference": "BZ1",
+    "value": "3.3V ativo <=30mA",
+    "symbol": "Buzzer",
+    "footprint": "",
+    "note": "",
+    "dnp": false,
+    "sheet": "perifericos"
+  },
+  {
+    "reference": "D67",
+    "value": "1N4148",
+    "symbol": "D",
+    "footprint": "",
+    "note": "",
+    "dnp": false,
+    "sheet": "perifericos"
+  },
+  {
+    "reference": "J1",
+    "value": "SD PASSIVO / microSD 8GB",
+    "symbol": "SD_adapter_passive",
+    "footprint": "",
+    "note": "Adaptador SD convencional passivo; numeração dos contatos SD 1 a 9; alimentação de 3,3 V.",
+    "dnp": false,
+    "sheet": "perifericos"
+  },
+  {
+    "reference": "R11",
+    "value": "10k",
+    "symbol": "R",
+    "footprint": "",
+    "note": "",
+    "dnp": false,
+    "sheet": "perifericos"
+  },
+  {
+    "reference": "R12",
+    "value": "10k",
+    "symbol": "R",
+    "footprint": "",
+    "note": "",
+    "dnp": false,
+    "sheet": "perifericos"
+  },
+  {
+    "reference": "R13",
+    "value": "10k",
+    "symbol": "R",
+    "footprint": "",
+    "note": "",
+    "dnp": false,
+    "sheet": "perifericos"
+  },
+  {
+    "reference": "R14",
+    "value": "10k",
+    "symbol": "R",
+    "footprint": "",
+    "note": "",
+    "dnp": false,
+    "sheet": "perifericos"
+  },
+  {
+    "reference": "R15",
+    "value": "10k",
+    "symbol": "R",
+    "footprint": "",
+    "note": "",
+    "dnp": false,
+    "sheet": "perifericos"
+  },
+  {
+    "reference": "C8",
+    "value": "100nF",
+    "symbol": "C",
+    "footprint": "",
+    "note": "",
+    "dnp": false,
+    "sheet": "perifericos"
+  },
+  {
+    "reference": "C9",
+    "value": "47uF / 6.3V",
+    "symbol": "C",
+    "footprint": "",
+    "note": "Se polarizado: positivo em 3V3_IO e negativo em GND. Instalar junto ao adaptador SD.",
+    "dnp": false,
+    "sheet": "perifericos"
+  },
+  {
+    "reference": "J2",
+    "value": "OLED SSD1315 opcional",
+    "symbol": "OLED_optional",
+    "footprint": "",
+    "note": "Interface lógica; ordem física do conector conforme módulo. DNP: não montado.",
+    "dnp": true,
+    "sheet": "perifericos"
+  },
+  {
+    "reference": "D1",
+    "value": "1N4148",
+    "symbol": "D",
+    "footprint": "",
+    "note": "Casa a1: cátodo voltado ao reed/coluna.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "SW1",
+    "value": "REED_NO",
+    "symbol": "Reed",
+    "footprint": "",
+    "note": "Casa a1: reed vertical, normalmente aberto.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "D2",
+    "value": "1N4148",
+    "symbol": "D",
+    "footprint": "",
+    "note": "Casa b1: cátodo voltado ao reed/coluna.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "SW2",
+    "value": "REED_NO",
+    "symbol": "Reed",
+    "footprint": "",
+    "note": "Casa b1: reed vertical, normalmente aberto.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "D3",
+    "value": "1N4148",
+    "symbol": "D",
+    "footprint": "",
+    "note": "Casa c1: cátodo voltado ao reed/coluna.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "SW3",
+    "value": "REED_NO",
+    "symbol": "Reed",
+    "footprint": "",
+    "note": "Casa c1: reed vertical, normalmente aberto.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "D4",
+    "value": "1N4148",
+    "symbol": "D",
+    "footprint": "",
+    "note": "Casa d1: cátodo voltado ao reed/coluna.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "SW4",
+    "value": "REED_NO",
+    "symbol": "Reed",
+    "footprint": "",
+    "note": "Casa d1: reed vertical, normalmente aberto.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "D5",
+    "value": "1N4148",
+    "symbol": "D",
+    "footprint": "",
+    "note": "Casa e1: cátodo voltado ao reed/coluna.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "SW5",
+    "value": "REED_NO",
+    "symbol": "Reed",
+    "footprint": "",
+    "note": "Casa e1: reed vertical, normalmente aberto.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "D6",
+    "value": "1N4148",
+    "symbol": "D",
+    "footprint": "",
+    "note": "Casa f1: cátodo voltado ao reed/coluna.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "SW6",
+    "value": "REED_NO",
+    "symbol": "Reed",
+    "footprint": "",
+    "note": "Casa f1: reed vertical, normalmente aberto.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "D7",
+    "value": "1N4148",
+    "symbol": "D",
+    "footprint": "",
+    "note": "Casa g1: cátodo voltado ao reed/coluna.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "SW7",
+    "value": "REED_NO",
+    "symbol": "Reed",
+    "footprint": "",
+    "note": "Casa g1: reed vertical, normalmente aberto.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "D8",
+    "value": "1N4148",
+    "symbol": "D",
+    "footprint": "",
+    "note": "Casa h1: cátodo voltado ao reed/coluna.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "SW8",
+    "value": "REED_NO",
+    "symbol": "Reed",
+    "footprint": "",
+    "note": "Casa h1: reed vertical, normalmente aberto.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "D9",
+    "value": "1N4148",
+    "symbol": "D",
+    "footprint": "",
+    "note": "Casa a2: cátodo voltado ao reed/coluna.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "SW9",
+    "value": "REED_NO",
+    "symbol": "Reed",
+    "footprint": "",
+    "note": "Casa a2: reed vertical, normalmente aberto.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "D10",
+    "value": "1N4148",
+    "symbol": "D",
+    "footprint": "",
+    "note": "Casa b2: cátodo voltado ao reed/coluna.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "SW10",
+    "value": "REED_NO",
+    "symbol": "Reed",
+    "footprint": "",
+    "note": "Casa b2: reed vertical, normalmente aberto.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "D11",
+    "value": "1N4148",
+    "symbol": "D",
+    "footprint": "",
+    "note": "Casa c2: cátodo voltado ao reed/coluna.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "SW11",
+    "value": "REED_NO",
+    "symbol": "Reed",
+    "footprint": "",
+    "note": "Casa c2: reed vertical, normalmente aberto.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "D12",
+    "value": "1N4148",
+    "symbol": "D",
+    "footprint": "",
+    "note": "Casa d2: cátodo voltado ao reed/coluna.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "SW12",
+    "value": "REED_NO",
+    "symbol": "Reed",
+    "footprint": "",
+    "note": "Casa d2: reed vertical, normalmente aberto.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "D13",
+    "value": "1N4148",
+    "symbol": "D",
+    "footprint": "",
+    "note": "Casa e2: cátodo voltado ao reed/coluna.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "SW13",
+    "value": "REED_NO",
+    "symbol": "Reed",
+    "footprint": "",
+    "note": "Casa e2: reed vertical, normalmente aberto.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "D14",
+    "value": "1N4148",
+    "symbol": "D",
+    "footprint": "",
+    "note": "Casa f2: cátodo voltado ao reed/coluna.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "SW14",
+    "value": "REED_NO",
+    "symbol": "Reed",
+    "footprint": "",
+    "note": "Casa f2: reed vertical, normalmente aberto.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "D15",
+    "value": "1N4148",
+    "symbol": "D",
+    "footprint": "",
+    "note": "Casa g2: cátodo voltado ao reed/coluna.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "SW15",
+    "value": "REED_NO",
+    "symbol": "Reed",
+    "footprint": "",
+    "note": "Casa g2: reed vertical, normalmente aberto.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "D16",
+    "value": "1N4148",
+    "symbol": "D",
+    "footprint": "",
+    "note": "Casa h2: cátodo voltado ao reed/coluna.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "SW16",
+    "value": "REED_NO",
+    "symbol": "Reed",
+    "footprint": "",
+    "note": "Casa h2: reed vertical, normalmente aberto.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "D17",
+    "value": "1N4148",
+    "symbol": "D",
+    "footprint": "",
+    "note": "Casa a3: cátodo voltado ao reed/coluna.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "SW17",
+    "value": "REED_NO",
+    "symbol": "Reed",
+    "footprint": "",
+    "note": "Casa a3: reed vertical, normalmente aberto.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "D18",
+    "value": "1N4148",
+    "symbol": "D",
+    "footprint": "",
+    "note": "Casa b3: cátodo voltado ao reed/coluna.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "SW18",
+    "value": "REED_NO",
+    "symbol": "Reed",
+    "footprint": "",
+    "note": "Casa b3: reed vertical, normalmente aberto.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "D19",
+    "value": "1N4148",
+    "symbol": "D",
+    "footprint": "",
+    "note": "Casa c3: cátodo voltado ao reed/coluna.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "SW19",
+    "value": "REED_NO",
+    "symbol": "Reed",
+    "footprint": "",
+    "note": "Casa c3: reed vertical, normalmente aberto.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "D20",
+    "value": "1N4148",
+    "symbol": "D",
+    "footprint": "",
+    "note": "Casa d3: cátodo voltado ao reed/coluna.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "SW20",
+    "value": "REED_NO",
+    "symbol": "Reed",
+    "footprint": "",
+    "note": "Casa d3: reed vertical, normalmente aberto.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "D21",
+    "value": "1N4148",
+    "symbol": "D",
+    "footprint": "",
+    "note": "Casa e3: cátodo voltado ao reed/coluna.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "SW21",
+    "value": "REED_NO",
+    "symbol": "Reed",
+    "footprint": "",
+    "note": "Casa e3: reed vertical, normalmente aberto.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "D22",
+    "value": "1N4148",
+    "symbol": "D",
+    "footprint": "",
+    "note": "Casa f3: cátodo voltado ao reed/coluna.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "SW22",
+    "value": "REED_NO",
+    "symbol": "Reed",
+    "footprint": "",
+    "note": "Casa f3: reed vertical, normalmente aberto.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "D23",
+    "value": "1N4148",
+    "symbol": "D",
+    "footprint": "",
+    "note": "Casa g3: cátodo voltado ao reed/coluna.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "SW23",
+    "value": "REED_NO",
+    "symbol": "Reed",
+    "footprint": "",
+    "note": "Casa g3: reed vertical, normalmente aberto.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "D24",
+    "value": "1N4148",
+    "symbol": "D",
+    "footprint": "",
+    "note": "Casa h3: cátodo voltado ao reed/coluna.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "SW24",
+    "value": "REED_NO",
+    "symbol": "Reed",
+    "footprint": "",
+    "note": "Casa h3: reed vertical, normalmente aberto.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "D25",
+    "value": "1N4148",
+    "symbol": "D",
+    "footprint": "",
+    "note": "Casa a4: cátodo voltado ao reed/coluna.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "SW25",
+    "value": "REED_NO",
+    "symbol": "Reed",
+    "footprint": "",
+    "note": "Casa a4: reed vertical, normalmente aberto.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "D26",
+    "value": "1N4148",
+    "symbol": "D",
+    "footprint": "",
+    "note": "Casa b4: cátodo voltado ao reed/coluna.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "SW26",
+    "value": "REED_NO",
+    "symbol": "Reed",
+    "footprint": "",
+    "note": "Casa b4: reed vertical, normalmente aberto.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "D27",
+    "value": "1N4148",
+    "symbol": "D",
+    "footprint": "",
+    "note": "Casa c4: cátodo voltado ao reed/coluna.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "SW27",
+    "value": "REED_NO",
+    "symbol": "Reed",
+    "footprint": "",
+    "note": "Casa c4: reed vertical, normalmente aberto.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "D28",
+    "value": "1N4148",
+    "symbol": "D",
+    "footprint": "",
+    "note": "Casa d4: cátodo voltado ao reed/coluna.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "SW28",
+    "value": "REED_NO",
+    "symbol": "Reed",
+    "footprint": "",
+    "note": "Casa d4: reed vertical, normalmente aberto.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "D29",
+    "value": "1N4148",
+    "symbol": "D",
+    "footprint": "",
+    "note": "Casa e4: cátodo voltado ao reed/coluna.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "SW29",
+    "value": "REED_NO",
+    "symbol": "Reed",
+    "footprint": "",
+    "note": "Casa e4: reed vertical, normalmente aberto.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "D30",
+    "value": "1N4148",
+    "symbol": "D",
+    "footprint": "",
+    "note": "Casa f4: cátodo voltado ao reed/coluna.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "SW30",
+    "value": "REED_NO",
+    "symbol": "Reed",
+    "footprint": "",
+    "note": "Casa f4: reed vertical, normalmente aberto.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "D31",
+    "value": "1N4148",
+    "symbol": "D",
+    "footprint": "",
+    "note": "Casa g4: cátodo voltado ao reed/coluna.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "SW31",
+    "value": "REED_NO",
+    "symbol": "Reed",
+    "footprint": "",
+    "note": "Casa g4: reed vertical, normalmente aberto.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "D32",
+    "value": "1N4148",
+    "symbol": "D",
+    "footprint": "",
+    "note": "Casa h4: cátodo voltado ao reed/coluna.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "SW32",
+    "value": "REED_NO",
+    "symbol": "Reed",
+    "footprint": "",
+    "note": "Casa h4: reed vertical, normalmente aberto.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "D33",
+    "value": "1N4148",
+    "symbol": "D",
+    "footprint": "",
+    "note": "Casa a5: cátodo voltado ao reed/coluna.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "SW33",
+    "value": "REED_NO",
+    "symbol": "Reed",
+    "footprint": "",
+    "note": "Casa a5: reed vertical, normalmente aberto.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "D34",
+    "value": "1N4148",
+    "symbol": "D",
+    "footprint": "",
+    "note": "Casa b5: cátodo voltado ao reed/coluna.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "SW34",
+    "value": "REED_NO",
+    "symbol": "Reed",
+    "footprint": "",
+    "note": "Casa b5: reed vertical, normalmente aberto.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "D35",
+    "value": "1N4148",
+    "symbol": "D",
+    "footprint": "",
+    "note": "Casa c5: cátodo voltado ao reed/coluna.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "SW35",
+    "value": "REED_NO",
+    "symbol": "Reed",
+    "footprint": "",
+    "note": "Casa c5: reed vertical, normalmente aberto.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "D36",
+    "value": "1N4148",
+    "symbol": "D",
+    "footprint": "",
+    "note": "Casa d5: cátodo voltado ao reed/coluna.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "SW36",
+    "value": "REED_NO",
+    "symbol": "Reed",
+    "footprint": "",
+    "note": "Casa d5: reed vertical, normalmente aberto.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "D37",
+    "value": "1N4148",
+    "symbol": "D",
+    "footprint": "",
+    "note": "Casa e5: cátodo voltado ao reed/coluna.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "SW37",
+    "value": "REED_NO",
+    "symbol": "Reed",
+    "footprint": "",
+    "note": "Casa e5: reed vertical, normalmente aberto.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "D38",
+    "value": "1N4148",
+    "symbol": "D",
+    "footprint": "",
+    "note": "Casa f5: cátodo voltado ao reed/coluna.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "SW38",
+    "value": "REED_NO",
+    "symbol": "Reed",
+    "footprint": "",
+    "note": "Casa f5: reed vertical, normalmente aberto.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "D39",
+    "value": "1N4148",
+    "symbol": "D",
+    "footprint": "",
+    "note": "Casa g5: cátodo voltado ao reed/coluna.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "SW39",
+    "value": "REED_NO",
+    "symbol": "Reed",
+    "footprint": "",
+    "note": "Casa g5: reed vertical, normalmente aberto.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "D40",
+    "value": "1N4148",
+    "symbol": "D",
+    "footprint": "",
+    "note": "Casa h5: cátodo voltado ao reed/coluna.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "SW40",
+    "value": "REED_NO",
+    "symbol": "Reed",
+    "footprint": "",
+    "note": "Casa h5: reed vertical, normalmente aberto.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "D41",
+    "value": "1N4148",
+    "symbol": "D",
+    "footprint": "",
+    "note": "Casa a6: cátodo voltado ao reed/coluna.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "SW41",
+    "value": "REED_NO",
+    "symbol": "Reed",
+    "footprint": "",
+    "note": "Casa a6: reed vertical, normalmente aberto.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "D42",
+    "value": "1N4148",
+    "symbol": "D",
+    "footprint": "",
+    "note": "Casa b6: cátodo voltado ao reed/coluna.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "SW42",
+    "value": "REED_NO",
+    "symbol": "Reed",
+    "footprint": "",
+    "note": "Casa b6: reed vertical, normalmente aberto.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "D43",
+    "value": "1N4148",
+    "symbol": "D",
+    "footprint": "",
+    "note": "Casa c6: cátodo voltado ao reed/coluna.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "SW43",
+    "value": "REED_NO",
+    "symbol": "Reed",
+    "footprint": "",
+    "note": "Casa c6: reed vertical, normalmente aberto.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "D44",
+    "value": "1N4148",
+    "symbol": "D",
+    "footprint": "",
+    "note": "Casa d6: cátodo voltado ao reed/coluna.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "SW44",
+    "value": "REED_NO",
+    "symbol": "Reed",
+    "footprint": "",
+    "note": "Casa d6: reed vertical, normalmente aberto.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "D45",
+    "value": "1N4148",
+    "symbol": "D",
+    "footprint": "",
+    "note": "Casa e6: cátodo voltado ao reed/coluna.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "SW45",
+    "value": "REED_NO",
+    "symbol": "Reed",
+    "footprint": "",
+    "note": "Casa e6: reed vertical, normalmente aberto.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "D46",
+    "value": "1N4148",
+    "symbol": "D",
+    "footprint": "",
+    "note": "Casa f6: cátodo voltado ao reed/coluna.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "SW46",
+    "value": "REED_NO",
+    "symbol": "Reed",
+    "footprint": "",
+    "note": "Casa f6: reed vertical, normalmente aberto.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "D47",
+    "value": "1N4148",
+    "symbol": "D",
+    "footprint": "",
+    "note": "Casa g6: cátodo voltado ao reed/coluna.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "SW47",
+    "value": "REED_NO",
+    "symbol": "Reed",
+    "footprint": "",
+    "note": "Casa g6: reed vertical, normalmente aberto.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "D48",
+    "value": "1N4148",
+    "symbol": "D",
+    "footprint": "",
+    "note": "Casa h6: cátodo voltado ao reed/coluna.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "SW48",
+    "value": "REED_NO",
+    "symbol": "Reed",
+    "footprint": "",
+    "note": "Casa h6: reed vertical, normalmente aberto.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "D49",
+    "value": "1N4148",
+    "symbol": "D",
+    "footprint": "",
+    "note": "Casa a7: cátodo voltado ao reed/coluna.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "SW49",
+    "value": "REED_NO",
+    "symbol": "Reed",
+    "footprint": "",
+    "note": "Casa a7: reed vertical, normalmente aberto.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "D50",
+    "value": "1N4148",
+    "symbol": "D",
+    "footprint": "",
+    "note": "Casa b7: cátodo voltado ao reed/coluna.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "SW50",
+    "value": "REED_NO",
+    "symbol": "Reed",
+    "footprint": "",
+    "note": "Casa b7: reed vertical, normalmente aberto.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "D51",
+    "value": "1N4148",
+    "symbol": "D",
+    "footprint": "",
+    "note": "Casa c7: cátodo voltado ao reed/coluna.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "SW51",
+    "value": "REED_NO",
+    "symbol": "Reed",
+    "footprint": "",
+    "note": "Casa c7: reed vertical, normalmente aberto.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "D52",
+    "value": "1N4148",
+    "symbol": "D",
+    "footprint": "",
+    "note": "Casa d7: cátodo voltado ao reed/coluna.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "SW52",
+    "value": "REED_NO",
+    "symbol": "Reed",
+    "footprint": "",
+    "note": "Casa d7: reed vertical, normalmente aberto.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "D53",
+    "value": "1N4148",
+    "symbol": "D",
+    "footprint": "",
+    "note": "Casa e7: cátodo voltado ao reed/coluna.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "SW53",
+    "value": "REED_NO",
+    "symbol": "Reed",
+    "footprint": "",
+    "note": "Casa e7: reed vertical, normalmente aberto.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "D54",
+    "value": "1N4148",
+    "symbol": "D",
+    "footprint": "",
+    "note": "Casa f7: cátodo voltado ao reed/coluna.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "SW54",
+    "value": "REED_NO",
+    "symbol": "Reed",
+    "footprint": "",
+    "note": "Casa f7: reed vertical, normalmente aberto.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "D55",
+    "value": "1N4148",
+    "symbol": "D",
+    "footprint": "",
+    "note": "Casa g7: cátodo voltado ao reed/coluna.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "SW55",
+    "value": "REED_NO",
+    "symbol": "Reed",
+    "footprint": "",
+    "note": "Casa g7: reed vertical, normalmente aberto.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "D56",
+    "value": "1N4148",
+    "symbol": "D",
+    "footprint": "",
+    "note": "Casa h7: cátodo voltado ao reed/coluna.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "SW56",
+    "value": "REED_NO",
+    "symbol": "Reed",
+    "footprint": "",
+    "note": "Casa h7: reed vertical, normalmente aberto.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "D57",
+    "value": "1N4148",
+    "symbol": "D",
+    "footprint": "",
+    "note": "Casa a8: cátodo voltado ao reed/coluna.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "SW57",
+    "value": "REED_NO",
+    "symbol": "Reed",
+    "footprint": "",
+    "note": "Casa a8: reed vertical, normalmente aberto.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "D58",
+    "value": "1N4148",
+    "symbol": "D",
+    "footprint": "",
+    "note": "Casa b8: cátodo voltado ao reed/coluna.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "SW58",
+    "value": "REED_NO",
+    "symbol": "Reed",
+    "footprint": "",
+    "note": "Casa b8: reed vertical, normalmente aberto.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "D59",
+    "value": "1N4148",
+    "symbol": "D",
+    "footprint": "",
+    "note": "Casa c8: cátodo voltado ao reed/coluna.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "SW59",
+    "value": "REED_NO",
+    "symbol": "Reed",
+    "footprint": "",
+    "note": "Casa c8: reed vertical, normalmente aberto.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "D60",
+    "value": "1N4148",
+    "symbol": "D",
+    "footprint": "",
+    "note": "Casa d8: cátodo voltado ao reed/coluna.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "SW60",
+    "value": "REED_NO",
+    "symbol": "Reed",
+    "footprint": "",
+    "note": "Casa d8: reed vertical, normalmente aberto.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "D61",
+    "value": "1N4148",
+    "symbol": "D",
+    "footprint": "",
+    "note": "Casa e8: cátodo voltado ao reed/coluna.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "SW61",
+    "value": "REED_NO",
+    "symbol": "Reed",
+    "footprint": "",
+    "note": "Casa e8: reed vertical, normalmente aberto.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "D62",
+    "value": "1N4148",
+    "symbol": "D",
+    "footprint": "",
+    "note": "Casa f8: cátodo voltado ao reed/coluna.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "SW62",
+    "value": "REED_NO",
+    "symbol": "Reed",
+    "footprint": "",
+    "note": "Casa f8: reed vertical, normalmente aberto.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "D63",
+    "value": "1N4148",
+    "symbol": "D",
+    "footprint": "",
+    "note": "Casa g8: cátodo voltado ao reed/coluna.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "SW63",
+    "value": "REED_NO",
+    "symbol": "Reed",
+    "footprint": "",
+    "note": "Casa g8: reed vertical, normalmente aberto.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "D64",
+    "value": "1N4148",
+    "symbol": "D",
+    "footprint": "",
+    "note": "Casa h8: cátodo voltado ao reed/coluna.",
+    "dnp": false,
+    "sheet": "matriz"
+  },
+  {
+    "reference": "SW64",
+    "value": "REED_NO",
+    "symbol": "Reed",
+    "footprint": "",
+    "note": "Casa h8: reed vertical, normalmente aberto.",
+    "dnp": false,
+    "sheet": "matriz"
+  }
+]

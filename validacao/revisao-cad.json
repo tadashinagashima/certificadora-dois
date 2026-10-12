@@ -1,0 +1,323 @@
+{
+  "checked_at_utc": "2026-10-11T10:35:45.241324+00:00",
+  "tool": "FreeCAD 1.1.4",
+  "parameters_mm": {
+    "Outer": 350.0,
+    "Game": 300.0,
+    "Pitch": 37.5,
+    "Glass": 3.0,
+    "Height": 60.0,
+    "SensorGap": 3.0,
+    "SensorZ": 47.0
+  },
+  "native_objects": 283,
+  "native_solids": 347,
+  "native_volume_mm3": 2541638.019165507,
+  "step_solids": 347,
+  "step_volume_mm3": 2541638.019165466,
+  "expressions": 3065,
+  "checks": [
+    {
+      "check": "Dimensoes conforme planejamento e revisao A",
+      "passed": true
+    },
+    {
+      "check": "Documento reaberto e recomputado sem erros",
+      "passed": true
+    },
+    {
+      "check": "283 objetos fisicos/envelopes salvos",
+      "passed": true
+    },
+    {
+      "check": "Todos os solidos nativos validos",
+      "passed": true
+    },
+    {
+      "check": "64 reeds nativos",
+      "passed": true
+    },
+    {
+      "check": "Posicao/eixo do reed a1",
+      "passed": true
+    },
+    {
+      "check": "Posicao/eixo do reed b1",
+      "passed": true
+    },
+    {
+      "check": "Posicao/eixo do reed c1",
+      "passed": true
+    },
+    {
+      "check": "Posicao/eixo do reed d1",
+      "passed": true
+    },
+    {
+      "check": "Posicao/eixo do reed e1",
+      "passed": true
+    },
+    {
+      "check": "Posicao/eixo do reed f1",
+      "passed": true
+    },
+    {
+      "check": "Posicao/eixo do reed g1",
+      "passed": true
+    },
+    {
+      "check": "Posicao/eixo do reed h1",
+      "passed": true
+    },
+    {
+      "check": "Posicao/eixo do reed a2",
+      "passed": true
+    },
+    {
+      "check": "Posicao/eixo do reed b2",
+      "passed": true
+    },
+    {
+      "check": "Posicao/eixo do reed c2",
+      "passed": true
+    },
+    {
+      "check": "Posicao/eixo do reed d2",
+      "passed": true
+    },
+    {
+      "check": "Posicao/eixo do reed e2",
+      "passed": true
+    },
+    {
+      "check": "Posicao/eixo do reed f2",
+      "passed": true
+    },
+    {
+      "check": "Posicao/eixo do reed g2",
+      "passed": true
+    },
+    {
+      "check": "Posicao/eixo do reed h2",
+      "passed": true
+    },
+    {
+      "check": "Posicao/eixo do reed a3",
+      "passed": true
+    },
+    {
+      "check": "Posicao/eixo do reed b3",
+      "passed": true
+    },
+    {
+      "check": "Posicao/eixo do reed c3",
+      "passed": true
+    },
+    {
+      "check": "Posicao/eixo do reed d3",
+      "passed": true
+    },
+    {
+      "check": "Posicao/eixo do reed e3",
+      "passed": true
+    },
+    {
+      "check": "Posicao/eixo do reed f3",
+      "passed": true
+    },
+    {
+      "check": "Posicao/eixo do reed g3",
+      "passed": true
+    },
+    {
+      "check": "Posicao/eixo do reed h3",
+      "passed": true
+    },
+    {
+      "check": "Posicao/eixo do reed a4",
+      "passed": true
+    },
+    {
+      "check": "Posicao/eixo do reed b4",
+      "passed": true
+    },
+    {
+      "check": "Posicao/eixo do reed c4",
+      "passed": true
+    },
+    {
+      "check": "Posicao/eixo do reed d4",
+      "passed": true
+    },
+    {
+      "check": "Posicao/eixo do reed e4",
+      "passed": true
+    },
+    {
+      "check": "Posicao/eixo do reed f4",
+      "passed": true
+    },
+    {
+      "check": "Posicao/eixo do reed g4",
+      "passed": true
+    },
+    {
+      "check": "Posicao/eixo do reed h4",
+      "passed": true
+    },
+    {
+      "check": "Posicao/eixo do reed a5",
+      "passed": true
+    },
+    {
+      "check": "Posicao/eixo do reed b5",
+      "passed": true
+    },
+    {
+      "check": "Posicao/eixo do reed c5",
+      "passed": true
+    },
+    {
+      "check": "Posicao/eixo do reed d5",
+      "passed": true
+    },
+    {
+      "check": "Posicao/eixo do reed e5",
+      "passed": true
+    },
+    {
+      "check": "Posicao/eixo do reed f5",
+      "passed": true
+    },
+    {
+      "check": "Posicao/eixo do reed g5",
+      "passed": true
+    },
+    {
+      "check": "Posicao/eixo do reed h5",
+      "passed": true
+    },
+    {
+      "check": "Posicao/eixo do reed a6",
+      "passed": true
+    },
+    {
+      "check": "Posicao/eixo do reed b6",
+      "passed": true
+    },
+    {
+      "check": "Posicao/eixo do reed c6",
+      "passed": true
+    },
+    {
+      "check": "Posicao/eixo do reed d6",
+      "passed": true
+    },
+    {
+      "check": "Posicao/eixo do reed e6",
+      "passed": true
+    },
+    {
+      "check": "Posicao/eixo do reed f6",
+      "passed": true
+    },
+    {
+      "check": "Posicao/eixo do reed g6",
+      "passed": true
+    },
+    {
+      "check": "Posicao/eixo do reed h6",
+      "passed": true
+    },
+    {
+      "check": "Posicao/eixo do reed a7",
+      "passed": true
+    },
+    {
+      "check": "Posicao/eixo do reed b7",
+      "passed": true
+    },
+    {
+      "check": "Posicao/eixo do reed c7",
+      "passed": true
+    },
+    {
+      "check": "Posicao/eixo do reed d7",
+      "passed": true
+    },
+    {
+      "check": "Posicao/eixo do reed e7",
+      "passed": true
+    },
+    {
+      "check": "Posicao/eixo do reed f7",
+      "passed": true
+    },
+    {
+      "check": "Posicao/eixo do reed g7",
+      "passed": true
+    },
+    {
+      "check": "Posicao/eixo do reed h7",
+      "passed": true
+    },
+    {
+      "check": "Posicao/eixo do reed a8",
+      "passed": true
+    },
+    {
+      "check": "Posicao/eixo do reed b8",
+      "passed": true
+    },
+    {
+      "check": "Posicao/eixo do reed c8",
+      "passed": true
+    },
+    {
+      "check": "Posicao/eixo do reed d8",
+      "passed": true
+    },
+    {
+      "check": "Posicao/eixo do reed e8",
+      "passed": true
+    },
+    {
+      "check": "Posicao/eixo do reed f8",
+      "passed": true
+    },
+    {
+      "check": "Posicao/eixo do reed g8",
+      "passed": true
+    },
+    {
+      "check": "Posicao/eixo do reed h8",
+      "passed": true
+    },
+    {
+      "check": "Expressoes parametricas preservadas no arquivo",
+      "passed": true
+    },
+    {
+      "check": "STEP reimportado valido",
+      "passed": true
+    },
+    {
+      "check": "STEP preserva contagem dos solidos fisicos",
+      "passed": true
+    },
+    {
+      "check": "STEP preserva volume fisico",
+      "passed": true
+    },
+    {
+      "check": "Arquivos originais permaneceram inalterados",
+      "passed": true
+    }
+  ],
+  "success": true,
+  "source_sha256": {
+    "tabuleiro_sensorial.FCStd": "b01549fae66c14e3e1ad12349b75fee135262bdc1c66c3190eb6a19ea0a3d09f",
+    "tabuleiro_sensorial.step": "ec06a1a9d638177ac014a4c2e6a02e54e21b72a569bfcbdbd96222d98b62ab8e"
+  },
+  "scope": "Reabertura de arquivos e geometria. Nao valida materiais, campo magnetico, rigidez ou fabricacao."
+}

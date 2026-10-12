@@ -33,3 +33,29 @@ A estrutura física utilizará uma base de **MDF** e um **tabuleiro de vidro rem
 | Gustavo Yudi Yamada | Algoritmos e biblioteca de xadrez |
 | Pedro Paulo da Silva Oliveira | Firmware e interface com hardware |
 | Tadashi Bello Nagashima | Coordenação e integração |
+
+## Documentação técnica
+
+- [Requisitos](docs/requisitos.md) e [arquitetura](docs/arquitetura.md).
+- [Eletrônica](docs/eletronica.md): componentes, pinagem e esquemático KiCad.
+- [Mecânica](docs/mecanica.md): dimensões, modelo FreeCAD e exportações.
+- [Diagnóstico Arduino](docs/firmware-diagnostico.md): configuração, compilação e operação.
+- [Acompanhamento da jogada](docs/firmware-acompanhamento.md): módulo C++ independente, contrato e testes automatizados.
+- [Decisões elétricas](docs/revisao-componentes-adicionais.md): leitura direta, alimentação e alternativas condicionadas aos testes.
+- [Plano de testes físicos](docs/plano-testes-fisicos.md): resultados preliminares e critérios de validação.
+
+![Proposta mecânica do tabuleiro](hardware/mecanica/exportacoes/montagem.png)
+
+## Estado e validação
+
+O esquemático da revisão B usa a DevKit V1 de 30 pinos, alimentada pelo USB do computador. A matriz é lida diretamente pelo MCP23017 com pull-ups de 47 kΩ; os periféricos usam o regulador da própria DevKit. O CAD permanece como proposta de montagem, sujeita às medidas e aos testes físicos.
+
+O firmware de diagnóstico inspeciona matriz, botões, indicadores e leitura/escrita do SD. O módulo de acompanhamento da jogada preserva as alterações de ocupação por quadro e possui testes nativos; sua integração com a aquisição física está pendente. Ainda não há interpretação de jogadas, regras de xadrez ou registro PGN implementados.
+
+Cada guia contém os comandos de reprodução e os relatórios da respectiva área. Após atualizar as exportações e a compilação, executar da raiz:
+
+```powershell
+python .\scripts\validar_integracao.py
+```
+
+A [verificação integrada](validacao/integracao.json) confere a consistência entre netlist, BOM, firmware e coordenadas do CAD; não recompila nem regenera os arquivos. As verificações por software e os ensaios magnéticos preliminares não substituem a validação elétrica e mecânica do conjunto montado.

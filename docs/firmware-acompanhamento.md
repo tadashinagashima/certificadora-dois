@@ -41,7 +41,7 @@ O Controle deve informar interrupções e consultar `reliable()` antes de usar a
 
 O fluxo previsto é entregar leituras válidas a `observe`; informar falhas com `markInputInterrupted`; consultar uma cópia da tentativa após a confirmação; e descartar o histórico ao encerrar a tentativa. A ordem entre leitura e confirmação será responsabilidade do Controle. As chamadas devem ser serializadas; não há sincronização entre tarefas ou interrupções.
 
-O sistema pressupõe jogadores seguindo as regras e as instruções de uso. Não há mecanismos de reconstrução de movimentações arbitrárias, troca de identidade de peças ou reconciliação com a posição oficial. A validação de legalidade permanece atribuída aos módulos futuros de interpretação e biblioteca de xadrez.
+O sistema pressupõe jogadores seguindo as regras e as instruções de uso. Não há mecanismos de reconstrução de movimentações arbitrárias, troca de identidade de peças ou reconciliação com a posição oficial. A validação de legalidade é fornecida pelo [adaptador THC](firmware-xadrez.md); a interpretação das alterações físicas para identificar o movimento candidato permanece pendente.
 
 Capturas, roque, *en passant* e promoção são sequências normais de ocupação para o acompanhamento. Os testes verificam a preservação dessas sequências; o módulo não reconhece sua natureza nem decide sua legalidade. A escolha da peça de promoção pertence à interface e à interpretação futuras.
 

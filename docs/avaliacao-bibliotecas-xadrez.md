@@ -2,7 +2,7 @@
 
 ## 1. Recomendação e escopo
 
-**Recomenda-se a THC Chess Library, na revisão fixada nesta avaliação, como candidata à integração futura.** Foi a única das três alternativas ensaiadas que passou nos casos funcionais mínimos e produziu um binário para o ESP32 clássico sem alterações no código upstream. A execução na placa, especialmente a verificação do layout de memória, permanece necessária antes da adoção definitiva.
+**A avaliação isolada recomendou a THC Chess Library, na revisão fixada, como candidata à integração.** Foi a única das três alternativas ensaiadas que passou nos casos funcionais mínimos e produziu um binário para o ESP32 clássico sem alterações no código upstream. Os resultados abaixo registram essa etapa, na qual a execução na placa ainda estava pendente. A implementação do adaptador e sua [validação embarcada posterior](firmware-xadrez.md#5-validação-embarcada), incluindo layout de memória, têm evidências próprias.
 
 A avaliação atende à escolha prevista no planejamento e aos [requisitos](requisitos.md) RF05, RF06, RF08, RF10 e RF11. Considera a [arquitetura existente](arquitetura.md), o prazo do projeto e a preservação das responsabilidades: regras e posição lógica na biblioteca; interpretação física, controle, interface e registro PGN em seus próprios módulos. Não houve integração com MoveTracker, sensoriamento ou firmware principal, nem implementação de interpretação de jogadas.
 

@@ -1,0 +1,18 @@
+{
+  "detected_ports": [
+    {
+      "port": {
+        "address": "COM7",
+        "label": "COM7",
+        "protocol": "serial",
+        "protocol_label": "Serial Port (USB)",
+        "properties": {
+          "pid": "0xEA60",
+          "serialNumber": "0001",
+          "vid": "0x10C4"
+        },
+        "hardware_id": "0001"
+      }
+    }
+  ]
+}

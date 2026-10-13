@@ -1,0 +1,354 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="(empty)"
+	tests="64"
+	failures="0"
+	disabled="0"
+	skipped="0"
+	hostname=""
+	time="0"
+	timestamp="2026-10-12T22:58:11"
+	>
+	<testcase name="interpretation.ordinary_frames" classname="interpretation.ordinary_frames" time="0.0095285" status="run">
+		<properties/>
+		<system-out>PASS ordinary_frames
+</system-out>
+	</testcase>
+	<testcase name="interpretation.square_limits" classname="interpretation.square_limits" time="0.010673" status="run">
+		<properties/>
+		<system-out>PASS square_limits
+</system-out>
+	</testcase>
+	<testcase name="interpretation.capture_orders" classname="interpretation.capture_orders" time="0.0086032" status="run">
+		<properties/>
+		<system-out>PASS capture_orders
+</system-out>
+	</testcase>
+	<testcase name="interpretation.capture_visibility" classname="interpretation.capture_visibility" time="0.0096671" status="run">
+		<properties/>
+		<system-out>PASS capture_visibility
+</system-out>
+	</testcase>
+	<testcase name="interpretation.capture_ambiguity" classname="interpretation.capture_ambiguity" time="0.0097755" status="run">
+		<properties/>
+		<system-out>PASS capture_ambiguity
+</system-out>
+	</testcase>
+	<testcase name="interpretation.intermediate_placements" classname="interpretation.intermediate_placements" time="0.0092687" status="run">
+		<properties/>
+		<system-out>PASS intermediate_placements
+</system-out>
+	</testcase>
+	<testcase name="interpretation.castling_orders" classname="interpretation.castling_orders" time="0.0094409" status="run">
+		<properties/>
+		<system-out>PASS castling_orders
+</system-out>
+	</testcase>
+	<testcase name="interpretation.castling_constraints" classname="interpretation.castling_constraints" time="0.0083228" status="run">
+		<properties/>
+		<system-out>PASS castling_constraints
+</system-out>
+	</testcase>
+	<testcase name="interpretation.en_passant_orders" classname="interpretation.en_passant_orders" time="0.0077268" status="run">
+		<properties/>
+		<system-out>PASS en_passant_orders
+</system-out>
+	</testcase>
+	<testcase name="interpretation.en_passant_constraints" classname="interpretation.en_passant_constraints" time="0.0109997" status="run">
+		<properties/>
+		<system-out>PASS en_passant_constraints
+</system-out>
+	</testcase>
+	<testcase name="interpretation.promotion_choices" classname="interpretation.promotion_choices" time="0.0094942" status="run">
+		<properties/>
+		<system-out>PASS promotion_choices
+</system-out>
+	</testcase>
+	<testcase name="interpretation.promotion_captures" classname="interpretation.promotion_captures" time="0.0083335" status="run">
+		<properties/>
+		<system-out>PASS promotion_captures
+</system-out>
+	</testcase>
+	<testcase name="interpretation.promotion_ambiguity" classname="interpretation.promotion_ambiguity" time="0.0103668" status="run">
+		<properties/>
+		<system-out>PASS promotion_ambiguity
+</system-out>
+	</testcase>
+	<testcase name="interpretation.selection_constraints" classname="interpretation.selection_constraints" time="0.0099494" status="run">
+		<properties/>
+		<system-out>PASS selection_constraints
+</system-out>
+	</testcase>
+	<testcase name="interpretation.no_move" classname="interpretation.no_move" time="0.0115296" status="run">
+		<properties/>
+		<system-out>PASS no_move
+</system-out>
+	</testcase>
+	<testcase name="interpretation.unreliable_input" classname="interpretation.unreliable_input" time="0.0085976" status="run">
+		<properties/>
+		<system-out>PASS unreliable_input
+</system-out>
+	</testcase>
+	<testcase name="interpretation.malformed_history" classname="interpretation.malformed_history" time="0.0117158" status="run">
+		<properties/>
+		<system-out>PASS malformed_history
+</system-out>
+	</testcase>
+	<testcase name="interpretation.position_mismatch" classname="interpretation.position_mismatch" time="0.0112" status="run">
+		<properties/>
+		<system-out>PASS position_mismatch
+</system-out>
+	</testcase>
+	<testcase name="interpretation.history_capacity" classname="interpretation.history_capacity" time="0.0097693" status="run">
+		<properties/>
+		<system-out>PASS history_capacity
+</system-out>
+	</testcase>
+	<testcase name="interpretation.discard_stale_frames" classname="interpretation.discard_stale_frames" time="0.0099719" status="run">
+		<properties/>
+		<system-out>PASS discard_stale_frames
+</system-out>
+	</testcase>
+	<testcase name="interpretation.timestamps" classname="interpretation.timestamps" time="0.0085417" status="run">
+		<properties/>
+		<system-out>PASS timestamps
+</system-out>
+	</testcase>
+	<testcase name="interpretation.preserves_inputs" classname="interpretation.preserves_inputs" time="0.0104956" status="run">
+		<properties/>
+		<system-out>PASS preserves_inputs
+</system-out>
+	</testcase>
+	<testcase name="interpretation.legal_constraints" classname="interpretation.legal_constraints" time="0.0088972" status="run">
+		<properties/>
+		<system-out>PASS legal_constraints
+</system-out>
+	</testcase>
+	<testcase name="interpretation.move_sequence" classname="interpretation.move_sequence" time="0.0106439" status="run">
+		<properties/>
+		<system-out>PASS move_sequence
+</system-out>
+	</testcase>
+	<testcase name="no_baseline" classname="no_baseline" time="0.0111233" status="run">
+		<properties/>
+		<system-out>PASS no_baseline
+1 test(s); MoveTracker=1568 bytes
+</system-out>
+	</testcase>
+	<testcase name="initialization" classname="initialization" time="0.0097026" status="run">
+		<properties/>
+		<system-out>PASS initialization
+1 test(s); MoveTracker=1568 bytes
+</system-out>
+	</testcase>
+	<testcase name="unchanged_frames" classname="unchanged_frames" time="0.0096132" status="run">
+		<properties/>
+		<system-out>PASS unchanged_frames
+1 test(s); MoveTracker=1568 bytes
+</system-out>
+	</testcase>
+	<testcase name="quiet_move" classname="quiet_move" time="0.0091248" status="run">
+		<properties/>
+		<system-out>PASS quiet_move
+1 test(s); MoveTracker=1568 bytes
+</system-out>
+	</testcase>
+	<testcase name="replacement" classname="replacement" time="0.0104016" status="run">
+		<properties/>
+		<system-out>PASS replacement
+1 test(s); MoveTracker=1568 bytes
+</system-out>
+	</testcase>
+	<testcase name="capture_attacker_first" classname="capture_attacker_first" time="0.0087786" status="run">
+		<properties/>
+		<system-out>PASS capture_attacker_first
+1 test(s); MoveTracker=1568 bytes
+</system-out>
+	</testcase>
+	<testcase name="capture_victim_first" classname="capture_victim_first" time="0.0100757" status="run">
+		<properties/>
+		<system-out>PASS capture_victim_first
+1 test(s); MoveTracker=1568 bytes
+</system-out>
+	</testcase>
+	<testcase name="capture_grouped" classname="capture_grouped" time="0.0102298" status="run">
+		<properties/>
+		<system-out>PASS capture_grouped
+1 test(s); MoveTracker=1568 bytes
+</system-out>
+	</testcase>
+	<testcase name="castling_kingside" classname="castling_kingside" time="0.0096792" status="run">
+		<properties/>
+		<system-out>PASS castling_kingside
+1 test(s); MoveTracker=1568 bytes
+</system-out>
+	</testcase>
+	<testcase name="castling_queenside" classname="castling_queenside" time="0.0088684" status="run">
+		<properties/>
+		<system-out>PASS castling_queenside
+1 test(s); MoveTracker=1568 bytes
+</system-out>
+	</testcase>
+	<testcase name="en_passant" classname="en_passant" time="0.0109796" status="run">
+		<properties/>
+		<system-out>PASS en_passant
+1 test(s); MoveTracker=1568 bytes
+</system-out>
+	</testcase>
+	<testcase name="promotion" classname="promotion" time="0.0090539" status="run">
+		<properties/>
+		<system-out>PASS promotion
+1 test(s); MoveTracker=1568 bytes
+</system-out>
+	</testcase>
+	<testcase name="grouped_changes" classname="grouped_changes" time="0.0091693" status="run">
+		<properties/>
+		<system-out>PASS grouped_changes
+1 test(s); MoveTracker=1568 bytes
+</system-out>
+	</testcase>
+	<testcase name="all_64_squares" classname="all_64_squares" time="0.0089307" status="run">
+		<properties/>
+		<system-out>PASS all_64_squares
+1 test(s); MoveTracker=1568 bytes
+</system-out>
+	</testcase>
+	<testcase name="discard_and_correction" classname="discard_and_correction" time="0.0105639" status="run">
+		<properties/>
+		<system-out>PASS discard_and_correction
+1 test(s); MoveTracker=1568 bytes
+</system-out>
+	</testcase>
+	<testcase name="snapshot_independence" classname="snapshot_independence" time="0.0096168" status="run">
+		<properties/>
+		<system-out>PASS snapshot_independence
+1 test(s); MoveTracker=1568 bytes
+</system-out>
+	</testcase>
+	<testcase name="capacity_and_overflow" classname="capacity_and_overflow" time="0.0102978" status="run">
+		<properties/>
+		<system-out>PASS capacity_and_overflow
+1 test(s); MoveTracker=1568 bytes
+</system-out>
+	</testcase>
+	<testcase name="interruption" classname="interruption" time="0.0094326" status="run">
+		<properties/>
+		<system-out>PASS interruption
+1 test(s); MoveTracker=1568 bytes
+</system-out>
+	</testcase>
+	<testcase name="interruption_before_baseline" classname="interruption_before_baseline" time="0.0125926" status="run">
+		<properties/>
+		<system-out>PASS interruption_before_baseline
+1 test(s); MoveTracker=1568 bytes
+</system-out>
+	</testcase>
+	<testcase name="discard_during_interruption" classname="discard_during_interruption" time="0.0102324" status="run">
+		<properties/>
+		<system-out>PASS discard_during_interruption
+1 test(s); MoveTracker=1568 bytes
+</system-out>
+	</testcase>
+	<testcase name="combined_losses" classname="combined_losses" time="0.009462" status="run">
+		<properties/>
+		<system-out>PASS combined_losses
+1 test(s); MoveTracker=1568 bytes
+</system-out>
+	</testcase>
+	<testcase name="timestamp_wrap" classname="timestamp_wrap" time="0.0093192" status="run">
+		<properties/>
+		<system-out>PASS timestamp_wrap
+1 test(s); MoveTracker=1568 bytes
+</system-out>
+	</testcase>
+	<testcase name="backend_internals" classname="backend_internals" time="0.0150516" status="run">
+		<properties/>
+		<system-out>sizeof ChessAdapter=2144 LegalMoves=664 Move=3
+PASS backend_internals
+</system-out>
+	</testcase>
+	<testcase name="initial_coordinates" classname="initial_coordinates" time="0.0096522" status="run">
+		<properties/>
+		<system-out>PASS initial_coordinates
+</system-out>
+	</testcase>
+	<testcase name="legal_moves" classname="legal_moves" time="0.0096474" status="run">
+		<properties/>
+		<system-out>PASS legal_moves
+</system-out>
+	</testcase>
+	<testcase name="invalid_moves" classname="invalid_moves" time="0.0085956" status="run">
+		<properties/>
+		<system-out>PASS invalid_moves
+</system-out>
+	</testcase>
+	<testcase name="queries_preserve" classname="queries_preserve" time="0.0082617" status="run">
+		<properties/>
+		<system-out>PASS queries_preserve
+</system-out>
+	</testcase>
+	<testcase name="apply_reset" classname="apply_reset" time="0.0088595" status="run">
+		<properties/>
+		<system-out>PASS apply_reset
+</system-out>
+	</testcase>
+	<testcase name="fen_loading" classname="fen_loading" time="0.009317" status="run">
+		<properties/>
+		<system-out>PASS fen_loading
+</system-out>
+	</testcase>
+	<testcase name="capture" classname="capture" time="0.0118247" status="run">
+		<properties/>
+		<system-out>PASS capture
+</system-out>
+	</testcase>
+	<testcase name="castling" classname="castling" time="0.0101358" status="run">
+		<properties/>
+		<system-out>PASS castling
+</system-out>
+	</testcase>
+	<testcase name="castling_constraints" classname="castling_constraints" time="0.0080693" status="run">
+		<properties/>
+		<system-out>PASS castling_constraints
+</system-out>
+	</testcase>
+	<testcase name="en_passant" classname="en_passant" time="0.0105538" status="run">
+		<properties/>
+		<system-out>PASS en_passant
+</system-out>
+	</testcase>
+	<testcase name="promotions" classname="promotions" time="0.010648" status="run">
+		<properties/>
+		<system-out>PASS promotions
+</system-out>
+	</testcase>
+	<testcase name="san" classname="san" time="0.0102907" status="run">
+		<properties/>
+		<system-out>PASS san
+</system-out>
+	</testcase>
+	<testcase name="terminal" classname="terminal" time="0.0089422" status="run">
+		<properties/>
+		<system-out>PASS terminal
+</system-out>
+	</testcase>
+	<testcase name="material" classname="material" time="0.0086162" status="run">
+		<properties/>
+		<system-out>PASS material
+</system-out>
+	</testcase>
+	<testcase name="fifty_move" classname="fifty_move" time="0.0091549" status="run">
+		<properties/>
+		<system-out>PASS fifty_move
+</system-out>
+	</testcase>
+	<testcase name="repetition" classname="repetition" time="0.0078954" status="run">
+		<properties/>
+		<system-out>PASS repetition
+</system-out>
+	</testcase>
+	<testcase name="copy_history" classname="copy_history" time="0.009875" status="run">
+		<properties/>
+		<system-out>PASS copy_history
+</system-out>
+	</testcase>
+</testsuite>

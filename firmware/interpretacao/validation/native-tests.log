@@ -1,0 +1,134 @@
+Internal ctest changing into directory: C:/Users/danie/Desktop/certificadora-dois/firmware/interpretacao/build/native
+Test project C:/Users/danie/Desktop/certificadora-dois/firmware/interpretacao/build/native
+      Start  1: interpretation.ordinary_frames
+ 1/64 Test  #1: interpretation.ordinary_frames ...........   Passed    0.01 sec
+      Start  2: interpretation.square_limits
+ 2/64 Test  #2: interpretation.square_limits .............   Passed    0.01 sec
+      Start  3: interpretation.capture_orders
+ 3/64 Test  #3: interpretation.capture_orders ............   Passed    0.01 sec
+      Start  4: interpretation.capture_visibility
+ 4/64 Test  #4: interpretation.capture_visibility ........   Passed    0.01 sec
+      Start  5: interpretation.capture_ambiguity
+ 5/64 Test  #5: interpretation.capture_ambiguity .........   Passed    0.01 sec
+      Start  6: interpretation.intermediate_placements
+ 6/64 Test  #6: interpretation.intermediate_placements ...   Passed    0.01 sec
+      Start  7: interpretation.castling_orders
+ 7/64 Test  #7: interpretation.castling_orders ...........   Passed    0.01 sec
+      Start  8: interpretation.castling_constraints
+ 8/64 Test  #8: interpretation.castling_constraints ......   Passed    0.01 sec
+      Start  9: interpretation.en_passant_orders
+ 9/64 Test  #9: interpretation.en_passant_orders .........   Passed    0.01 sec
+      Start 10: interpretation.en_passant_constraints
+10/64 Test #10: interpretation.en_passant_constraints ....   Passed    0.01 sec
+      Start 11: interpretation.promotion_choices
+11/64 Test #11: interpretation.promotion_choices .........   Passed    0.01 sec
+      Start 12: interpretation.promotion_captures
+12/64 Test #12: interpretation.promotion_captures ........   Passed    0.01 sec
+      Start 13: interpretation.promotion_ambiguity
+13/64 Test #13: interpretation.promotion_ambiguity .......   Passed    0.01 sec
+      Start 14: interpretation.selection_constraints
+14/64 Test #14: interpretation.selection_constraints .....   Passed    0.01 sec
+      Start 15: interpretation.no_move
+15/64 Test #15: interpretation.no_move ...................   Passed    0.01 sec
+      Start 16: interpretation.unreliable_input
+16/64 Test #16: interpretation.unreliable_input ..........   Passed    0.01 sec
+      Start 17: interpretation.malformed_history
+17/64 Test #17: interpretation.malformed_history .........   Passed    0.01 sec
+      Start 18: interpretation.position_mismatch
+18/64 Test #18: interpretation.position_mismatch .........   Passed    0.01 sec
+      Start 19: interpretation.history_capacity
+19/64 Test #19: interpretation.history_capacity ..........   Passed    0.01 sec
+      Start 20: interpretation.discard_stale_frames
+20/64 Test #20: interpretation.discard_stale_frames ......   Passed    0.01 sec
+      Start 21: interpretation.timestamps
+21/64 Test #21: interpretation.timestamps ................   Passed    0.01 sec
+      Start 22: interpretation.preserves_inputs
+22/64 Test #22: interpretation.preserves_inputs ..........   Passed    0.01 sec
+      Start 23: interpretation.legal_constraints
+23/64 Test #23: interpretation.legal_constraints .........   Passed    0.01 sec
+      Start 24: interpretation.move_sequence
+24/64 Test #24: interpretation.move_sequence .............   Passed    0.01 sec
+      Start 25: no_baseline
+25/64 Test #25: no_baseline ..............................   Passed    0.01 sec
+      Start 26: initialization
+26/64 Test #26: initialization ...........................   Passed    0.01 sec
+      Start 27: unchanged_frames
+27/64 Test #27: unchanged_frames .........................   Passed    0.01 sec
+      Start 28: quiet_move
+28/64 Test #28: quiet_move ...............................   Passed    0.01 sec
+      Start 29: replacement
+29/64 Test #29: replacement ..............................   Passed    0.01 sec
+      Start 30: capture_attacker_first
+30/64 Test #30: capture_attacker_first ...................   Passed    0.01 sec
+      Start 31: capture_victim_first
+31/64 Test #31: capture_victim_first .....................   Passed    0.01 sec
+      Start 32: capture_grouped
+32/64 Test #32: capture_grouped ..........................   Passed    0.01 sec
+      Start 33: castling_kingside
+33/64 Test #33: castling_kingside ........................   Passed    0.01 sec
+      Start 34: castling_queenside
+34/64 Test #34: castling_queenside .......................   Passed    0.01 sec
+      Start 35: en_passant
+35/64 Test #35: en_passant ...............................   Passed    0.01 sec
+      Start 36: promotion
+36/64 Test #36: promotion ................................   Passed    0.01 sec
+      Start 37: grouped_changes
+37/64 Test #37: grouped_changes ..........................   Passed    0.01 sec
+      Start 38: all_64_squares
+38/64 Test #38: all_64_squares ...........................   Passed    0.01 sec
+      Start 39: discard_and_correction
+39/64 Test #39: discard_and_correction ...................   Passed    0.01 sec
+      Start 40: snapshot_independence
+40/64 Test #40: snapshot_independence ....................   Passed    0.01 sec
+      Start 41: capacity_and_overflow
+41/64 Test #41: capacity_and_overflow ....................   Passed    0.01 sec
+      Start 42: interruption
+42/64 Test #42: interruption .............................   Passed    0.01 sec
+      Start 43: interruption_before_baseline
+43/64 Test #43: interruption_before_baseline .............   Passed    0.01 sec
+      Start 44: discard_during_interruption
+44/64 Test #44: discard_during_interruption ..............   Passed    0.01 sec
+      Start 45: combined_losses
+45/64 Test #45: combined_losses ..........................   Passed    0.01 sec
+      Start 46: timestamp_wrap
+46/64 Test #46: timestamp_wrap ...........................   Passed    0.01 sec
+      Start 47: backend_internals
+47/64 Test #47: backend_internals ........................   Passed    0.02 sec
+      Start 48: initial_coordinates
+48/64 Test #48: initial_coordinates ......................   Passed    0.01 sec
+      Start 49: legal_moves
+49/64 Test #49: legal_moves ..............................   Passed    0.01 sec
+      Start 50: invalid_moves
+50/64 Test #50: invalid_moves ............................   Passed    0.01 sec
+      Start 51: queries_preserve
+51/64 Test #51: queries_preserve .........................   Passed    0.01 sec
+      Start 52: apply_reset
+52/64 Test #52: apply_reset ..............................   Passed    0.01 sec
+      Start 53: fen_loading
+53/64 Test #53: fen_loading ..............................   Passed    0.01 sec
+      Start 54: capture
+54/64 Test #54: capture ..................................   Passed    0.01 sec
+      Start 55: castling
+55/64 Test #55: castling .................................   Passed    0.01 sec
+      Start 56: castling_constraints
+56/64 Test #56: castling_constraints .....................   Passed    0.01 sec
+      Start 57: en_passant
+57/64 Test #57: en_passant ...............................   Passed    0.01 sec
+      Start 58: promotions
+58/64 Test #58: promotions ...............................   Passed    0.01 sec
+      Start 59: san
+59/64 Test #59: san ......................................   Passed    0.01 sec
+      Start 60: terminal
+60/64 Test #60: terminal .................................   Passed    0.01 sec
+      Start 61: material
+61/64 Test #61: material .................................   Passed    0.01 sec
+      Start 62: fifty_move
+62/64 Test #62: fifty_move ...............................   Passed    0.01 sec
+      Start 63: repetition
+63/64 Test #63: repetition ...............................   Passed    0.01 sec
+      Start 64: copy_history
+64/64 Test #64: copy_history .............................   Passed    0.01 sec
+
+100% tests passed, 0 tests failed out of 64
+
+Total Test time (real) =   0.68 sec

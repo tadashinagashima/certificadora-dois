@@ -36,7 +36,7 @@ Uma captura em destino inicialmente ocupado exige que esse destino tenha apareci
 
 O roque aceita movimentação do rei e da torre em qualquer ordem, desde que o quadro final corresponda ao lance completo. No *en passant*, a retirada do peão capturado pode ocorrer antes ou depois da colocação do atacante. Na promoção, a retirada/recolocação na última fileira é aceita, mas os sensores não distinguem a peça promovida; essa informação vem de `selection`.
 
-A função usa armazenamento local de tamanho limitado e não acrescenta alocação dinâmica própria. São examinados no máximo 64 quadros e a lista fixa de até 218 movimentos do adaptador. `apply()` revalida cada candidato na cópia, portanto o custo inclui gerações repetidas da lista legal, aproximadamente quadrático em sua quantidade. Essa escolha preserva a interface existente e evita duplicar regras; latência e margem de pilha deverão ser medidas na execução embarcada do módulo.
+A função usa armazenamento local de tamanho limitado e não acrescenta alocação dinâmica própria. São examinados no máximo 64 quadros e a lista fixa de até 218 movimentos do adaptador. `apply()` revalida cada candidato na cópia, portanto o custo inclui gerações repetidas da lista legal, aproximadamente quadrático em sua quantidade. Essa escolha preserva a interface existente e evita duplicar regras. A validação embarcada descrita adiante mede esse custo sem alterar o algoritmo.
 
 ## 3. Limites e integração futura
 
@@ -68,4 +68,77 @@ Em **12/10/2026** (horário de Brasília), passaram **64/64 casos nativos**: 24 
 
 O [relatório estruturado](../firmware/interpretacao/validation/resultado.json) registra versões, comandos, hashes e a ausência de upload/execução na placa; o [JUnit](../firmware/interpretacao/validation/native-tests.xml) identifica os casos e o [log ESP32](../firmware/interpretacao/validation/esp32-compile.log) registra a compilação. Os tamanhos do binário incluem suíte e core Arduino; não medem o consumo isolado do módulo, o pico de heap ou a margem de pilha.
 
-A execução da nova suíte na placa, a medição de seus recursos e a integração com confirmação e aquisição física permanecem pendentes. A [validação embarcada anterior do adaptador](firmware-xadrez.md#5-validação-embarcada) mantém seu escopo próprio; não comprova execução do intérprete.
+Essa primeira rodada não executou a nova suíte na placa. A [validação embarcada anterior do adaptador](firmware-xadrez.md#5-validação-embarcada) mantém seu escopo próprio; os ensaios do intérprete estão descritos a seguir.
+
+## 5. Validação embarcada
+
+A [sonda instrumentada](../firmware/interpretacao/tests/esp32_runtime/runtime_probe.cpp) adapta a infraestrutura de medição do ChessAdapter e reutiliza os 24 testes funcionais sem alterações. Executa a suíte antes e depois da estabilidade e em intervalos de aproximadamente dez segundos. Os dados de ocupação são sintéticos, produzidos pelo MoveTracker; não há acesso à matriz, aos botões ou ao SD.
+
+Com a placa conectada, identificar a porta com `arduino-cli board list` e executar, substituindo `COM7` quando necessário:
+
+```powershell
+& .\firmware\interpretacao\validar-esp32.ps1 -Port COM7 -DurationSeconds 180
+```
+
+O parâmetro `-CompileOnly` prepara o binário sem gravar ou executar na placa. O upload substitui o programa da placa pela sonda, que aguarda comandos seriais após cada ensaio. Não é necessário manter periféricos conectados. Os parâmetros de ferramentas e ambiente seguem a seção anterior.
+
+Cada rodada recebe identificador próprio e pasta em `firmware/interpretacao/validation/hardware/`, com fontes da instrumentação utilizada, versões, comandos, hashes, logs de compilação/upload e captura serial. O coletor distingue compilação, upload e execução, confere os nomes dos 24 testes e os metadados dos 20 cenários, e rejeita falhas, reinícios, watchdog, timeout ou conclusão incompleta. Ao terminar, confere novamente os hashes de fontes e imagens compiladas; caches `*_flashed.bin`, modificados pelo esptool, não são tratados como imagens originais.
+
+### Método de medição
+
+- **Latência:** dez aquecimentos e 200 amostras por cenário, usando `esp_timer_get_time()` em microssegundos. O intervalo contém a chamada completa a `interpretMove`, incluindo cópias e revalidações internas. Preparação do FEN/snapshot, conferência do status/movimento devolvido, Serial e pausas ficam fora do intervalo. O custo da leitura do relógio não é subtraído.
+- **Cenários:** movimento inicial, captura, quatro roques, Kiwipete, *en passant* de ambas as cores, promoção pendente/selecionada e com captura, ausência de lance, rejeição, ambiguidade, interrupção e histórico com 64 quadros. Uma posição sintética com três damas e 62 movimentos legais amplia a carga; não representa prova de alcançabilidade nem pior caso do xadrez. As contagens de movimentos legais são verificadas na preparação.
+- **Heap:** memória interna endereçável por byte, com espaço livre, mínimo por fase, maior bloco e verificação de integridade. O monitor local do ESP-IDF separa o ensaio do mínimo global atingido no boot. Nos benchmarks e na estabilidade, os valores anteriores à abertura e posteriores ao fechamento permitem distinguir o armazenamento temporário do monitor. Os mínimos agregam regiões e incluem atividades do runtime; não isolam exclusivamente o intérprete.
+- **Pilha:** margem mínima cumulativa do `loopTask`, em bytes, medida por `uxTaskGetStackHighWaterMark(nullptr)`, com reserva de 32 KiB. Inclui suíte, cópias de snapshots/tabuleiros, core e instrumentação. Não é o consumo isolado da função nem define a pilha da aplicação futura.
+- **Estabilidade:** repetição dos 20 cenários, conferindo cada resultado e repetindo a suíte periodicamente. O watchdog do `loopTask` é habilitado explicitamente e seu registro é verificado; a alimentação ocorre entre casos/amostras, nunca dentro de `interpretMove`. Pausas permitem execução das demais tarefas. Heap, integridade e margem de pilha são registrados em checkpoints.
+
+### Resultados na placa — 13/10/2026
+
+A [rodada concluída](../firmware/interpretacao/validation/hardware/20261013T0736246658167Z/resultado.json) teve compilação, upload e execução real aprovados pela **COM7**. A DevKit V1 informada pela equipe identificou **ESP32-D0WD-V3, revisão 3.1, dois núcleos, 240 MHz, flash de 4 MiB e ausência de PSRAM**. Foram utilizados Arduino-ESP32 3.3.12, ESP-IDF v5.5.5 e esptool 5.3.1, com a sonda no `loopTask`, núcleo 1.
+
+O [log serial](../firmware/interpretacao/validation/hardware/20261013T0736246658167Z/serial.log) registra início, resultados e conclusão com o mesmo identificador. A [conferência das evidências](../firmware/interpretacao/validation/hardware/20261013T0736246658167Z/evidence-check.json) confirmou os 115 registros até `end`, 18 hashes de fontes, cinco imagens compiladas e as cópias da sonda/coletor utilizadas. MoveInterpreter, MoveTracker, ChessAdapter, THC e os testes funcionais permaneceram iguais à validação anterior. Os **64/64 testes nativos** também passaram novamente antes do upload.
+
+- **Funcionalidade:** 24/24 casos aprovados antes e depois da estabilidade, mais 18 execuções intermediárias completas: **20 suítes e 480 casos aprovados**. Os benchmarks tiveram **4.000 amostras e 200 aquecimentos**, todos com status e movimento esperados.
+- **Estabilidade:** **57.640 interpretações em 180,265 segundos**, distribuídas por 2.882 lotes dos 20 cenários. Não houve falhas de retorno, reinícios inesperados, watchdog ou corrupção de heap observada.
+- **Heap:** checkpoints constantes em **234.508 bytes livres**, mínimo local agregado de **234.128 bytes** e maior bloco de **110.580 bytes**. Antes e depois do monitor de estabilidade havia **234.568 bytes livres**, também o valor final. Nos 20 benchmarks, espaço livre antes/depois e mínimo local foram iguais; os **60 bytes temporários do monitor** foram restituídos. Não houve retenção progressiva observada durante a estabilidade.
+- **Pilha:** margem mínima de **12.600 bytes**, com **32.768 bytes reservados**, diferença de 20.168 bytes em relação à reserva. Após a primeira suíte, a margem era 16.408 bytes; o mínimo menor apareceu quando a suíte foi executada dentro da estabilidade. Esses valores incluem os quadros de chamada e dados locais da instrumentação, não apenas a interpretação.
+- **Tamanhos:** sonda completa com **344.527 bytes de flash** e **25.512 bytes de dados globais**. No alvo, `sizeof(ChessAdapter)=2140`, `sizeof(LegalMoves)=660`, `sizeof(AttemptSnapshot)=1560`, `sizeof(MoveTracker)=1560` e `sizeof(InterpretationResult)=8` bytes.
+
+Latências em **microssegundos**, com 200 amostras por cenário:
+
+| Cenário | Movimentos legais | Mediana | Máximo |
+| --- | ---: | ---: | ---: |
+| Inicial, e2–e4 | 20 | 2.271 | 2.281 |
+| Kiwipete, roque curto | 48 | 9.155 | 9.161 |
+| Captura e4xd5 | 7 | 513 | 514 |
+| Roque branco curto | 26 | 3.987 | 3.988 |
+| Roque branco longo | 26 | 3.987 | 3.988 |
+| Roque preto curto | 26 | 3.975 | 3.977 |
+| Roque preto longo | 26 | 3.975 | 3.977 |
+| En passant branco | 7 | 512,5 | 516 |
+| En passant preto | 7 | 521,5 | 523 |
+| Promoção branca, escolha pendente | 9 | 723 | 725 |
+| Promoção branca, dama selecionada | 9 | 142 | 147 |
+| Promoção preta, dama selecionada | 9 | 146 | 151 |
+| Promoção com captura, escolha pendente | 13 | 1.234 | 1.239 |
+| Promoção com captura, dama selecionada | 13 | 262 | 267 |
+| Sem movimento | 20 | 8 | 10 |
+| Lance ilegal e2–e5 | 20 | 2.272 | 2.276 |
+| Captura ambígua | 13 | 1.215 | 1.219 |
+| e2–e4 com 64 quadros | 20 | 2.287 | 2.295 |
+| Entrada interrompida | 20 | 1 | 2 |
+| Posição sintética com três damas | 62 | 17.790 | 17.793 |
+
+Mínimos e médias também constam no JSON. As contagens indicam a lista legal da posição, não necessariamente o número de candidatos simulados: destinos de captura sem vacância e tipos de promoção diferentes da seleção são filtrados. Os resultados rápidos próximos de 1 µs estão sujeitos à resolução do relógio. O maior tempo observado, **17,793 ms**, não é limite superior para todas as posições ou para o firmware integrado.
+
+O heap livre caiu de 235.120 bytes antes da primeira suíte para 234.568 bytes ao final, diferença de **552 bytes**. A redução ocorreu entre fases, fora dos intervalos medidos dos benchmarks; sua origem não foi isolada e não é atribuída exclusivamente ao intérprete. O mínimo global de 194.284 bytes já existia antes do ensaio. A análise de estabilidade usa as leituras com o monitor local nas mesmas condições.
+
+### Ocorrências, parecer e pendências
+
+Os avisos da compilação concluída pertencem aos fontes THC preservados; o ensaio não exigiu alterações nos módulos funcionais.
+
+O [upload](../firmware/interpretacao/validation/hardware/20261013T0736246658167Z/esp32-upload.log) verificou os dados gravados e reiniciou a placa automaticamente, sem intervenção em BOOT. O esptool repetiu a estimativa de cristal de 41,01 MHz antes de normalizá-la para 40 MHz, ocorrência já analisada no [ensaio do adaptador](firmware-xadrez.md#ocorrências-e-parecer). Esse aviso não é uma medição direta do cristal; não ocorreu falha de comunicação ou execução que justificasse alterar a configuração nesta rodada.
+
+**O MoveInterpreter é viável para prosseguir à integração no ESP32 adotado**, considerando os casos, latências e recursos observados nesta sonda. Nenhum problema medido exige refatoração ou otimização do módulo.
+
+A aplicação futura ainda precisa dimensionar sua pilha e medir o comportamento com Controle, aquisição e demais tarefas. Não foi ensaiada a pilha Arduino padrão de 8 KiB; a reserva de 32 KiB da suíte não deve ser transferida automaticamente ao firmware final. O ensaio de três minutos não demonstra estabilidade indefinida nem ausência universal de alocação/vazamento. Os casos usam ocupações sintéticas e até 62 movimentos legais; não substituem o teste da matriz, a validação das transições físicas de captura ou a avaliação de todas as posições possíveis. A integração com confirmação, interface e registro da partida permanece fora desta etapa.

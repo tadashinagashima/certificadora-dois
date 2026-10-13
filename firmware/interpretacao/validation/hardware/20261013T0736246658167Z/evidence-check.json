@@ -1,0 +1,18 @@
+{
+  "serialMatchesReport": true,
+  "serialRecordsChecked": 115,
+  "sourceHashesChecked": 18,
+  "binaryHashesChecked": 5,
+  "probeAndCollectorCopiesChecked": 3,
+  "benchmarkSamples": 4000,
+  "warmups": 200,
+  "fullSuites": 20,
+  "functionalCases": 480,
+  "stabilityInterpretations": 57640,
+  "stabilityElapsedMs": 180265,
+  "minimumStackFreeBytes": 12600,
+  "allBenchmarksHeapBeforeAfterEqual": true,
+  "allBenchmarksMinimumEqualsBefore": true,
+  "allBenchmarksMonitorStorageReturned": true,
+  "maximumObservedInterpretationUs": 17793
+}

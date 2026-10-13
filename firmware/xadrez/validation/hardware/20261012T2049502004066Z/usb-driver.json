@@ -1,7 +1,0 @@
-{
-  "DeviceName": "Silicon Labs CP210x USB to UART Bridge",
-  "DriverVersion": "11.6.0.420",
-  "DriverDate": "2026-08-13T21:00:00-03:00",
-  "InfName": "oem16.inf",
-  "IsSigned": true
-}

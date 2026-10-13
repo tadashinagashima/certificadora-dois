@@ -1,9 +1,0 @@
-                                                                               
- Usage: esptool.exe [OPTIONS] COMMAND [ARGS]...                                
-                                                                               
- Try 'esptool.exe -h' for help                                                 
-+- Error ---------------------------------------------------------------------+
-| No such command 'read-reg'. (Did you mean one of: 'read-mac', 'read-mem',   |
-| 'read-nand-spare'?)                                                         |
-+-----------------------------------------------------------------------------+
-                                                                               

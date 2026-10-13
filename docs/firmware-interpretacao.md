@@ -44,7 +44,7 @@ O sistema pressupõe jogadores seguindo as regras e o procedimento de uso. Não 
 
 O chamador deve fornecer tentativa e posição correspondentes à mesma jogada e serializar as chamadas. A igualdade de ocupação inicial não prova identidade das peças, lado a jogar ou atualidade do histórico. Transições que ocorreram inteiramente entre leituras não podem ser reconstruídas; em uma captura, a ausência da vacância observada impede a identificação, mesmo se houver um único destino legal.
 
-O Controle futuro receberá a confirmação, entregará o snapshot à interpretação e decidirá a aplicação oficial e o descarte da tentativa. A dependência do intérprete em `MoveTracker.h` utiliza apenas seu tipo de dados; não há consulta direta a um tracker ativo. O módulo não aplica o lance oficial, escolhe sinais da interface, lê botões, produz SAN/PGN ou altera o ciclo de vida da tentativa. Os [diagramas existentes](arquitetura.md) continuam aplicáveis.
+O [Controle da partida](firmware-controle.md) recebe a confirmação, entrega o snapshot à interpretação e decide a aplicação oficial e o descarte da tentativa. A dependência do intérprete em `MoveTracker.h` utiliza apenas seu tipo de dados; não há consulta direta a um tracker ativo. O módulo não aplica o lance oficial, escolhe sinais da interface, lê botões, produz SAN/PGN ou altera o ciclo de vida da tentativa. Os [diagramas](arquitetura.md) representam a organização completa prevista.
 
 ## 4. Validação
 

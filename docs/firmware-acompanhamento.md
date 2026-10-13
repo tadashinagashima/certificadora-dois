@@ -37,9 +37,9 @@ O descarte com leitura disponível começa uma tentativa limpa. Se a aquisição
 
 O Controle deve informar interrupções e consultar `reliable()` antes de usar a tentativa. A aquisição é responsável por produzir observações completas, tratar instabilidade dos sensores e determinar se houve uma pausa incompatível com sua operação. O módulo não detecta transições que aconteceram inteiramente entre duas leituras.
 
-## 3. Uso pelo controle futuro
+## 3. Uso pelo Controle
 
-O fluxo previsto é entregar leituras válidas a `observe`; informar falhas com `markInputInterrupted`; consultar uma cópia da tentativa após a confirmação; e descartar o histórico ao encerrar a tentativa. A ordem entre leitura e confirmação será responsabilidade do Controle. As chamadas devem ser serializadas; não há sincronização entre tarefas ou interrupções.
+O [Controle da partida](firmware-controle.md) entrega leituras válidas a `observe`, informa falhas com `markInputInterrupted` e consulta uma cópia da tentativa após a confirmação. Seu contrato define quando descartar o histórico e exigir nova correspondência com a posição oficial. A aquisição deve entregar as observações disponíveis antes do comando de confirmação. As chamadas devem ser serializadas; não há sincronização entre tarefas ou interrupções.
 
 O sistema pressupõe jogadores seguindo as regras e as instruções de uso. Não há mecanismos de reconstrução de movimentações arbitrárias, troca de identidade de peças ou reconciliação com a posição oficial. A validação de legalidade é fornecida pelo [adaptador THC](firmware-xadrez.md); a [interpretação](firmware-interpretacao.md) utiliza a tentativa para identificar o movimento candidato sem alterar o acompanhamento.
 

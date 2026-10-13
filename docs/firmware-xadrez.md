@@ -2,7 +2,7 @@
 
 O [ChessAdapter](../firmware/xadrez/src/ChessAdapter.h) implementa a interface com a THC selecionada na [avaliação de bibliotecas](avaliacao-bibliotecas-xadrez.md). Mantém a posição lógica, consulta movimentos legais, aplica lances validados e fornece SAN e condições de encerramento. Atende à responsabilidade da biblioteca prevista na [arquitetura](arquitetura.md), com testes próprios de RF05, RF06, RF08, RF10 e da notação de RF11.
 
-O módulo é C++14, independente de Arduino e do MoveTracker. Não recebe ocupações físicas, eventos de botão ou confirmação; não identifica movimentos, coordena partidas ou produz PGN. O Controle futuro deverá chamar `apply()` somente após a confirmação do jogador. Nenhum firmware principal ou ligação com periféricos foi acrescentado.
+O módulo é C++14, independente de Arduino e do MoveTracker. Não recebe ocupações físicas, eventos de botão ou confirmação; não identifica movimentos, coordena partidas ou produz PGN. O [Controle da partida](firmware-controle.md) chama `apply()` somente após a confirmação e a identificação do lance. O adaptador não possui ligação com periféricos.
 
 ## 1. Contrato
 
@@ -139,4 +139,4 @@ No segundo upload, o esptool emitiu uma estimativa de cristal de 41,01 MHz antes
 
 Dimensionar e medir novamente pilha, heap e latência no firmware integrado. A suíte não foi executada com a pilha Arduino padrão de 8 KiB, e sua reserva de 24 KiB não deve ser transposta automaticamente para a aplicação. Permanecem os limites de histórico, FEN e condições de empate descritos no contrato; os testes não constituem certificação completa de todas as posições de xadrez.
 
-A [interpretação das movimentações](firmware-interpretacao.md) utiliza o adaptador sem modificar seu contrato. Controle, interface de promoção, geração PGN e ligação com sensoriamento/SD continuam em suas etapas próprias. Os [testes físicos do tabuleiro](plano-testes-fisicos.md) não foram substituídos por esta validação.
+A [interpretação das movimentações](firmware-interpretacao.md) e o [Controle da partida](firmware-controle.md) utilizam o adaptador sem modificar seu contrato. Interface de promoção, geração PGN e ligação com sensoriamento/SD continuam em suas etapas próprias. Os [testes físicos do tabuleiro](plano-testes-fisicos.md) não foram substituídos por esta validação.

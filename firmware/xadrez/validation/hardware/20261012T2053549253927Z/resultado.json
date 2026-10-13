@@ -1,0 +1,1070 @@
+{
+  "startedAtUtc": "2026-10-12T20:53:54.9253927Z",
+  "finishedAtUtc": "2026-10-12T20:57:26.3678389Z",
+  "success": true,
+  "failure": null,
+  "compileOnly": false,
+  "compileStarted": true,
+  "compileSucceeded": true,
+  "uploadStarted": true,
+  "uploadSucceeded": true,
+  "uploadPerformed": true,
+  "hardwareExecutionStarted": true,
+  "hardwareExecutionPerformed": true,
+  "hardwareExecutionCompleted": true,
+  "fqbn": "esp32:esp32:esp32",
+  "port": "COM7",
+  "baudRate": 115200,
+  "requestedDurationSeconds": 180,
+  "runId": "c3dd4f34835848d4b95b8b588e76a4c5",
+  "commandSentAtUtc": "2026-10-12T20:54:23.7147555Z",
+  "upstreamCommit": "aa217cb9b4d759cd7c07e11c98526b0187b0a64b",
+  "arduinoCliVersion": "arduino-cli  Version: 1.5.2-rc.1 Commit: fef6e48df Date: 2026-07-23T11:13:25Z",
+  "installedCores": "ID          Installed Latest Name\narduino:avr 1.8.6     1.8.8  Arduino AVR Boards\nesp32:esp32 3.3.12    3.3.12 esp32\n",
+  "sourceSha256": {
+    "src/ChessAdapter.h": "236c860e3f049980485854c63bb6920465d94b57e0591ddb530ce49a32e33cb0",
+    "src/ChessAdapter.cpp": "b5d9524abec3575f1a624ed9b18c13534714ba83c279e7648a4122342eaa0116",
+    "src/thc/thc.h": "aafb455bfd91a159692d690e07937c9dd40dc2825d00d5a1734e057b2e5a3dcc",
+    "src/thc/thc.cpp": "9702a396f5ada214bb383909bdbd5368db62ca99c8b726149a79ba5fbe1fd401",
+    "src/thc/LICENSE": "5f5adae90290d855dd2fa2ea560da48e2bd4c6fa97aa000bed872d6567ac023b",
+    "tests/adapter_tests.h": "f078b82e6db92bcdb14bc89cb4cfc90d371b6e2b7f7056f99a81d207ad83ffe7",
+    "tests/adapter_tests.cpp": "038a8170eb56b5d8fee2105a5933bc88d43264c54721c4b7eea5ee677b6aded5",
+    "tests/esp32_runtime/esp32_runtime.ino": "ed7d501632647db6f8be364b06379229341adba626b4e599e66a512eddd92861",
+    "tests/esp32_runtime/runtime_probe.cpp": "432c08623c36fa0ccd2edc98a085f141b6583c508ee14275e50bce46612efda3",
+    "library.properties": "058304e03fe242dfdb10452533528ac42874ab7bf7496b601b09e85aec063441",
+    "upstream.json": "4344e0f21ffc51f009e1a3b01a4bd08a45f3222fb0acee94b73b2bda6b9a2339",
+    "validar-esp32.ps1": "c52e99102a63df3f6797eed34b9cec729abbdc47e788484a7a4394604f380cb3"
+  },
+  "binarySha256": {
+    "boot_app0_flashed.bin": "f94c5d786a7a8fab06ac5d10e33bf37711a6697636dc037559ea19cc410a17f0",
+    "boot_app0.bin": "f94c5d786a7a8fab06ac5d10e33bf37711a6697636dc037559ea19cc410a17f0",
+    "esp32_runtime.ino_flashed.bin": "069a28bed84190324d34b3a758e84b99b5e3c0836528ebdd2c037e739597d701",
+    "esp32_runtime.ino.bin": "5b1991081f70fd72ef4e1e2a9b9410296e1f06b2c7be4528399954f92bbee02a",
+    "esp32_runtime.ino.bootloader_flashed.bin": "47bbbfca119fe87190f63a67af9d85adff6433bcf3812ec92a9b9c9416a53ad1",
+    "esp32_runtime.ino.bootloader.bin": "47bbbfca119fe87190f63a67af9d85adff6433bcf3812ec92a9b9c9416a53ad1",
+    "esp32_runtime.ino.merged.bin": "daffc5a91ba50af9de35c0ab4f08dc6537749e6bd9da07ac129323d750c1a263",
+    "esp32_runtime.ino.partitions_flashed.bin": "148b959cbff1c38aa8e1d5c0ba9d612c54997b945e56a63f41223eef650653a1",
+    "esp32_runtime.ino.partitions.bin": "148b959cbff1c38aa8e1d5c0ba9d612c54997b945e56a63f41223eef650653a1"
+  },
+  "steps": [
+    {
+      "name": "arduino-version",
+      "exitCode": 0,
+      "log": "arduino-version.log",
+      "arguments": [
+        "version"
+      ]
+    },
+    {
+      "name": "arduino-cores",
+      "exitCode": 0,
+      "log": "arduino-cores.log",
+      "arguments": [
+        "core",
+        "list"
+      ]
+    },
+    {
+      "name": "esp32-compile",
+      "exitCode": 0,
+      "log": "esp32-compile.log",
+      "arguments": [
+        "compile",
+        "--fqbn",
+        "esp32:esp32:esp32",
+        "--warnings",
+        "all",
+        "--jobs",
+        "2",
+        "--library",
+        "C:\\Users\\danie\\Desktop\\certificadora-dois\\firmware\\xadrez",
+        "--build-path",
+        "C:\\Users\\danie\\Desktop\\certificadora-dois\\firmware\\xadrez\\build\\esp32-runtime-output",
+        "C:\\Users\\danie\\Desktop\\certificadora-dois\\firmware\\xadrez\\build\\esp32_runtime"
+      ]
+    },
+    {
+      "name": "esp32-upload",
+      "exitCode": 0,
+      "log": "esp32-upload.log",
+      "arguments": [
+        "upload",
+        "--fqbn",
+        "esp32:esp32:esp32",
+        "-p",
+        "COM7",
+        "--input-dir",
+        "C:\\Users\\danie\\Desktop\\certificadora-dois\\firmware\\xadrez\\build\\esp32-runtime-output"
+      ]
+    }
+  ],
+  "records": [
+    {
+      "type": "ready",
+      "protocol": 1
+    },
+    {
+      "type": "begin",
+      "id": "c3dd4f34835848d4b95b8b588e76a4c5",
+      "chip": "ESP32-D0WD-V3",
+      "revision": 301,
+      "cores": 2,
+      "cpu_mhz": 240,
+      "flash_bytes": 4194304,
+      "psram_bytes": 0,
+      "idf": "v5.5.5",
+      "reset_reason": 1,
+      "task_core": 1,
+      "stack_allocated_bytes": 24576,
+      "adapter_bytes": 2140,
+      "legal_moves_bytes": 660,
+      "thc_rules_bytes": 2140,
+      "thc_move_bytes": 4
+    },
+    {
+      "type": "memory",
+      "phase": "before_suite",
+      "free_bytes": 244368,
+      "minimum_free_bytes": 203500,
+      "largest_block_bytes": 110580,
+      "stack_min_free_bytes": 22936,
+      "heap_intact": true
+    },
+    {
+      "type": "memory",
+      "phase": "suite_start_local_minimum",
+      "free_bytes": 244308,
+      "minimum_free_bytes": 244308,
+      "largest_block_bytes": 110580,
+      "stack_min_free_bytes": 22888,
+      "heap_intact": true
+    },
+    {
+      "type": "case",
+      "name": "backend_internals",
+      "passed": true
+    },
+    {
+      "type": "case",
+      "name": "initial_coordinates",
+      "passed": true
+    },
+    {
+      "type": "case",
+      "name": "legal_moves",
+      "passed": true
+    },
+    {
+      "type": "case",
+      "name": "invalid_moves",
+      "passed": true
+    },
+    {
+      "type": "case",
+      "name": "queries_preserve",
+      "passed": true
+    },
+    {
+      "type": "case",
+      "name": "apply_reset",
+      "passed": true
+    },
+    {
+      "type": "case",
+      "name": "fen_loading",
+      "passed": true
+    },
+    {
+      "type": "case",
+      "name": "capture",
+      "passed": true
+    },
+    {
+      "type": "case",
+      "name": "castling",
+      "passed": true
+    },
+    {
+      "type": "case",
+      "name": "castling_constraints",
+      "passed": true
+    },
+    {
+      "type": "case",
+      "name": "en_passant",
+      "passed": true
+    },
+    {
+      "type": "case",
+      "name": "promotions",
+      "passed": true
+    },
+    {
+      "type": "case",
+      "name": "san",
+      "passed": true
+    },
+    {
+      "type": "case",
+      "name": "terminal",
+      "passed": true
+    },
+    {
+      "type": "case",
+      "name": "material",
+      "passed": true
+    },
+    {
+      "type": "case",
+      "name": "fifty_move",
+      "passed": true
+    },
+    {
+      "type": "case",
+      "name": "repetition",
+      "passed": true
+    },
+    {
+      "type": "case",
+      "name": "copy_history",
+      "passed": true
+    },
+    {
+      "type": "memory",
+      "phase": "after_suite_local_minimum",
+      "free_bytes": 244200,
+      "minimum_free_bytes": 243816,
+      "largest_block_bytes": 110580,
+      "stack_min_free_bytes": 13400,
+      "heap_intact": true
+    },
+    {
+      "type": "benchmark",
+      "fixture": "initial",
+      "operation": "legal_moves",
+      "samples": 200,
+      "min_us": 99,
+      "median_us": 100.0,
+      "mean_us": 100.17,
+      "max_us": 104,
+      "heap_before_bytes": 244200,
+      "heap_after_bytes": 244200,
+      "heap_min_free_bytes": 244200,
+      "heap_before_monitor_bytes": 244260,
+      "heap_after_monitor_bytes": 244260,
+      "stack_min_free_bytes": 13400,
+      "failures": 0
+    },
+    {
+      "type": "benchmark",
+      "fixture": "initial",
+      "operation": "is_legal",
+      "samples": 200,
+      "min_us": 89,
+      "median_us": 90.0,
+      "mean_us": 89.92,
+      "max_us": 94,
+      "heap_before_bytes": 243936,
+      "heap_after_bytes": 243936,
+      "heap_min_free_bytes": 243936,
+      "heap_before_monitor_bytes": 243996,
+      "heap_after_monitor_bytes": 243996,
+      "stack_min_free_bytes": 13400,
+      "failures": 0
+    },
+    {
+      "type": "benchmark",
+      "fixture": "initial",
+      "operation": "reject",
+      "samples": 200,
+      "min_us": 92,
+      "median_us": 92.0,
+      "mean_us": 92.89,
+      "max_us": 98,
+      "heap_before_bytes": 243736,
+      "heap_after_bytes": 243736,
+      "heap_min_free_bytes": 243736,
+      "heap_before_monitor_bytes": 243796,
+      "heap_after_monitor_bytes": 243796,
+      "stack_min_free_bytes": 13400,
+      "failures": 0
+    },
+    {
+      "type": "benchmark",
+      "fixture": "initial",
+      "operation": "san",
+      "samples": 200,
+      "min_us": 624,
+      "median_us": 629.0,
+      "mean_us": 627.52,
+      "max_us": 632,
+      "heap_before_bytes": 243736,
+      "heap_after_bytes": 243736,
+      "heap_min_free_bytes": 243736,
+      "heap_before_monitor_bytes": 243796,
+      "heap_after_monitor_bytes": 243796,
+      "stack_min_free_bytes": 12984,
+      "failures": 0
+    },
+    {
+      "type": "benchmark",
+      "fixture": "initial",
+      "operation": "apply",
+      "samples": 200,
+      "min_us": 89,
+      "median_us": 90.0,
+      "mean_us": 90.38,
+      "max_us": 95,
+      "heap_before_bytes": 243736,
+      "heap_after_bytes": 243736,
+      "heap_min_free_bytes": 243736,
+      "heap_before_monitor_bytes": 243796,
+      "heap_after_monitor_bytes": 243796,
+      "stack_min_free_bytes": 12984,
+      "failures": 0
+    },
+    {
+      "type": "benchmark",
+      "fixture": "initial",
+      "operation": "status",
+      "samples": 200,
+      "min_us": 44,
+      "median_us": 44.0,
+      "mean_us": 44.35,
+      "max_us": 48,
+      "heap_before_bytes": 243692,
+      "heap_after_bytes": 243692,
+      "heap_min_free_bytes": 243692,
+      "heap_before_monitor_bytes": 243752,
+      "heap_after_monitor_bytes": 243752,
+      "stack_min_free_bytes": 12984,
+      "failures": 0
+    },
+    {
+      "type": "benchmark",
+      "fixture": "kiwipete",
+      "operation": "legal_moves",
+      "samples": 200,
+      "min_us": 217,
+      "median_us": 217.0,
+      "mean_us": 217.85,
+      "max_us": 222,
+      "heap_before_bytes": 243692,
+      "heap_after_bytes": 243692,
+      "heap_min_free_bytes": 243692,
+      "heap_before_monitor_bytes": 243752,
+      "heap_after_monitor_bytes": 243752,
+      "stack_min_free_bytes": 12984,
+      "failures": 0
+    },
+    {
+      "type": "benchmark",
+      "fixture": "kiwipete",
+      "operation": "is_legal",
+      "samples": 200,
+      "min_us": 209,
+      "median_us": 210.0,
+      "mean_us": 210.69,
+      "max_us": 215,
+      "heap_before_bytes": 243692,
+      "heap_after_bytes": 243692,
+      "heap_min_free_bytes": 243692,
+      "heap_before_monitor_bytes": 243752,
+      "heap_after_monitor_bytes": 243752,
+      "stack_min_free_bytes": 12984,
+      "failures": 0
+    },
+    {
+      "type": "benchmark",
+      "fixture": "kiwipete",
+      "operation": "reject",
+      "samples": 200,
+      "min_us": 210,
+      "median_us": 211.0,
+      "mean_us": 211.4,
+      "max_us": 216,
+      "heap_before_bytes": 243692,
+      "heap_after_bytes": 243692,
+      "heap_min_free_bytes": 243692,
+      "heap_before_monitor_bytes": 243752,
+      "heap_after_monitor_bytes": 243752,
+      "stack_min_free_bytes": 12984,
+      "failures": 0
+    },
+    {
+      "type": "benchmark",
+      "fixture": "kiwipete",
+      "operation": "san",
+      "samples": 200,
+      "min_us": 2235,
+      "median_us": 2236.0,
+      "mean_us": 2237.27,
+      "max_us": 2245,
+      "heap_before_bytes": 243692,
+      "heap_after_bytes": 243692,
+      "heap_min_free_bytes": 243692,
+      "heap_before_monitor_bytes": 243752,
+      "heap_after_monitor_bytes": 243752,
+      "stack_min_free_bytes": 12968,
+      "failures": 0
+    },
+    {
+      "type": "benchmark",
+      "fixture": "kiwipete",
+      "operation": "apply",
+      "samples": 200,
+      "min_us": 210,
+      "median_us": 210.5,
+      "mean_us": 211.4,
+      "max_us": 216,
+      "heap_before_bytes": 243692,
+      "heap_after_bytes": 243692,
+      "heap_min_free_bytes": 243692,
+      "heap_before_monitor_bytes": 243752,
+      "heap_after_monitor_bytes": 243752,
+      "stack_min_free_bytes": 12968,
+      "failures": 0
+    },
+    {
+      "type": "benchmark",
+      "fixture": "kiwipete",
+      "operation": "status",
+      "samples": 200,
+      "min_us": 59,
+      "median_us": 60.0,
+      "mean_us": 59.87,
+      "max_us": 64,
+      "heap_before_bytes": 243692,
+      "heap_after_bytes": 243692,
+      "heap_min_free_bytes": 243692,
+      "heap_before_monitor_bytes": 243752,
+      "heap_after_monitor_bytes": 243752,
+      "stack_min_free_bytes": 12968,
+      "failures": 0
+    },
+    {
+      "type": "benchmark",
+      "fixture": "en_passant",
+      "operation": "legal_moves",
+      "samples": 200,
+      "min_us": 56,
+      "median_us": 57.0,
+      "mean_us": 56.75,
+      "max_us": 60,
+      "heap_before_bytes": 243692,
+      "heap_after_bytes": 243692,
+      "heap_min_free_bytes": 243692,
+      "heap_before_monitor_bytes": 243752,
+      "heap_after_monitor_bytes": 243752,
+      "stack_min_free_bytes": 12968,
+      "failures": 0
+    },
+    {
+      "type": "benchmark",
+      "fixture": "en_passant",
+      "operation": "is_legal",
+      "samples": 200,
+      "min_us": 46,
+      "median_us": 47.0,
+      "mean_us": 47.0,
+      "max_us": 51,
+      "heap_before_bytes": 243692,
+      "heap_after_bytes": 243692,
+      "heap_min_free_bytes": 243692,
+      "heap_before_monitor_bytes": 243752,
+      "heap_after_monitor_bytes": 243752,
+      "stack_min_free_bytes": 12968,
+      "failures": 0
+    },
+    {
+      "type": "benchmark",
+      "fixture": "en_passant",
+      "operation": "reject",
+      "samples": 200,
+      "min_us": 48,
+      "median_us": 49.0,
+      "mean_us": 48.7,
+      "max_us": 49,
+      "heap_before_bytes": 243692,
+      "heap_after_bytes": 243692,
+      "heap_min_free_bytes": 243692,
+      "heap_before_monitor_bytes": 243752,
+      "heap_after_monitor_bytes": 243752,
+      "stack_min_free_bytes": 12968,
+      "failures": 0
+    },
+    {
+      "type": "benchmark",
+      "fixture": "en_passant",
+      "operation": "san",
+      "samples": 200,
+      "min_us": 180,
+      "median_us": 181.0,
+      "mean_us": 181.41,
+      "max_us": 185,
+      "heap_before_bytes": 243692,
+      "heap_after_bytes": 243692,
+      "heap_min_free_bytes": 243692,
+      "heap_before_monitor_bytes": 243752,
+      "heap_after_monitor_bytes": 243752,
+      "stack_min_free_bytes": 12968,
+      "failures": 0
+    },
+    {
+      "type": "benchmark",
+      "fixture": "en_passant",
+      "operation": "apply",
+      "samples": 200,
+      "min_us": 47,
+      "median_us": 48.0,
+      "mean_us": 47.85,
+      "max_us": 52,
+      "heap_before_bytes": 243692,
+      "heap_after_bytes": 243692,
+      "heap_min_free_bytes": 243692,
+      "heap_before_monitor_bytes": 243752,
+      "heap_after_monitor_bytes": 243752,
+      "stack_min_free_bytes": 12968,
+      "failures": 0
+    },
+    {
+      "type": "benchmark",
+      "fixture": "en_passant",
+      "operation": "status",
+      "samples": 200,
+      "min_us": 31,
+      "median_us": 32.0,
+      "mean_us": 31.7,
+      "max_us": 32,
+      "heap_before_bytes": 243692,
+      "heap_after_bytes": 243692,
+      "heap_min_free_bytes": 243692,
+      "heap_before_monitor_bytes": 243752,
+      "heap_after_monitor_bytes": 243752,
+      "stack_min_free_bytes": 12968,
+      "failures": 0
+    },
+    {
+      "type": "benchmark",
+      "fixture": "promotion",
+      "operation": "legal_moves",
+      "samples": 200,
+      "min_us": 64,
+      "median_us": 65.0,
+      "mean_us": 65.2,
+      "max_us": 70,
+      "heap_before_bytes": 243692,
+      "heap_after_bytes": 243692,
+      "heap_min_free_bytes": 243692,
+      "heap_before_monitor_bytes": 243752,
+      "heap_after_monitor_bytes": 243752,
+      "stack_min_free_bytes": 12968,
+      "failures": 0
+    },
+    {
+      "type": "benchmark",
+      "fixture": "promotion",
+      "operation": "is_legal",
+      "samples": 200,
+      "min_us": 54,
+      "median_us": 55.0,
+      "mean_us": 54.84,
+      "max_us": 60,
+      "heap_before_bytes": 243692,
+      "heap_after_bytes": 243692,
+      "heap_min_free_bytes": 243692,
+      "heap_before_monitor_bytes": 243752,
+      "heap_after_monitor_bytes": 243752,
+      "stack_min_free_bytes": 12968,
+      "failures": 0
+    },
+    {
+      "type": "benchmark",
+      "fixture": "promotion",
+      "operation": "reject",
+      "samples": 200,
+      "min_us": 57,
+      "median_us": 57.0,
+      "mean_us": 57.25,
+      "max_us": 58,
+      "heap_before_bytes": 243692,
+      "heap_after_bytes": 243692,
+      "heap_min_free_bytes": 243692,
+      "heap_before_monitor_bytes": 243752,
+      "heap_after_monitor_bytes": 243752,
+      "stack_min_free_bytes": 12968,
+      "failures": 0
+    },
+    {
+      "type": "benchmark",
+      "fixture": "promotion",
+      "operation": "san",
+      "samples": 200,
+      "min_us": 218,
+      "median_us": 219.0,
+      "mean_us": 219.19,
+      "max_us": 224,
+      "heap_before_bytes": 243692,
+      "heap_after_bytes": 243692,
+      "heap_min_free_bytes": 243692,
+      "heap_before_monitor_bytes": 243752,
+      "heap_after_monitor_bytes": 243752,
+      "stack_min_free_bytes": 12968,
+      "failures": 0
+    },
+    {
+      "type": "benchmark",
+      "fixture": "promotion",
+      "operation": "apply",
+      "samples": 200,
+      "min_us": 55,
+      "median_us": 55.0,
+      "mean_us": 55.45,
+      "max_us": 59,
+      "heap_before_bytes": 243692,
+      "heap_after_bytes": 243692,
+      "heap_min_free_bytes": 243692,
+      "heap_before_monitor_bytes": 243752,
+      "heap_after_monitor_bytes": 243752,
+      "stack_min_free_bytes": 12968,
+      "failures": 0
+    },
+    {
+      "type": "benchmark",
+      "fixture": "promotion",
+      "operation": "status",
+      "samples": 200,
+      "min_us": 34,
+      "median_us": 34.0,
+      "mean_us": 34.35,
+      "max_us": 35,
+      "heap_before_bytes": 243692,
+      "heap_after_bytes": 243692,
+      "heap_min_free_bytes": 243692,
+      "heap_before_monitor_bytes": 243752,
+      "heap_after_monitor_bytes": 243752,
+      "stack_min_free_bytes": 12968,
+      "failures": 0
+    },
+    {
+      "type": "memory",
+      "phase": "stability_start",
+      "free_bytes": 243692,
+      "minimum_free_bytes": 243692,
+      "largest_block_bytes": 110580,
+      "stack_min_free_bytes": 12968,
+      "heap_intact": true
+    },
+    {
+      "type": "memory",
+      "phase": "stability_checkpoint",
+      "free_bytes": 243692,
+      "minimum_free_bytes": 243308,
+      "largest_block_bytes": 110580,
+      "stack_min_free_bytes": 11160,
+      "heap_intact": true
+    },
+    {
+      "type": "progress",
+      "elapsed_ms": 10152,
+      "batches": 1665,
+      "suites": 1,
+      "failures": 0
+    },
+    {
+      "type": "memory",
+      "phase": "stability_checkpoint",
+      "free_bytes": 243692,
+      "minimum_free_bytes": 243308,
+      "largest_block_bytes": 110580,
+      "stack_min_free_bytes": 11160,
+      "heap_intact": true
+    },
+    {
+      "type": "progress",
+      "elapsed_ms": 20155,
+      "batches": 3307,
+      "suites": 2,
+      "failures": 0
+    },
+    {
+      "type": "memory",
+      "phase": "stability_checkpoint",
+      "free_bytes": 243692,
+      "minimum_free_bytes": 243308,
+      "largest_block_bytes": 110580,
+      "stack_min_free_bytes": 11160,
+      "heap_intact": true
+    },
+    {
+      "type": "progress",
+      "elapsed_ms": 30151,
+      "batches": 4948,
+      "suites": 3,
+      "failures": 0
+    },
+    {
+      "type": "memory",
+      "phase": "stability_checkpoint",
+      "free_bytes": 243692,
+      "minimum_free_bytes": 243308,
+      "largest_block_bytes": 110580,
+      "stack_min_free_bytes": 11160,
+      "heap_intact": true
+    },
+    {
+      "type": "progress",
+      "elapsed_ms": 40153,
+      "batches": 6590,
+      "suites": 4,
+      "failures": 0
+    },
+    {
+      "type": "memory",
+      "phase": "stability_checkpoint",
+      "free_bytes": 243692,
+      "minimum_free_bytes": 243308,
+      "largest_block_bytes": 110580,
+      "stack_min_free_bytes": 11160,
+      "heap_intact": true
+    },
+    {
+      "type": "progress",
+      "elapsed_ms": 50155,
+      "batches": 8232,
+      "suites": 5,
+      "failures": 0
+    },
+    {
+      "type": "memory",
+      "phase": "stability_checkpoint",
+      "free_bytes": 243692,
+      "minimum_free_bytes": 243308,
+      "largest_block_bytes": 110580,
+      "stack_min_free_bytes": 11160,
+      "heap_intact": true
+    },
+    {
+      "type": "progress",
+      "elapsed_ms": 60151,
+      "batches": 9873,
+      "suites": 6,
+      "failures": 0
+    },
+    {
+      "type": "memory",
+      "phase": "stability_checkpoint",
+      "free_bytes": 243692,
+      "minimum_free_bytes": 243308,
+      "largest_block_bytes": 110580,
+      "stack_min_free_bytes": 11160,
+      "heap_intact": true
+    },
+    {
+      "type": "progress",
+      "elapsed_ms": 70153,
+      "batches": 11515,
+      "suites": 7,
+      "failures": 0
+    },
+    {
+      "type": "memory",
+      "phase": "stability_checkpoint",
+      "free_bytes": 243692,
+      "minimum_free_bytes": 243308,
+      "largest_block_bytes": 110580,
+      "stack_min_free_bytes": 11160,
+      "heap_intact": true
+    },
+    {
+      "type": "progress",
+      "elapsed_ms": 80155,
+      "batches": 13157,
+      "suites": 8,
+      "failures": 0
+    },
+    {
+      "type": "memory",
+      "phase": "stability_checkpoint",
+      "free_bytes": 243692,
+      "minimum_free_bytes": 243308,
+      "largest_block_bytes": 110580,
+      "stack_min_free_bytes": 11160,
+      "heap_intact": true
+    },
+    {
+      "type": "progress",
+      "elapsed_ms": 90151,
+      "batches": 14798,
+      "suites": 9,
+      "failures": 0
+    },
+    {
+      "type": "memory",
+      "phase": "stability_checkpoint",
+      "free_bytes": 243692,
+      "minimum_free_bytes": 243308,
+      "largest_block_bytes": 110580,
+      "stack_min_free_bytes": 11160,
+      "heap_intact": true
+    },
+    {
+      "type": "progress",
+      "elapsed_ms": 100153,
+      "batches": 16440,
+      "suites": 10,
+      "failures": 0
+    },
+    {
+      "type": "memory",
+      "phase": "stability_checkpoint",
+      "free_bytes": 243692,
+      "minimum_free_bytes": 243308,
+      "largest_block_bytes": 110580,
+      "stack_min_free_bytes": 11160,
+      "heap_intact": true
+    },
+    {
+      "type": "progress",
+      "elapsed_ms": 110155,
+      "batches": 18082,
+      "suites": 11,
+      "failures": 0
+    },
+    {
+      "type": "memory",
+      "phase": "stability_checkpoint",
+      "free_bytes": 243692,
+      "minimum_free_bytes": 243308,
+      "largest_block_bytes": 110580,
+      "stack_min_free_bytes": 11160,
+      "heap_intact": true
+    },
+    {
+      "type": "progress",
+      "elapsed_ms": 120151,
+      "batches": 19723,
+      "suites": 12,
+      "failures": 0
+    },
+    {
+      "type": "memory",
+      "phase": "stability_checkpoint",
+      "free_bytes": 243692,
+      "minimum_free_bytes": 243308,
+      "largest_block_bytes": 110580,
+      "stack_min_free_bytes": 11160,
+      "heap_intact": true
+    },
+    {
+      "type": "progress",
+      "elapsed_ms": 130153,
+      "batches": 21365,
+      "suites": 13,
+      "failures": 0
+    },
+    {
+      "type": "memory",
+      "phase": "stability_checkpoint",
+      "free_bytes": 243692,
+      "minimum_free_bytes": 243308,
+      "largest_block_bytes": 110580,
+      "stack_min_free_bytes": 11160,
+      "heap_intact": true
+    },
+    {
+      "type": "progress",
+      "elapsed_ms": 140155,
+      "batches": 23007,
+      "suites": 14,
+      "failures": 0
+    },
+    {
+      "type": "memory",
+      "phase": "stability_checkpoint",
+      "free_bytes": 243692,
+      "minimum_free_bytes": 243308,
+      "largest_block_bytes": 110580,
+      "stack_min_free_bytes": 11160,
+      "heap_intact": true
+    },
+    {
+      "type": "progress",
+      "elapsed_ms": 150151,
+      "batches": 24648,
+      "suites": 15,
+      "failures": 0
+    },
+    {
+      "type": "memory",
+      "phase": "stability_checkpoint",
+      "free_bytes": 243692,
+      "minimum_free_bytes": 243308,
+      "largest_block_bytes": 110580,
+      "stack_min_free_bytes": 11160,
+      "heap_intact": true
+    },
+    {
+      "type": "progress",
+      "elapsed_ms": 160153,
+      "batches": 26290,
+      "suites": 16,
+      "failures": 0
+    },
+    {
+      "type": "memory",
+      "phase": "stability_checkpoint",
+      "free_bytes": 243692,
+      "minimum_free_bytes": 243308,
+      "largest_block_bytes": 110580,
+      "stack_min_free_bytes": 11160,
+      "heap_intact": true
+    },
+    {
+      "type": "progress",
+      "elapsed_ms": 170155,
+      "batches": 27932,
+      "suites": 17,
+      "failures": 0
+    },
+    {
+      "type": "memory",
+      "phase": "stability_checkpoint",
+      "free_bytes": 243692,
+      "minimum_free_bytes": 243308,
+      "largest_block_bytes": 110580,
+      "stack_min_free_bytes": 11160,
+      "heap_intact": true
+    },
+    {
+      "type": "progress",
+      "elapsed_ms": 180151,
+      "batches": 29573,
+      "suites": 18,
+      "failures": 0
+    },
+    {
+      "type": "memory",
+      "phase": "stability_end",
+      "free_bytes": 243692,
+      "minimum_free_bytes": 243308,
+      "largest_block_bytes": 110580,
+      "stack_min_free_bytes": 11160,
+      "heap_intact": true
+    },
+    {
+      "type": "stability",
+      "elapsed_ms": 180175,
+      "batches": 29573,
+      "operations": 709752,
+      "additional_suites": 18,
+      "failures": 0
+    },
+    {
+      "type": "case",
+      "name": "backend_internals",
+      "passed": true
+    },
+    {
+      "type": "case",
+      "name": "initial_coordinates",
+      "passed": true
+    },
+    {
+      "type": "case",
+      "name": "legal_moves",
+      "passed": true
+    },
+    {
+      "type": "case",
+      "name": "invalid_moves",
+      "passed": true
+    },
+    {
+      "type": "case",
+      "name": "queries_preserve",
+      "passed": true
+    },
+    {
+      "type": "case",
+      "name": "apply_reset",
+      "passed": true
+    },
+    {
+      "type": "case",
+      "name": "fen_loading",
+      "passed": true
+    },
+    {
+      "type": "case",
+      "name": "capture",
+      "passed": true
+    },
+    {
+      "type": "case",
+      "name": "castling",
+      "passed": true
+    },
+    {
+      "type": "case",
+      "name": "castling_constraints",
+      "passed": true
+    },
+    {
+      "type": "case",
+      "name": "en_passant",
+      "passed": true
+    },
+    {
+      "type": "case",
+      "name": "promotions",
+      "passed": true
+    },
+    {
+      "type": "case",
+      "name": "san",
+      "passed": true
+    },
+    {
+      "type": "case",
+      "name": "terminal",
+      "passed": true
+    },
+    {
+      "type": "case",
+      "name": "material",
+      "passed": true
+    },
+    {
+      "type": "case",
+      "name": "fifty_move",
+      "passed": true
+    },
+    {
+      "type": "case",
+      "name": "repetition",
+      "passed": true
+    },
+    {
+      "type": "case",
+      "name": "copy_history",
+      "passed": true
+    },
+    {
+      "type": "memory",
+      "phase": "final",
+      "free_bytes": 243752,
+      "minimum_free_bytes": 203500,
+      "largest_block_bytes": 110580,
+      "stack_min_free_bytes": 11160,
+      "heap_intact": true
+    },
+    {
+      "type": "end",
+      "id": "c3dd4f34835848d4b95b8b588e76a4c5",
+      "reported_cases": 36,
+      "failures": 0
+    }
+  ],
+  "scope": "ChessAdapter and THC on ESP32. Functional tests, heap, stack margin, timings and bounded stability; no peripherals or firmware integration."
+}

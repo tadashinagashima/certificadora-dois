@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="(empty)"
+	tests="18"
+	failures="0"
+	disabled="0"
+	skipped="0"
+	hostname=""
+	time="0"
+	timestamp="2026-10-12T12:50:36"
+	>
+	<testcase name="backend_internals" classname="backend_internals" time="0.0110642" status="run">
+		<properties/>
+		<system-out>sizeof ChessAdapter=2144 LegalMoves=664 Move=3
+PASS backend_internals
+</system-out>
+	</testcase>
+	<testcase name="initial_coordinates" classname="initial_coordinates" time="0.0085667" status="run">
+		<properties/>
+		<system-out>PASS initial_coordinates
+</system-out>
+	</testcase>
+	<testcase name="legal_moves" classname="legal_moves" time="0.0102" status="run">
+		<properties/>
+		<system-out>PASS legal_moves
+</system-out>
+	</testcase>
+	<testcase name="invalid_moves" classname="invalid_moves" time="0.0086325" status="run">
+		<properties/>
+		<system-out>PASS invalid_moves
+</system-out>
+	</testcase>
+	<testcase name="queries_preserve" classname="queries_preserve" time="0.0083137" status="run">
+		<properties/>
+		<system-out>PASS queries_preserve
+</system-out>
+	</testcase>
+	<testcase name="apply_reset" classname="apply_reset" time="0.0089607" status="run">
+		<properties/>
+		<system-out>PASS apply_reset
+</system-out>
+	</testcase>
+	<testcase name="fen_loading" classname="fen_loading" time="0.0088893" status="run">
+		<properties/>
+		<system-out>PASS fen_loading
+</system-out>
+	</testcase>
+	<testcase name="capture" classname="capture" time="0.0081108" status="run">
+		<properties/>
+		<system-out>PASS capture
+</system-out>
+	</testcase>
+	<testcase name="castling" classname="castling" time="0.0082621" status="run">
+		<properties/>
+		<system-out>PASS castling
+</system-out>
+	</testcase>
+	<testcase name="castling_constraints" classname="castling_constraints" time="0.0089703" status="run">
+		<properties/>
+		<system-out>PASS castling_constraints
+</system-out>
+	</testcase>
+	<testcase name="en_passant" classname="en_passant" time="0.0080885" status="run">
+		<properties/>
+		<system-out>PASS en_passant
+</system-out>
+	</testcase>
+	<testcase name="promotions" classname="promotions" time="0.0084802" status="run">
+		<properties/>
+		<system-out>PASS promotions
+</system-out>
+	</testcase>
+	<testcase name="san" classname="san" time="0.0092981" status="run">
+		<properties/>
+		<system-out>PASS san
+</system-out>
+	</testcase>
+	<testcase name="terminal" classname="terminal" time="0.008405" status="run">
+		<properties/>
+		<system-out>PASS terminal
+</system-out>
+	</testcase>
+	<testcase name="material" classname="material" time="0.0079697" status="run">
+		<properties/>
+		<system-out>PASS material
+</system-out>
+	</testcase>
+	<testcase name="fifty_move" classname="fifty_move" time="0.0076585" status="run">
+		<properties/>
+		<system-out>PASS fifty_move
+</system-out>
+	</testcase>
+	<testcase name="repetition" classname="repetition" time="0.0088143" status="run">
+		<properties/>
+		<system-out>PASS repetition
+</system-out>
+	</testcase>
+	<testcase name="copy_history" classname="copy_history" time="0.0083618" status="run">
+		<properties/>
+		<system-out>PASS copy_history
+</system-out>
+	</testcase>
+</testsuite>

@@ -1,0 +1,18 @@
+{
+  "verifiedImages": {
+    "boot_app0.bin": "f94c5d786a7a8fab06ac5d10e33bf37711a6697636dc037559ea19cc410a17f0",
+    "esp32_runtime.ino.bin": "5b1991081f70fd72ef4e1e2a9b9410296e1f06b2c7be4528399954f92bbee02a",
+    "esp32_runtime.ino.bootloader.bin": "47bbbfca119fe87190f63a67af9d85adff6433bcf3812ec92a9b9c9416a53ad1",
+    "esp32_runtime.ino.merged.bin": "daffc5a91ba50af9de35c0ab4f08dc6537749e6bd9da07ac129323d750c1a263",
+    "esp32_runtime.ino.partitions.bin": "148b959cbff1c38aa8e1d5c0ba9d612c54997b945e56a63f41223eef650653a1"
+  },
+  "sourcesMatch": true,
+  "collectorSource": "collector-used.ps1",
+  "note": "The original pre-upload report included the esptool cache. It changes during upload. Future collector runs exclude it; measured firmware and serial results are unchanged.",
+  "excludedMutableCaches": [
+    "boot_app0_flashed.bin",
+    "esp32_runtime.ino_flashed.bin",
+    "esp32_runtime.ino.bootloader_flashed.bin",
+    "esp32_runtime.ino.partitions_flashed.bin"
+  ]
+}

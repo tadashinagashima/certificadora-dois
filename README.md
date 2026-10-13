@@ -42,6 +42,7 @@ A estrutura física utilizará uma base de **MDF** e um **tabuleiro de vidro rem
 - [Diagnóstico Arduino](docs/firmware-diagnostico.md): configuração, compilação e operação.
 - [Acompanhamento da jogada](docs/firmware-acompanhamento.md): módulo C++ independente, contrato e testes automatizados.
 - [Avaliação de bibliotecas de xadrez](docs/avaliacao-bibliotecas-xadrez.md): comparação isolada, testes reproduzíveis e recomendação para ESP32.
+- [Adaptador THC](docs/firmware-xadrez.md): posição lógica, movimentos legais, SAN e consultas de encerramento.
 - [Decisões elétricas](docs/revisao-componentes-adicionais.md): leitura direta, alimentação e alternativas condicionadas aos testes.
 - [Plano de testes físicos](docs/plano-testes-fisicos.md): resultados preliminares e critérios de validação.
 
@@ -51,7 +52,7 @@ A estrutura física utilizará uma base de **MDF** e um **tabuleiro de vidro rem
 
 O esquemático da revisão B usa a DevKit V1 de 30 pinos, alimentada pelo USB do computador. A matriz é lida diretamente pelo MCP23017 com pull-ups de 47 kΩ; os periféricos usam o regulador da própria DevKit. O CAD permanece como proposta de montagem, sujeita às medidas e aos testes físicos.
 
-O firmware de diagnóstico inspeciona matriz, botões, indicadores e leitura/escrita do SD. O módulo de acompanhamento da jogada preserva as alterações de ocupação por quadro e possui testes nativos; sua integração com a aquisição física está pendente. Ainda não há interpretação de jogadas, regras de xadrez ou registro PGN implementados.
+O firmware de diagnóstico inspeciona matriz, botões, indicadores e leitura/escrita do SD. O acompanhamento da jogada preserva as alterações de ocupação por quadro, e o adaptador THC fornece posição lógica e regras de xadrez; ambos possuem testes independentes. A integração com a aquisição física, a interpretação de jogadas, o Controle e o registro PGN permanecem pendentes.
 
 Cada guia contém os comandos de reprodução e os relatórios da respectiva área. Após atualizar as exportações e a compilação, executar da raiz:
 

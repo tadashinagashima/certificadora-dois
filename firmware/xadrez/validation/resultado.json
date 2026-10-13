@@ -1,0 +1,93 @@
+{
+  "performedAtUtc": "2026-10-12T15:51:52.9057264Z",
+  "success": true,
+  "failure": null,
+  "upstreamCommit": "aa217cb9b4d759cd7c07e11c98526b0187b0a64b",
+  "cmakeVersion": "cmake version 3.29.5-msvc4\r\n\r\nCMake suite maintained and supported by Kitware (kitware.com/cmake).",
+  "arduinoCliVersion": "arduino-cli  Version: 1.5.2-rc.1 Commit: fef6e48df Date: 2026-07-23T11:13:25Z",
+  "installedCores": "ID          Installed Latest Name\r\narduino:avr 1.8.6     1.8.8  Arduino AVR Boards\r\nesp32:esp32 3.3.12    3.3.12 esp32",
+  "nativeConfiguration": "MSVC x64 Release C++14; adapter and tests /W4 /WX; upstream unchanged",
+  "fqbn": "esp32:esp32:esp32",
+  "steps": [
+    {
+      "name": "native-configure",
+      "exitCode": 0,
+      "log": "native-configure.log",
+      "arguments": [
+        "-S",
+        "C:\\Users\\danie\\Desktop\\certificadora-dois\\firmware\\xadrez",
+        "-B",
+        "C:\\Users\\danie\\Desktop\\certificadora-dois\\firmware\\xadrez\\build\\native",
+        "-G",
+        "Visual Studio 17 2022",
+        "-A",
+        "x64"
+      ]
+    },
+    {
+      "name": "native-build",
+      "exitCode": 0,
+      "log": "native-build.log",
+      "arguments": [
+        "--build",
+        "C:\\Users\\danie\\Desktop\\certificadora-dois\\firmware\\xadrez\\build\\native",
+        "--config",
+        "Release"
+      ]
+    },
+    {
+      "name": "native-tests",
+      "exitCode": 0,
+      "log": "native-tests.log",
+      "arguments": [
+        "--test-dir",
+        "C:\\Users\\danie\\Desktop\\certificadora-dois\\firmware\\xadrez\\build\\native",
+        "-C",
+        "Release",
+        "--output-on-failure",
+        "--no-tests=error",
+        "--output-junit",
+        "C:\\Users\\danie\\Desktop\\certificadora-dois\\firmware\\xadrez\\validation\\native-tests.xml"
+      ]
+    },
+    {
+      "name": "esp32-compile",
+      "exitCode": 0,
+      "log": "esp32-compile.log",
+      "arguments": [
+        "compile",
+        "--fqbn",
+        "esp32:esp32:esp32",
+        "--warnings",
+        "all",
+        "--jobs",
+        "2",
+        "--build-property",
+        "compiler.cpp.extra_flags=-fstack-usage",
+        "--library",
+        "C:\\Users\\danie\\Desktop\\certificadora-dois\\firmware\\xadrez",
+        "--build-path",
+        "C:\\Users\\danie\\Desktop\\certificadora-dois\\firmware\\xadrez\\build\\esp32",
+        "C:\\Users\\danie\\Desktop\\certificadora-dois\\firmware\\xadrez\\build\\esp32_compile"
+      ]
+    }
+  ],
+  "sourceSha256": {
+    "src/ChessAdapter.h": "236c860e3f049980485854c63bb6920465d94b57e0591ddb530ce49a32e33cb0",
+    "src/ChessAdapter.cpp": "b5d9524abec3575f1a624ed9b18c13534714ba83c279e7648a4122342eaa0116",
+    "src/thc/thc.h": "aafb455bfd91a159692d690e07937c9dd40dc2825d00d5a1734e057b2e5a3dcc",
+    "src/thc/thc.cpp": "9702a396f5ada214bb383909bdbd5368db62ca99c8b726149a79ba5fbe1fd401",
+    "src/thc/LICENSE": "5f5adae90290d855dd2fa2ea560da48e2bd4c6fa97aa000bed872d6567ac023b",
+    "tests/adapter_tests.h": "f078b82e6db92bcdb14bc89cb4cfc90d371b6e2b7f7056f99a81d207ad83ffe7",
+    "tests/adapter_tests.cpp": "038a8170eb56b5d8fee2105a5933bc88d43264c54721c4b7eea5ee677b6aded5",
+    "tests/native_main.cpp": "6fd60e27615228db2eb2d49eccbc54e191306309305002a0a16df2495a5ad5a1",
+    "tests/esp32_compile/esp32_compile.ino": "6c03f891d9e273db26c94c5bb7b50ac8c8263cbfccda30d7c9ae83da214b548d",
+    "CMakeLists.txt": "376fe74b751cca4c15a9bcb6196b5e9e075b75e53cc7b5716432de6a3b80143a",
+    "library.properties": "058304e03fe242dfdb10452533528ac42874ab7bf7496b601b09e85aec063441",
+    "upstream.json": "4344e0f21ffc51f009e1a3b01a4bd08a45f3222fb0acee94b73b2bda6b9a2339",
+    "validar.ps1": "e76a8d71bc5d2c4a3563a5117657c7a700956e6fbc62d20c4886e9feafccfaae"
+  },
+  "uploadPerformed": false,
+  "hardwareExecutionPerformed": false,
+  "scope": "THC adapter only. Native contract tests and ESP32 compile/link. No interpretation, game control or PGN."
+}

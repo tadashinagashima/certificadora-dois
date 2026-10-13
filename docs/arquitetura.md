@@ -27,6 +27,8 @@ Os diagramas também estão disponíveis no
 
 O [acompanhamento da jogada](firmware-acompanhamento.md) está implementado como módulo C++ independente. Recebe observações do Controle e fornece uma cópia da tentativa, mantendo as dependências representadas no diagrama. O guia do módulo define o contrato, os limites do histórico e as verificações automatizadas; sua integração com o sensoriamento permanece pendente.
 
+O [adaptador THC](firmware-xadrez.md) implementa a responsabilidade da biblioteca de xadrez: posição lógica, consulta de movimentos legais, aplicação validada, SAN e condições de encerramento. Também é C++ independente, sem ligação com o acompanhamento ou periféricos. Interpretação, confirmação e política de encerramento permanecem atribuídas aos módulos futuros; os diagramas continuam aplicáveis.
+
 ## 3. Estados e processamento das jogadas
 
 A interpretação das jogadas utiliza três informações:

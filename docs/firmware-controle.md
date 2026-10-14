@@ -165,7 +165,7 @@ Os avisos da compilação pertencem aos fontes THC preservados. O [upload](../fi
 
 ## 6. Limites e próximas integrações
 
-Esta etapa não incorpora aquisição, debounce, confirmação por botão, LEDs/buzzer, display ou registro SAN/PGN. O contexto anterior necessário ao futuro Registro deve ser uma **cópia** de `position()` obtida antes de `confirm()`; guardar a referência devolvida não preserva o estado anterior. O retorno de `confirm()` identifica o lance aceito, e a posição resultante permanece consultável.
+O Controle não incorpora aquisição, debounce, confirmação por botão, LEDs/buzzer, display ou geração SAN/PGN. O [Registro](firmware-registro.md) é um módulo independente; seu contexto anterior deve ser uma **cópia** de `position()` obtida antes de `confirm()`. Guardar a referência devolvida não preserva o estado anterior. O retorno de `confirm()` identifica o lance aceito, e a posição resultante permanece consultável. A ligação dessas chamadas no ciclo principal permanece pendente.
 
 O Controle não adiciona alocação dinâmica própria; armazena adaptador e tracker por valor e usa as cópias temporárias exigidas pelos contratos. Não se presume ausência de heap nos serviços THC. A execução isolada foi validada na placa conforme a seção anterior; ainda é necessário dimensionar pilha, heap e latência do firmware integrado. Não foi ensaiada a pilha Arduino padrão de 8 KiB, e a reserva de 48 KiB da suíte não deve ser transferida automaticamente à aplicação.
 

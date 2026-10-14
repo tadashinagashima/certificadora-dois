@@ -31,7 +31,9 @@ O [adaptador THC](firmware-xadrez.md) implementa a responsabilidade da bibliotec
 
 A [interpretação da movimentação](firmware-interpretacao.md) recebe do Controle uma cópia da tentativa e consulta o adaptador para identificar um movimento legal compatível. A dependência do tipo `AttemptSnapshot` não implica consultar diretamente o acompanhamento ativo. A interpretação preserva a posição oficial e informa ausência de correspondência, ambiguidade, promoção pendente ou entrada não confiável.
 
-O [Controle da partida](firmware-controle.md) mantém adaptador e acompanhamento, recebe comandos lógicos de observação, confirmação, promoção e encerramento e coordena a aplicação oficial. É C++ independente de Arduino; uma tentativa começa somente após uma leitura compatível com a ocupação oficial. Seu guia define as transições, a retomada após rejeição e a política de encerramento. Sensoriamento, interface e registro continuam etapas de integração próprias; os diagramas representam a organização completa prevista.
+O [Controle da partida](firmware-controle.md) mantém adaptador e acompanhamento, recebe comandos lógicos de observação, confirmação, promoção e encerramento e coordena a aplicação oficial. É C++ independente de Arduino; uma tentativa começa somente após uma leitura compatível com a ocupação oficial. Seu guia define as transições, a retomada após rejeição e a política de encerramento.
+
+O [Registro SAN/PGN](firmware-registro.md) recebe a confirmação, uma cópia da posição anterior e a posição resultante; registra somente lances aceitos e exporta metadados, sequência e resultado. A SAN é produzida pelo adaptador no contexto anterior. A ligação entre chamadas do Controle e do Registro cabe ao futuro ciclo principal, sem alteração dos módulos existentes. Sensoriamento, interface e persistência em SD continuam etapas de integração próprias; os diagramas representam a organização completa prevista.
 
 ## 3. Estados e processamento das jogadas
 

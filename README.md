@@ -45,6 +45,7 @@ A estrutura física utilizará uma base de **MDF** e um **tabuleiro de vidro rem
 - [Adaptador THC](docs/firmware-xadrez.md): posição lógica, movimentos legais, SAN e consultas de encerramento.
 - [Interpretação da movimentação](docs/firmware-interpretacao.md): correspondência entre observações físicas e movimentos legais, contrato e testes.
 - [Controle da partida](docs/firmware-controle.md): confirmação, promoção, atualização oficial e encerramento, independente do hardware.
+- [Registro SAN/PGN](docs/firmware-registro.md): sequência de lances aceitos, metadados, resultado e exportação da partida em memória.
 - [Decisões elétricas](docs/revisao-componentes-adicionais.md): leitura direta, alimentação e alternativas condicionadas aos testes.
 - [Plano de testes físicos](docs/plano-testes-fisicos.md): resultados preliminares e critérios de validação.
 
@@ -54,7 +55,7 @@ A estrutura física utilizará uma base de **MDF** e um **tabuleiro de vidro rem
 
 O esquemático da revisão B usa a DevKit V1 de 30 pinos, alimentada pelo USB do computador. A matriz é lida diretamente pelo MCP23017 com pull-ups de 47 kΩ; os periféricos usam o regulador da própria DevKit. O CAD permanece como proposta de montagem, sujeita às medidas e aos testes físicos.
 
-O firmware de diagnóstico inspeciona matriz, botões, indicadores e leitura/escrita do SD. O acompanhamento da jogada preserva as alterações de ocupação por quadro, o adaptador THC fornece posição lógica e regras de xadrez, e a interpretação relaciona as observações aos movimentos legais. O Controle coordena esses módulos e aplica somente lances confirmados e validados, com seleção explícita de promoção. Os quatro módulos possuem testes automatizados. A integração com a aquisição física, a interface da partida e o registro PGN permanecem pendentes.
+O firmware de diagnóstico inspeciona matriz, botões, indicadores e leitura/escrita do SD. O acompanhamento da jogada preserva as alterações de ocupação por quadro, o adaptador THC fornece posição lógica e regras de xadrez, e a interpretação relaciona as observações aos movimentos legais. O Controle coordena esses módulos e aplica somente lances confirmados e validados, com seleção explícita de promoção. O Registro gera SAN dos lances aceitos e exporta PGN em memória. Os cinco módulos possuem testes automatizados. A integração com a aquisição física, a interface da partida e a persistência das partidas em SD permanecem pendentes.
 
 Cada guia contém os comandos de reprodução e os relatórios da respectiva área. Após atualizar as exportações e a compilação, executar da raiz:
 

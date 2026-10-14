@@ -40,6 +40,7 @@ A estrutura física utilizará uma base de **MDF** e um **tabuleiro de vidro rem
 - [Eletrônica](docs/eletronica.md): componentes, pinagem e esquemático KiCad.
 - [Mecânica](docs/mecanica.md): dimensões, modelo FreeCAD e exportações.
 - [Diagnóstico Arduino](docs/firmware-diagnostico.md): configuração, compilação e operação.
+- [Firmware principal](docs/firmware-principal.md): aplicação PlatformIO, partidas por entradas simuladas na Serial, integração Controle/Registro e validação no ESP32.
 - [Acompanhamento da jogada](docs/firmware-acompanhamento.md): módulo C++ independente, contrato e testes automatizados.
 - [Avaliação de bibliotecas de xadrez](docs/avaliacao-bibliotecas-xadrez.md): comparação isolada, testes reproduzíveis e recomendação para ESP32.
 - [Adaptador THC](docs/firmware-xadrez.md): posição lógica, movimentos legais, SAN e consultas de encerramento.
@@ -55,7 +56,7 @@ A estrutura física utilizará uma base de **MDF** e um **tabuleiro de vidro rem
 
 O esquemático da revisão B usa a DevKit V1 de 30 pinos, alimentada pelo USB do computador. A matriz é lida diretamente pelo MCP23017 com pull-ups de 47 kΩ; os periféricos usam o regulador da própria DevKit. O CAD permanece como proposta de montagem, sujeita às medidas e aos testes físicos.
 
-O firmware de diagnóstico inspeciona matriz, botões, indicadores e leitura/escrita do SD. O acompanhamento da jogada preserva as alterações de ocupação por quadro, o adaptador THC fornece posição lógica e regras de xadrez, e a interpretação relaciona as observações aos movimentos legais. O Controle coordena esses módulos e aplica somente lances confirmados e validados, com seleção explícita de promoção. O Registro gera SAN dos lances aceitos e exporta PGN em memória. Os cinco módulos possuem testes automatizados. A integração com a aquisição física, a interface da partida e a persistência das partidas em SD permanecem pendentes.
+O firmware de diagnóstico inspeciona matriz, botões, indicadores e leitura/escrita do SD. O acompanhamento da jogada preserva as alterações de ocupação por quadro, o adaptador THC fornece posição lógica e regras de xadrez, e a interpretação relaciona as observações aos movimentos legais. O Controle coordena esses módulos e aplica somente lances confirmados e validados, com seleção explícita de promoção. O Registro gera SAN dos lances aceitos e exporta PGN em memória. O firmware principal integra os cinco módulos por comandos e ocupações simuladas na Serial, mantendo posição e registro consistentes. Os módulos e a integração possuem testes automatizados. Aquisição física, botões, sinalização e persistência em SD permanecem pendentes.
 
 Cada guia contém os comandos de reprodução e os relatórios da respectiva área. Após atualizar as exportações e a compilação, executar da raiz:
 

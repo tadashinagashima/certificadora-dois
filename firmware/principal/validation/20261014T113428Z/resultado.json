@@ -1,0 +1,239 @@
+{
+  "success": true,
+  "scope": "Firmware principal com entradas simuladas via Serial; sem perifericos fisicos.",
+  "nativeTests": {
+    "passed": 129,
+    "existing": 119,
+    "integrationGroups": 10
+  },
+  "embeddedGroups": 10,
+  "elfSha256": "e376a7b8ce4f62568d588862cbf3f1b1989110213c84af740ce09a0ab3a070e4",
+  "board": "ESP32-D0WD-V3 revision 3.1, COM7",
+  "platform": {
+    "platformio": "6.2.0",
+    "pioarduino": "55.03.312",
+    "arduino": "3.3.12",
+    "idf": "5.5.5",
+    "compiler": "14.2.0+20260121",
+    "esptool": "5.4.0"
+  },
+  "sizes": {
+    "flashApplicationBytes": 324871,
+    "globalDataBytes": 28864,
+    "loopStackBytes": 32768
+  },
+  "memory": {
+    "minimumFreeHeapBytes": 163536,
+    "minimumFreeStackBytes": 17872,
+    "minimumSampledLargestBlockBytes": 110580,
+    "heapIntegrityAlwaysOk": true,
+    "watchdogAlwaysRegistered": true
+  },
+  "stress": {
+    "seconds": 180.427,
+    "cycles": 132,
+    "heapDeltaBytes": 0
+  },
+  "maximumCommandMicrosecondsIncludingTransmission": 711184,
+  "capacityFailureState": "RX STATE Tracking fault=CapacityExceeded plies=1276 promotion=None record_finished=0 frames=2 reliable=1 overflow=0 interrupted=0",
+  "matchingPgnFiles": [
+    {
+      "file": "ambiguity_recovered.pgn",
+      "bytes": 169,
+      "sha256": "b22b0446be659a358245055a6df9d5c1c64d11d5b924d43f09f6d3d0b0faa770"
+    },
+    {
+      "file": "busy.pgn",
+      "bytes": 205,
+      "sha256": "916903d48aec6ecdb2685e98a28ff7853e8e98aff9b1fc743ee351334de178fe"
+    },
+    {
+      "file": "cancel_promotion.pgn",
+      "bytes": 158,
+      "sha256": "4cea42dc35c9196785cf93cb33ffa669c37bd849ed37068c345d0d15c4335994"
+    },
+    {
+      "file": "capacity_preserved.pgn",
+      "bytes": 8396,
+      "sha256": "40a5e06052d3f21c2011cdc25f69290a17264092d01d8eca4ecaf9789f2bfbb9"
+    },
+    {
+      "file": "captures.pgn",
+      "bytes": 135,
+      "sha256": "aa5cb6926fecbf59993ff03fc42cb18fb594ce9efbc52111967ac4c51566fb31"
+    },
+    {
+      "file": "castle_bc.pgn",
+      "bytes": 176,
+      "sha256": "e5dc716f708ea6d8d7e20cd08b8ce7e89f9b7c3968ad05a24eab753f4f2608f0"
+    },
+    {
+      "file": "castle_bg.pgn",
+      "bytes": 174,
+      "sha256": "fbb96d6a3096d6a01efd72bd2489dd074527cb60bbaa16d9d864cbf145353296"
+    },
+    {
+      "file": "castle_wc.pgn",
+      "bytes": 174,
+      "sha256": "d524d8c625d078305a77e1093f5d1fca44de90088856c2336ec87bf6929e6859"
+    },
+    {
+      "file": "castle_wg.pgn",
+      "bytes": 172,
+      "sha256": "da7cc5c40c1250b25ce472551ee1a5561ad8f38b1c6ddedbb9cc5f51181d6de7"
+    },
+    {
+      "file": "ep_b.pgn",
+      "bytes": 171,
+      "sha256": "d942f87a421a4a6767964cfe4c8bfa2669e8a05009f27eac179d8c3fe47100c4"
+    },
+    {
+      "file": "ep_w.pgn",
+      "bytes": 169,
+      "sha256": "1ee29bc72f5ce2b190f90856c68f637b46d97a260db8372b9b23ee35fd954ab0"
+    },
+    {
+      "file": "fools_mate.pgn",
+      "bytes": 130,
+      "sha256": "577be6a6f060cbc4a0cf7270cc21a4fb23757d698c868852c19eb994698d2e81"
+    },
+    {
+      "file": "insufficient.pgn",
+      "bytes": 168,
+      "sha256": "7d65ff882c88f931e0b7eeafc174c0f1566443dbaa3232db80ee91c8381a9934"
+    },
+    {
+      "file": "manual.pgn",
+      "bytes": 112,
+      "sha256": "088e7389dc811576adee39afc7fc98038f1b64ccd5705b879ea33fe7df1f9932"
+    },
+    {
+      "file": "mate.pgn",
+      "bytes": 163,
+      "sha256": "15c4bd74dedafd1f6fa5afafd0a4400c829460481a137a198bdc3b012a613497"
+    },
+    {
+      "file": "promotion_bB.pgn",
+      "bytes": 180,
+      "sha256": "f6618879de539c736671b825a0a219ae62146f7472d34715c08aee120ee7ab0f"
+    },
+    {
+      "file": "promotion_bN.pgn",
+      "bytes": 180,
+      "sha256": "8c5e98591100049ee4fbe60871140cb14fc77ad5d570a21bb87bf926b30b24ed"
+    },
+    {
+      "file": "promotion_bQ.pgn",
+      "bytes": 169,
+      "sha256": "7fd776007bbe688e667a2e39f94e66d76cfed0dcc609b9cbedfc36d292d1ff6a"
+    },
+    {
+      "file": "promotion_bR.pgn",
+      "bytes": 169,
+      "sha256": "52b80130020c1fb3aca688647bb3f4882ae1ef3080dbd06e8bd8d627e86f9606"
+    },
+    {
+      "file": "promotion_capture_bB.pgn",
+      "bytes": 184,
+      "sha256": "1bb922e5883f0f77c73591346d956644c965c76d273a9fcd1026e5f5033872ca"
+    },
+    {
+      "file": "promotion_capture_bN.pgn",
+      "bytes": 184,
+      "sha256": "ce4d7d5da172057f2e48a71dc87a24acc75893be7a011a3f6a4d81abfcda8b7b"
+    },
+    {
+      "file": "promotion_capture_bQ.pgn",
+      "bytes": 173,
+      "sha256": "b301e298e1ec92e555a52feb93727a1786c7ac5930d5a11c35ce3d3eeb21e7d6"
+    },
+    {
+      "file": "promotion_capture_bR.pgn",
+      "bytes": 173,
+      "sha256": "65bdd74b5e6734fb7475014d3509a73e5dcc2981420ad7c41681d6bac95573eb"
+    },
+    {
+      "file": "promotion_capture_wB.pgn",
+      "bytes": 182,
+      "sha256": "a3a70f605c3c86d4663aedc22067b20c4a2f97b6e3473daa37c0c252421c7c26"
+    },
+    {
+      "file": "promotion_capture_wN.pgn",
+      "bytes": 182,
+      "sha256": "1faeadc6124275b1eb8abebdabcd0fceb936721f94c840d590aef233df80058a"
+    },
+    {
+      "file": "promotion_capture_wQ.pgn",
+      "bytes": 171,
+      "sha256": "a9399c0d8a8278aed2d3d79a8dc666f9a8b3e4a0b77bc9e7dbaaa48d3343ba8c"
+    },
+    {
+      "file": "promotion_capture_wR.pgn",
+      "bytes": 171,
+      "sha256": "af6bcd0a2b58b9ef68c3cb52a81c15421d1ef474f6945c7a1ea7271b0f7606f2"
+    },
+    {
+      "file": "promotion_wB.pgn",
+      "bytes": 178,
+      "sha256": "49f0918146989c119a71c64a85545c5554975bf78513e51e0166dc6ed2a9fe43"
+    },
+    {
+      "file": "promotion_wN.pgn",
+      "bytes": 178,
+      "sha256": "70eafb865679450ed8327e0af42abd38d1def88638e1d4b480b9c3d605fd29fe"
+    },
+    {
+      "file": "promotion_wQ.pgn",
+      "bytes": 167,
+      "sha256": "ba99a419d23fc9ec6ae9d68e4cfe811414c118ea96c442c61250c5665044977c"
+    },
+    {
+      "file": "promotion_wR.pgn",
+      "bytes": 167,
+      "sha256": "86e3101c8430734e100ca6fa3d4ec49e6b97600fb4f1b4a82c26cbd686b8892e"
+    },
+    {
+      "file": "protocol_recovered.pgn",
+      "bytes": 115,
+      "sha256": "2de22160ea1d0fcef43a468fafdef45e96104254366ff4b1a02fee25549e4071"
+    },
+    {
+      "file": "repetition_100plies.pgn",
+      "bytes": 704,
+      "sha256": "17b3a80a434e764e9a3cc6c9224d8904a1a3e739b5a8b0446fa28fb21a490dbe"
+    },
+    {
+      "file": "resign_black.pgn",
+      "bytes": 110,
+      "sha256": "afa51f5d69bc2d6c6c0db8ae0e637b118eeeb9eb729cf035ac2be6eb310da54c"
+    },
+    {
+      "file": "resign_white.pgn",
+      "bytes": 110,
+      "sha256": "455afd033ddefca3a024a813dbc45ae56566dd31b5542ba72254f5b72cdc7f51"
+    },
+    {
+      "file": "scholars_mate.pgn",
+      "bytes": 150,
+      "sha256": "b4184a03489f2bf7e0b26c55fd392101cb7c9e1ead25646a0623ce9345de6703"
+    },
+    {
+      "file": "stalemate.pgn",
+      "bytes": 171,
+      "sha256": "122c5d3f56a92f03b180a20e90cecf437fa600cc15c8cbcb4d43c96a8dac89ef"
+    }
+  ],
+  "preservation": {
+    "baselineFiles": 180,
+    "changedFiles": [],
+    "allPreserved": true,
+    "thcPinnedHashesMatch": true
+  },
+  "limitations": [
+    "Entradas simuladas; sem validacao de sensores, botoes, sinalizacao ou SD.",
+    "Estado e PGN somente em RAM; reinicializacao perde a sessao.",
+    "Esgotamento do alocador e erro fisico UART nao foram forcados.",
+    "Ensaio de estabilidade limitado a 180 segundos, sem prova de operacao indefinida.",
+    "MoveTracker integrado executado; ensaio fisico isolado permanece pendente."
+  ]
+}

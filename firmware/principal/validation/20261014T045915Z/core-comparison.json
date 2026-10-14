@@ -1,0 +1,44 @@
+[
+  {
+    "file": "cores/esp32/esp_arduino_version.h",
+    "arduinoCliSha256": "6f4b870b061d0320c85e4f31595edde57f528f9ccdacd4f82faf41cbc490706b",
+    "platformioSha256": "6f4b870b061d0320c85e4f31595edde57f528f9ccdacd4f82faf41cbc490706b",
+    "equal": true
+  },
+  {
+    "file": "cores/esp32/main.cpp",
+    "arduinoCliSha256": "3a80fad62e9a4243aeb67ed1215fac81f47ba4ddc707db57850ec8cab68f1291",
+    "platformioSha256": "3a80fad62e9a4243aeb67ed1215fac81f47ba4ddc707db57850ec8cab68f1291",
+    "equal": true
+  },
+  {
+    "file": "cores/esp32/Arduino.h",
+    "arduinoCliSha256": "4f2231bcd14bf14c1bfbb667c10a06484a336217974ae76c7f15dc5507a406d4",
+    "platformioSha256": "4f2231bcd14bf14c1bfbb667c10a06484a336217974ae76c7f15dc5507a406d4",
+    "equal": true
+  },
+  {
+    "file": "tools/partitions/default.csv",
+    "arduinoCliSha256": "2683fd26b661bc909dcb8a9f05723d36c4000f9396995941a278fda409b753f7",
+    "platformioSha256": "2683fd26b661bc909dcb8a9f05723d36c4000f9396995941a278fda409b753f7",
+    "equal": true
+  },
+  {
+    "file": "esp32-libs/flags/cpp_flags",
+    "arduinoCliSha256": "abea0f659ead738923a7c47f6eb9cc839dec11b94a6a1e23b1fbd1ff4174be3d",
+    "platformioSha256": "abea0f659ead738923a7c47f6eb9cc839dec11b94a6a1e23b1fbd1ff4174be3d",
+    "equal": true
+  },
+  {
+    "file": "esp32-libs/sdkconfig",
+    "arduinoCliSha256": "7488c7a556daa24fc65e0a806c5ebbbf13d019a14e9f7b14d326c7d0d5e6a4a0",
+    "platformioSha256": "7488c7a556daa24fc65e0a806c5ebbbf13d019a14e9f7b14d326c7d0d5e6a4a0",
+    "equal": true
+  },
+  {
+    "file": "esp32-libs/bin/bootloader_qio_80m.elf",
+    "arduinoCliSha256": "1db2d381afd0cb79ba1f1a56c94947cfb454ce6fe955fa8c97f671638d89ecff",
+    "platformioSha256": "1db2d381afd0cb79ba1f1a56c94947cfb454ce6fe955fa8c97f671638d89ecff",
+    "equal": true
+  }
+]

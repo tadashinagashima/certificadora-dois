@@ -1,0 +1,11 @@
+-- Selecting Windows SDK version 10.0.22621.0 to target Windows 10.0.26300.
+-- The CXX compiler identification is MSVC 19.41.34123.0
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.41.34120/bin/Hostx64/x64/cl.exe - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Found Python3: C:\Users\danie\Desktop\certificadora-dois/firmware/principal/build/venv/Scripts/python.exe (found version "3.13.2") found components: Interpreter
+-- Configuring done (6.5s)
+-- Generating done (0.3s)
+-- Build files have been written to: C:/Users/danie/Desktop/certificadora-dois/firmware/principal/build/integration-native

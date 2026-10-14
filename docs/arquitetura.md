@@ -33,7 +33,7 @@ A [interpretação da movimentação](firmware-interpretacao.md) recebe do Contr
 
 O [Controle da partida](firmware-controle.md) mantém adaptador e acompanhamento, recebe comandos lógicos de observação, confirmação, promoção e encerramento e coordena a aplicação oficial. É C++ independente de Arduino; uma tentativa começa somente após uma leitura compatível com a ocupação oficial. Seu guia define as transições, a retomada após rejeição e a política de encerramento.
 
-O [Registro SAN/PGN](firmware-registro.md) recebe a confirmação, uma cópia da posição anterior e a posição resultante; registra somente lances aceitos e exporta metadados, sequência e resultado. A SAN é produzida pelo adaptador no contexto anterior. A ligação entre chamadas do Controle e do Registro cabe ao futuro ciclo principal, sem alteração dos módulos existentes. Sensoriamento, interface e persistência em SD continuam etapas de integração próprias; os diagramas representam a organização completa prevista.
+O [Registro SAN/PGN](firmware-registro.md) recebe a confirmação, o contexto anterior preservado e a posição resultante; registra somente lances aceitos e exporta metadados, sequência e resultado. A SAN é produzida pelo adaptador no contexto anterior. O [firmware principal](firmware-principal.md) coordena Controle e Registro por entradas simuladas na Serial, publicando o novo estado somente após ambos aceitarem a operação, sem alterar seus contratos. Sensoriamento, interface física e persistência em SD continuam etapas de integração próprias; os diagramas representam a organização completa prevista.
 
 ## 3. Estados e processamento das jogadas
 

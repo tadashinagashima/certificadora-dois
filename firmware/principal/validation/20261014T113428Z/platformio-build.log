@@ -1,0 +1,122 @@
+Processing esp32 (platform: https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312/platform-espressif32.zip; board: esp32dev; framework: arduino)
+--------------------------------------------------------------------------------
+Verbose mode can be enabled via `-v, --verbose` option
+CONFIGURATION: https://docs.platformio.org/page/boards/espressif32/esp32dev.html
+PLATFORM: Espressif 32 (55.3.312) > Espressif ESP32 Dev Module
+HARDWARE: ESP32 240MHz, 320KB RAM, 4MB Flash
+DEBUG: Current (cmsis-dap) External (cmsis-dap, esp-bridge, esp-prog, esp-prog-2, iot-bus-jtag, jlink, minimodule, olimex-arm-usb-ocd, olimex-arm-usb-ocd-h, olimex-arm-usb-tiny-h, olimex-jtag-tiny, tumpa)
+PACKAGES: 
+ - contrib-piohome @ 3.4.4 
+ - framework-arduinoespressif32 @ 3.3.12 
+ - framework-arduinoespressif32-libs @ 5.5.5+sha.b774170ff46 
+ - tool-esptoolpy @ 5.4.0 
+ - tool-xtensa-esp-elf-gdb @ 17.1.0+20260402 
+ - toolchain-xtensa-esp-elf @ 14.2.0+20260121
+LDF: Library Dependency Finder -> https://bit.ly/configure-pio-ldf
+LDF Modes: Finder ~ chain, Compatibility ~ soft
+Found 49 compatible libraries
+Scanning dependencies...
+Dependency Graph
+|-- AcompanhamentoJogada @ 0.1.0
+|-- TabuleiroChess @ 0.1.0
+|-- InterpretacaoJogada @ 0.1.0
+|-- ControlePartida @ 0.1.0
+|-- RegistroPartida @ 0.1.0
+Building in release mode
+Compiling build\pio\build\esp32\libc4b\acompanhamento\MoveTracker.cpp.o
+Compiling build\pio\build\esp32\lib423\xadrez\ChessAdapter.cpp.o
+Compiling build\pio\build\esp32\lib423\xadrez\thc\thc.cpp.o
+Compiling build\pio\build\esp32\lib0bc\interpretacao\MoveInterpreter.cpp.o
+Compiling build\pio\build\esp32\lib7b7\controle\GameController.cpp.o
+Compiling build\pio\build\esp32\liba1e\registro\GameRecord.cpp.o
+Compiling build\pio\build\esp32\src\SerialGame.cpp.o
+Compiling build\pio\build\esp32\src\main.cpp.o
+Building build\pio\build\esp32\bootloader.bin
+Generating partitions build\pio\build\esp32\partitions.bin
+Compiling build\pio\build\esp32\FrameworkArduino\ColorFormat.c.o
+esptool v5.4.0
+Creating ESP32 image...
+Merged 2 ELF sections.
+Successfully created ESP32 image.
+Compiling build\pio\build\esp32\FrameworkArduino\Esp.cpp.o
+Compiling build\pio\build\esp32\FrameworkArduino\FirmwareMSC.cpp.o
+Compiling build\pio\build\esp32\FrameworkArduino\FunctionalInterrupt.cpp.o
+Compiling build\pio\build\esp32\FrameworkArduino\HEXBuilder.cpp.o
+Compiling build\pio\build\esp32\FrameworkArduino\HWCDC.cpp.o
+Compiling build\pio\build\esp32\FrameworkArduino\HardwareSerial.cpp.o
+Compiling build\pio\build\esp32\FrameworkArduino\HashBuilder.cpp.o
+Compiling build\pio\build\esp32\FrameworkArduino\IPAddress.cpp.o
+Compiling build\pio\build\esp32\FrameworkArduino\MD5Builder.cpp.o
+Compiling build\pio\build\esp32\FrameworkArduino\MacAddress.cpp.o
+Compiling build\pio\build\esp32\FrameworkArduino\Print.cpp.o
+Compiling build\pio\build\esp32\FrameworkArduino\Stream.cpp.o
+Compiling build\pio\build\esp32\FrameworkArduino\StreamString.cpp.o
+Compiling build\pio\build\esp32\FrameworkArduino\StringUtils.cpp.o
+Compiling build\pio\build\esp32\FrameworkArduino\Tone.cpp.o
+Compiling build\pio\build\esp32\FrameworkArduino\USB.cpp.o
+Compiling build\pio\build\esp32\FrameworkArduino\USBCDC.cpp.o
+Compiling build\pio\build\esp32\FrameworkArduino\USBHost.cpp.o
+Compiling build\pio\build\esp32\FrameworkArduino\USBMSC.cpp.o
+Compiling build\pio\build\esp32\FrameworkArduino\WMath.cpp.o
+Compiling build\pio\build\esp32\FrameworkArduino\WString.cpp.o
+Compiling build\pio\build\esp32\FrameworkArduino\base64.cpp.o
+Compiling build\pio\build\esp32\FrameworkArduino\cbuf.cpp.o
+Compiling build\pio\build\esp32\FrameworkArduino\chip-debug-report.cpp.o
+Compiling build\pio\build\esp32\FrameworkArduino\esp32-hal-adc.c.o
+Compiling build\pio\build\esp32\FrameworkArduino\esp32-hal-bt.c.o
+Compiling build\pio\build\esp32\FrameworkArduino\esp32-hal-cpu.c.o
+Compiling build\pio\build\esp32\FrameworkArduino\esp32-hal-dac.c.o
+Compiling build\pio\build\esp32\FrameworkArduino\esp32-hal-gpio.c.o
+Compiling build\pio\build\esp32\FrameworkArduino\esp32-hal-hosted.c.o
+Compiling build\pio\build\esp32\FrameworkArduino\esp32-hal-i2c-ng.c.o
+Compiling build\pio\build\esp32\FrameworkArduino\esp32-hal-i2c-slave.c.o
+Compiling build\pio\build\esp32\FrameworkArduino\esp32-hal-i2c.c.o
+Compiling build\pio\build\esp32\FrameworkArduino\esp32-hal-ldo.c.o
+Compiling build\pio\build\esp32\FrameworkArduino\esp32-hal-ledc.c.o
+Compiling build\pio\build\esp32\FrameworkArduino\esp32-hal-log-wrapper.c.o
+Compiling build\pio\build\esp32\FrameworkArduino\esp32-hal-matrix.c.o
+Compiling build\pio\build\esp32\FrameworkArduino\esp32-hal-misc.c.o
+Compiling build\pio\build\esp32\FrameworkArduino\esp32-hal-periman.c.o
+Compiling build\pio\build\esp32\FrameworkArduino\esp32-hal-psram.c.o
+Compiling build\pio\build\esp32\FrameworkArduino\esp32-hal-rgb-led.c.o
+Compiling build\pio\build\esp32\FrameworkArduino\esp32-hal-rmt.c.o
+Compiling build\pio\build\esp32\FrameworkArduino\esp32-hal-sigmadelta.c.o
+Compiling build\pio\build\esp32\FrameworkArduino\esp32-hal-spi.c.o
+Compiling build\pio\build\esp32\FrameworkArduino\esp32-hal-time.c.o
+Compiling build\pio\build\esp32\FrameworkArduino\esp32-hal-timer.c.o
+Compiling build\pio\build\esp32\FrameworkArduino\esp32-hal-tinyusb.c.o
+Compiling build\pio\build\esp32\FrameworkArduino\esp32-hal-touch-ng.c.o
+Compiling build\pio\build\esp32\FrameworkArduino\esp32-hal-touch.c.o
+Compiling build\pio\build\esp32\FrameworkArduino\esp32-hal-uart.c.o
+Compiling build\pio\build\esp32\FrameworkArduino\firmware_msc_fat.c.o
+Compiling build\pio\build\esp32\FrameworkArduino\freertos_stats.cpp.o
+Compiling build\pio\build\esp32\FrameworkArduino\idf_openthread_mpool_wrapper.c.o
+Compiling build\pio\build\esp32\FrameworkArduino\libb64\cdecode.c.o
+Compiling build\pio\build\esp32\FrameworkArduino\libb64\cencode.c.o
+Compiling build\pio\build\esp32\FrameworkArduino\main.cpp.o
+Compiling build\pio\build\esp32\FrameworkArduino\stdlib_noniso.c.o
+Compiling build\pio\build\esp32\FrameworkArduino\wiring_pulse.c.o
+Compiling build\pio\build\esp32\FrameworkArduino\wiring_shift.c.o
+Archiving build\pio\build\esp32\libFrameworkArduino.a
+Linking build\pio\build\esp32\firmware.elf
+Firmware metrics can not be shown. Set the terminal codepage to "utf-8" or "cp65001" on Windows.
+Retrieving maximum program size build\pio\build\esp32\firmware.elf
+Checking size build\pio\build\esp32\firmware.elf
+Advanced Memory Usage is available via "PlatformIO Home > Project Inspect"
+RAM:   [=         ]   8.8% (used 28864 bytes from 327680 bytes)
+Flash: [==        ]  24.8% (used 324871 bytes from 1310720 bytes)
+Building build\pio\build\esp32\firmware.bin with action:
+  $OBJCOPY $ELF2BINFLAGS -o "$TARGET" "$SOURCES"
+Building build\pio\build\esp32\firmware.bin
+esptool v5.4.0
+Creating ESP32 image...
+Merged 3 ELF sections.
+Successfully created ESP32 image.
+Creating binary "firmware.factory.bin" with:
+    Offset   | File
+ -  0x1000   | bootloader.bin
+ -  0x8000   | partitions.bin
+ -  0xe000   | boot_app0.bin
+ -  0x10000  | firmware.bin
+Successfully created combined binary image.
+========================= [SUCCESS] Took 27.21 seconds =========================

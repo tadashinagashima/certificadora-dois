@@ -1,0 +1,34 @@
+{
+  "firmware/principal/platformio.ini": {
+    "bytes": 775,
+    "sha256": "bc6ee6c246a052e034a09dcf1837a5cb0268aa0ca4f45d0dec8c4e29e26007f9"
+  },
+  "firmware/principal/src/main.cpp": {
+    "bytes": 2454,
+    "sha256": "591a863623696c05bca464542341e6d5501936fec5f173c272c9956eae0b3b2d"
+  },
+  "firmware/principal/verificar-inicializacao.py": {
+    "bytes": 3913,
+    "sha256": "16144b5a9ca1ff0579c14e94dbf033bae57e8f64f41a2a10750269b64123c8e5"
+  },
+  "firmware/principal/build/pio/build/esp32/firmware.elf": {
+    "bytes": 6561340,
+    "sha256": "0110aab581ecc16c97ae6727ac47a028337f9eb3710a9a236f6510d383e56a2f"
+  },
+  "firmware/principal/build/pio/build/esp32/firmware.bin": {
+    "bytes": 308784,
+    "sha256": "646efe6baa59386f212166edb7ae69aa5747c5a43180c90d8ec440c0e19f5755"
+  },
+  "firmware/principal/build/pio/build/esp32/firmware.factory.bin": {
+    "bytes": 374320,
+    "sha256": "8801b595d0cce3e0915e8ce892331719d1bed4ac402be22492d3516fa01a20f5"
+  },
+  "firmware/principal/build/pio/build/esp32/bootloader.bin": {
+    "bytes": 24992,
+    "sha256": "47bbbfca119fe87190f63a67af9d85adff6433bcf3812ec92a9b9c9416a53ad1"
+  },
+  "firmware/principal/build/pio/build/esp32/partitions.bin": {
+    "bytes": 3072,
+    "sha256": "148b959cbff1c38aa8e1d5c0ba9d612c54997b945e56a63f41223eef650653a1"
+  }
+}

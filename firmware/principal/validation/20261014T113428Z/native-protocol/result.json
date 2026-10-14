@@ -1,0 +1,61 @@
+{
+  "startedAtUtc": "2026-10-14T11:35:53.129682+00:00",
+  "target": "firmware/principal/build/integration-native/Release/principal_serial.exe",
+  "success": true,
+  "suites": [
+    {
+      "name": "lifecycle",
+      "passed": true,
+      "seconds": 0.006
+    },
+    {
+      "name": "games",
+      "passed": true,
+      "seconds": 0.004
+    },
+    {
+      "name": "captures",
+      "passed": true,
+      "seconds": 0.002
+    },
+    {
+      "name": "castling",
+      "passed": true,
+      "seconds": 0.001
+    },
+    {
+      "name": "en_passant",
+      "passed": true,
+      "seconds": 0.001
+    },
+    {
+      "name": "promotions",
+      "passed": true,
+      "seconds": 0.007
+    },
+    {
+      "name": "recovery",
+      "passed": true,
+      "seconds": 0.003
+    },
+    {
+      "name": "protocol",
+      "passed": true,
+      "seconds": 0.003
+    },
+    {
+      "name": "capacity",
+      "passed": true,
+      "seconds": 0.125
+    },
+    {
+      "name": "history",
+      "passed": true,
+      "seconds": 0.009
+    }
+  ],
+  "finishedAtUtc": "2026-10-14T11:35:53.297970+00:00",
+  "commands": 4766,
+  "metrics": [],
+  "boot": []
+}

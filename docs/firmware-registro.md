@@ -179,4 +179,4 @@ O ensaio de pouco mais de três minutos não demonstra estabilidade indefinida, 
 
 ## 6. Pendências
 
-Permanecem a ligação com o ciclo principal e a interface, o dimensionamento e ensaio do firmware integrado e a persistência em SD, incluindo nome do arquivo, escrita e tratamento de falhas de armazenamento. A saída atual é um documento em memória. A validação isolada com observações simuladas não substitui a verificação da aquisição física nem da interação com os periféricos.
+O [firmware principal](firmware-principal.md) implementa a ligação com o Controle por uma interface Serial simulada e documenta o ensaio conjunto de memória, pilha e estabilidade. Confirmações são preparadas em cópias e publicadas somente após o Registro aceitar, preservando posição e PGN anteriores em caso de falha. Permanecem a interface física e a persistência em SD, incluindo nome do arquivo, escrita e tratamento de falhas de armazenamento. A saída atual é um documento em memória; as validações por entradas simuladas não substituem a verificação da aquisição física nem da interação com os periféricos.

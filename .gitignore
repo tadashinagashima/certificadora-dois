@@ -1,0 +1,40 @@
+# Compilacao e ferramentas locais
+build/
+build-cache/
+.pio/
+venv/
+.venv/
+
+# Caches e temporarios
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.cache/
+*.tmp
+*.temp
+*.swp
+*.swo
+*~
+Thumbs.db
+ehthumbs.db
+[Dd]esktop.ini
+.DS_Store
+
+# Arquivos auxiliares gerados pelos editores de hardware/UML
+*.FCBak
+*.FCStd[0-9]*
+*.kicad_prl
+*.kicad_sch.lck
+*.kicad_pro.lck
+*.kicad_pcb.lck
+*-backups/
+_autosave-*.kicad_sch
+_autosave-*.kicad_pcb
+*.kicad_sch-bak
+*.kicad_pcb-bak
+fp-info-cache
+*.asta.lock
+*.asta.bak
+*.class

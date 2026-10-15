@@ -1,0 +1,56 @@
+cmake_minimum_required(VERSION 3.20)
+project(TabuleiroSensorial LANGUAGES CXX)
+set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+enable_testing()
+
+function(strict_warnings target)
+  if(MSVC)
+    target_compile_options(${target} PRIVATE /W4 /WX /permissive-)
+  else()
+    target_compile_options(${target} PRIVATE -Wall -Wextra -Wpedantic -Werror)
+  endif()
+endfunction()
+
+function(board_library target directory source)
+  add_library(${target} STATIC ${directory}/src/${source}.cpp)
+  target_include_directories(${target} PUBLIC ${directory}/src)
+  if(ARGN)
+    target_link_libraries(${target} PUBLIC ${ARGN})
+  endif()
+  strict_warnings(${target})
+endfunction()
+
+# Keep upstream code outside the project's warnings-as-errors policy.
+add_library(thc_backend STATIC xadrez/src/thc/thc.cpp)
+board_library(move_tracker acompanhamento MoveTracker)
+board_library(chess_adapter xadrez ChessAdapter thc_backend)
+board_library(move_interpreter interpretacao MoveInterpreter move_tracker chess_adapter)
+board_library(game_controller controle GameController move_interpreter)
+board_library(game_record registro GameRecord game_controller)
+board_library(serial_game principal SerialGame game_record)
+
+function(contract_test target source library)
+  add_executable(${target} ${source})
+  target_link_libraries(${target} PRIVATE ${library})
+  strict_warnings(${target})
+  # Each executable owns its case list; an optional argument selects one case.
+  add_test(NAME ${target} COMMAND ${target})
+endfunction()
+
+contract_test(tracker_tests acompanhamento/tests/test_move_tracker.cpp move_tracker)
+contract_test(adapter_tests xadrez/tests/adapter_tests.cpp chess_adapter)
+contract_test(interpreter_tests interpretacao/tests/interpreter_tests.cpp move_interpreter)
+contract_test(controller_tests controle/tests/controller_tests.cpp game_controller)
+contract_test(record_tests registro/tests/record_tests.cpp game_record)
+
+add_executable(principal_serial principal/tests/native_serial.cpp)
+target_link_libraries(principal_serial PRIVATE serial_game)
+strict_warnings(principal_serial)
+find_package(Python3 REQUIRED COMPONENTS Interpreter)
+foreach(suite lifecycle games captures castling en_passant promotions recovery protocol capacity history)
+  add_test(NAME principal.${suite} COMMAND ${Python3_EXECUTABLE}
+    ${CMAKE_CURRENT_SOURCE_DIR}/principal/tests/integration.py
+    --exe $<TARGET_FILE:principal_serial> --suite ${suite})
+endforeach()

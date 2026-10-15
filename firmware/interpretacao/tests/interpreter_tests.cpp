@@ -1,4 +1,3 @@
-#include "interpreter_tests.h"
 #include "MoveInterpreter.h"
 
 #include <cstdio>
@@ -553,7 +552,9 @@ bool moveSequence() {
 }
 }  // namespace
 
-int runInterpreterTests(const char* selected, void (*report)(const char*, bool)) {
+int main(int argc, char** argv) {
+  if (argc > 2) return 2;
+  const char* selected = argc == 2 ? argv[1] : nullptr;
   struct Case { const char* name; bool (*run)(); };
   const Case cases[] = {
     {"ordinary_frames", ordinaryFrames}, {"square_limits", squareLimits},
@@ -574,7 +575,7 @@ int runInterpreterTests(const char* selected, void (*report)(const char*, bool))
   for (const auto& test : cases) {
     if (selected && std::strcmp(selected, test.name)) continue;
     const bool passed = test.run();
-    if (report) report(test.name, passed);
+    std::printf("%s %s\n", passed ? "PASS" : "FAIL", test.name);
     if (!passed) ++failures;
     ++executed;
   }

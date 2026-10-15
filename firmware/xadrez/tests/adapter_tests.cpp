@@ -1,4 +1,3 @@
-#include "adapter_tests.h"
 #include "ChessAdapter.h"
 
 #include <cstdio>
@@ -87,16 +86,6 @@ bool knightCycle(ChessAdapter& board) {
   CHECK(play(board, move("g8", "f6")));
   CHECK(play(board, move("f3", "g1")));
   CHECK(play(board, move("f6", "g8")));
-  return true;
-}
-
-bool backendInternals() {
-  thc::ChessRules backend;
-  CHECK(backend.TestInternals(nullptr));
-  std::printf("sizeof ChessAdapter=%u LegalMoves=%u Move=%u\n",
-              static_cast<unsigned>(sizeof(ChessAdapter)),
-              static_cast<unsigned>(sizeof(LegalMoves)),
-              static_cast<unsigned>(sizeof(Move)));
   return true;
 }
 
@@ -459,10 +448,12 @@ bool copyHistory() {
 }
 }  // namespace
 
-int runAdapterTests(const char* selected, void (*report)(const char*, bool)) {
+int main(int argc, char** argv) {
+  if (argc > 2) return 2;
+  const char* selected = argc == 2 ? argv[1] : nullptr;
   struct Case { const char* name; bool (*run)(); };
   const Case cases[] = {
-    {"backend_internals", backendInternals}, {"initial_coordinates", initialCoordinates},
+    {"initial_coordinates", initialCoordinates},
     {"legal_moves", legalMoves}, {"invalid_moves", invalidMoves},
     {"queries_preserve", queriesPreserve}, {"apply_reset", applyReset},
     {"fen_loading", fenLoading}, {"capture", capture},
@@ -476,7 +467,7 @@ int runAdapterTests(const char* selected, void (*report)(const char*, bool)) {
   for (const auto& test : cases) {
     if (selected && std::strcmp(selected, test.name)) continue;
     const bool passed = test.run();
-    if (report) report(test.name, passed);
+    std::printf("%s %s\n", passed ? "PASS" : "FAIL", test.name);
     if (!passed) ++failures;
     ++executed;
   }

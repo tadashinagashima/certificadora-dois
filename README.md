@@ -1,67 +1,45 @@
 # Tabuleiro de Xadrez Sensorial
 
-Projeto da disciplina **Certificadora da Competência 2**, do curso de **Engenharia de Computação da UTFPR — Câmpus Cornélio Procópio**.
+Projeto de Engenharia de Computação da UTFPR — Câmpus Cornélio Procópio, disciplina Certificadora da Competência 2. O tabuleiro 8×8 usa reeds e ímãs para acompanhar peças, validar jogadas e produzir PGN.
 
-## Objetivo
+O firmware atual executa partidas completas por entradas simuladas na Serial do ESP32. Há também um diagnóstico de matriz, botões, indicadores e SD. Aquisição física integrada, interface de partida e persistência PGN em SD ainda estão pendentes; os projetos de montagem precisam ser conferidos com os componentes reais.
 
-Desenvolver um tabuleiro de xadrez 8×8 capaz de detectar movimentações físicas, validar jogadas e registrar automaticamente partidas em formato **PGN**, permitindo sua reprodução e análise posterior pelos participantes do Clube de Xadrez Estudantil.
+## Documentação
 
-## Funcionamento
+- [Arquitetura e requisitos](docs/arquitetura.md): responsabilidades, fluxo e critérios do produto.
+- [Firmware](docs/firmware.md): compilação, protocolo Serial, contratos e testes.
+- [Hardware](docs/hardware.md): componentes adotados, pinagem, dimensões, edição e montagem.
 
-As peças possuem ímãs na base, e cada casa do tabuleiro conta com um **Reed Switch** para detectar sua ocupação. O **ESP32**, por meio do expansor **MCP23017**, acompanha as alterações dos sensores até o jogador confirmar a jogada.
+## Estrutura
 
-O firmware interpreta essas alterações em conjunto com o estado lógico da partida e utiliza uma biblioteca de xadrez para validar o movimento. Jogadas inválidas são sinalizadas; jogadas válidas atualizam a partida e são registradas em **PGN** no cartão microSD.
+```text
+docs/                   Arquitetura, firmware, hardware e fonte UML Astah
+firmware/CMakeLists.txt Build nativo e testes dos cinco módulos
+firmware/principal/     Aplicação PlatformIO e testes de integração
+firmware/diagnostico/   Diagnóstico Arduino e pinagem
+firmware/acompanhamento/ MoveTracker
+firmware/xadrez/        ChessAdapter e única cópia da THC (licença MIT)
+firmware/interpretacao/ MoveInterpreter
+firmware/controle/      GameController
+firmware/registro/      GameRecord
+hardware/eletronica/    Projeto KiCad, biblioteca e exportação/verificação
+hardware/mecanica/      Modelo FreeCAD e exportação/verificação
+```
 
-## Tecnologias e componentes
+## Começar
 
-- **ESP32:** controle principal, com firmware em C/C++ (Arduino).
-- **64 Reed Switches e 64 diodos 1N4148:** matriz de sensoriamento 8×8.
-- **MCP23017 (I²C):** leitura da matriz.
-- **Ímãs de ferrite:** instalados na base das peças.
-- **MicroSD (SPI):** armazenamento das partidas.
-- **Botões, LEDs e buzzer:** confirmação de jogadas, promoção, encerramento e sinalização.
-- **OLED SSD1315 (opcional):** exibição de informações da partida.
+Usar ESP32 clássico, Arduino-ESP32 **3.3.12**, PlatformIO **6.2.0** e a plataforma fixada no [platformio.ini](firmware/principal/platformio.ini). Seguir a preparação do [guia de firmware](docs/firmware.md); na Serial, `help` lista os comandos. `new`, `sync`, `lift e2`, `place e4`, `confirm` simulam o primeiro lance. Cada comando deve aguardar a resposta `DONE`. `pgn` exporta a partida em RAM.
 
-A estrutura física utilizará uma base de **MDF** e um **tabuleiro de vidro removível de 3 mm**, com dimensões externas aproximadas de 35 × 35 cm.
+Para manutenção, executar os testes de contratos e integração pelo CMake/CTest, conforme o guia de firmware. Para montar, abrir KiCad/FreeCAD e seguir as verificações do guia de hardware. Builds, caches e saídas geradas ficam em `build/` e são ignorados; não se armazenam relatórios históricos ou cópias de sondas.
 
 ## Equipe
 
 | Integrante | Responsabilidade |
 | --- | --- |
-| Bruno Ferreira de Lima | Testes, documentação e registro da partida |
+| Bruno Ferreira de Lima | Testes, documentação e registro |
 | Daniel Chien Chen Wang | Eletrônica e estrutura física |
 | Gustavo Yudi Yamada | Algoritmos e biblioteca de xadrez |
 | Pedro Paulo da Silva Oliveira | Firmware e interface com hardware |
 | Tadashi Bello Nagashima | Coordenação e integração |
 
-## Documentação técnica
-
-- [Requisitos](docs/requisitos.md) e [arquitetura](docs/arquitetura.md).
-- [Eletrônica](docs/eletronica.md): componentes, pinagem e esquemático KiCad.
-- [Mecânica](docs/mecanica.md): dimensões, modelo FreeCAD e exportações.
-- [Diagnóstico Arduino](docs/firmware-diagnostico.md): configuração, compilação e operação.
-- [Firmware principal](docs/firmware-principal.md): aplicação PlatformIO, partidas por entradas simuladas na Serial, integração Controle/Registro e validação no ESP32.
-- [Acompanhamento da jogada](docs/firmware-acompanhamento.md): módulo C++ independente, contrato e testes automatizados.
-- [Avaliação de bibliotecas de xadrez](docs/avaliacao-bibliotecas-xadrez.md): comparação isolada, testes reproduzíveis e recomendação para ESP32.
-- [Adaptador THC](docs/firmware-xadrez.md): posição lógica, movimentos legais, SAN e consultas de encerramento.
-- [Interpretação da movimentação](docs/firmware-interpretacao.md): correspondência entre observações físicas e movimentos legais, contrato e testes.
-- [Controle da partida](docs/firmware-controle.md): confirmação, promoção, atualização oficial e encerramento, independente do hardware.
-- [Registro SAN/PGN](docs/firmware-registro.md): sequência de lances aceitos, metadados, resultado e exportação da partida em memória.
-- [Decisões elétricas](docs/revisao-componentes-adicionais.md): leitura direta, alimentação e alternativas condicionadas aos testes.
-- [Plano de testes físicos](docs/plano-testes-fisicos.md): resultados preliminares e critérios de validação.
-
-![Proposta mecânica do tabuleiro](hardware/mecanica/exportacoes/montagem.png)
-
-## Estado e validação
-
-O esquemático da revisão B usa a DevKit V1 de 30 pinos, alimentada pelo USB do computador. A matriz é lida diretamente pelo MCP23017 com pull-ups de 47 kΩ; os periféricos usam o regulador da própria DevKit. O CAD permanece como proposta de montagem, sujeita às medidas e aos testes físicos.
-
-O firmware de diagnóstico inspeciona matriz, botões, indicadores e leitura/escrita do SD. O acompanhamento da jogada preserva as alterações de ocupação por quadro, o adaptador THC fornece posição lógica e regras de xadrez, e a interpretação relaciona as observações aos movimentos legais. O Controle coordena esses módulos e aplica somente lances confirmados e validados, com seleção explícita de promoção. O Registro gera SAN dos lances aceitos e exporta PGN em memória. O firmware principal integra os cinco módulos por comandos e ocupações simuladas na Serial, mantendo posição e registro consistentes. Os módulos e a integração possuem testes automatizados. Aquisição física, botões, sinalização e persistência em SD permanecem pendentes.
-
-Cada guia contém os comandos de reprodução e os relatórios da respectiva área. Após atualizar as exportações e a compilação, executar da raiz:
-
-```powershell
-python .\scripts\validar_integracao.py
-```
-
-A [verificação integrada](validacao/integracao.json) confere a consistência entre netlist, BOM, firmware e coordenadas do CAD; não recompila nem regenera os arquivos. As verificações por software e os ensaios magnéticos preliminares não substituem a validação elétrica e mecânica do conjunto montado.
+A [licença do projeto](LICENSE), a [licença THC](firmware/xadrez/src/thc/LICENSE) e a [licença dos símbolos KiCad](hardware/eletronica/LICENSE.KICAD) acompanham suas fontes.

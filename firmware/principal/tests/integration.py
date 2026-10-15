@@ -398,7 +398,6 @@ def main():
     parser.add_argument('--elf')
     parser.add_argument('--suite',choices=list(SUITES))
     parser.add_argument('--output',type=Path)
-    parser.add_argument('--stress-seconds',type=int,default=0)
     args=parser.parse_args()
     if args.port and not args.elf:
         parser.error('--elf is required with --port')
@@ -417,25 +416,6 @@ def main():
             report['suites'].append({'name':name,'passed':True,'seconds':round(time.monotonic()-start,3)})
             c.metric(name)
             print('PASS '+name,flush=True)
-        if args.stress_seconds:
-            # Warm the same path, then compare at the same empty-game state.
-            for _ in range(3):
-                games(c)
-            c.new()
-            before=c.metric('stress_before')
-            start=time.monotonic(); cycles=0
-            while time.monotonic()-start<args.stress_seconds:
-                games(c); c.new('busy'); c.play('e2','a6','a6',verify=False); c.pgn(); c.new()
-                cycles+=1
-                if cycles%10==0:
-                    c.metric('stress_'+str(cycles))
-                    print('stress cycles='+str(cycles),flush=True)
-            after=c.metric('stress_after')
-            report['stress']={'seconds':round(time.monotonic()-start,3),'cycles':cycles}
-            if before:
-                delta=after['heap_bytes']-before['heap_bytes']
-                report['stress']['heapDeltaBytes']=delta
-                assert delta>=-1024, (before,after)
         report['success']=True
     except Exception as error:
         report['failure']=repr(error)

@@ -1,8 +1,0 @@
-{
-  "file": "firmware/principal/build/platformio-core/.cache/downloads/5a4cee8eedf2a9a62612a1e2b2c71253701fc4a4",
-  "bytes": 347236084,
-  "sha256": "a62b21a0b633ba0277ca64802e873adf82de28e54925cbf2ad45d6f7c3379750",
-  "expectedSha256": "a62b21a0b633ba0277ca64802e873adf82de28e54925cbf2ad45d6f7c3379750",
-  "source": "https://github.com/espressif/arduino-esp32/releases/tag/3.3.12",
-  "verified": true
-}

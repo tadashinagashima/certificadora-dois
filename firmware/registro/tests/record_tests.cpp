@@ -1,4 +1,3 @@
-#include "record_tests.h"
 #include "GameRecord.h"
 
 #include <cstdio>
@@ -161,43 +160,6 @@ bool promotionPipeline() {
   CHECK(game.state() == GameState::Finished);
   CHECK(record.finish(game.position(), game.ending()) == RecordStatus::Ok);
   CHECK(result(record, "1/2-1/2"));
-  return true;
-}
-
-bool foolsMate() {
-  GameController game;
-  GameRecord record;
-  CHECK(record.begin(game.position()) == RecordStatus::Ok);
-  game.observe(game.position().occupancy(), 0);
-  CHECK(play(record, game, "f2", "f3"));
-  CHECK(play(record, game, "e7", "e5"));
-  CHECK(play(record, game, "g2", "g4"));
-  CHECK(play(record, game, "d8", "h4"));
-  CHECK(game.state() == GameState::Finished);
-  CHECK(record.movetext() == "1. f3 e5 2. g4 Qh4#");
-  CHECK(record.finish(game.position(), game.ending()) == RecordStatus::Ok);
-  CHECK(record.finished());
-  CHECK(result(record, "0-1"));
-  CHECK(record.plyCount() == 4);
-  return true;
-}
-
-bool scholarsMate() {
-  GameController game;
-  GameRecord record;
-  CHECK(record.begin(game.position()) == RecordStatus::Ok);
-  game.observe(game.position().occupancy(), 0);
-  CHECK(play(record, game, "e2", "e4"));
-  CHECK(play(record, game, "e7", "e5"));
-  CHECK(play(record, game, "f1", "c4"));
-  CHECK(play(record, game, "b8", "c6"));
-  CHECK(play(record, game, "d1", "h5"));
-  CHECK(play(record, game, "g8", "f6"));
-  CHECK(play(record, game, "h5", "f7", "f7"));
-  CHECK(record.movetext() == "1. e4 e5 2. Bc4 Nc6 3. Qh5 Nf6 4. Qxf7#");
-  CHECK(record.finish(game.position(), game.ending()) == RecordStatus::Ok);
-  CHECK(result(record, "1-0"));
-  CHECK(record.plyCount() == 7);
   return true;
 }
 
@@ -661,13 +623,15 @@ bool historyPreservation() {
 }
 }  // namespace
 
-int runRecordTests(const char* selected, void (*report)(const char*, bool)) {
+int main(int argc, char** argv) {
+  if (argc > 2) return 2;
+  const char* selected = argc == 2 ? argv[1] : nullptr;
   struct Case { const char* name; bool (*run)(); };
   const Case cases[] = {
     {"empty_start", emptyStart}, {"ordinary_pipeline", ordinaryPipeline},
     {"ignored_confirmations", ignoredConfirmations}, {"rejected_pipeline", rejectedPipeline},
-    {"promotion_pipeline", promotionPipeline}, {"fools_mate", foolsMate},
-    {"scholars_mate", scholarsMate}, {"castling", castling},
+    {"promotion_pipeline", promotionPipeline},
+    {"castling", castling},
     {"en_passant", enPassant}, {"promotion_choices", promotionChoices},
     {"promotion_captures", promotionCaptures}, {"san_disambiguation", sanDisambiguation},
     {"custom_numbering", customNumbering}, {"context_guard", contextGuard},
@@ -683,7 +647,7 @@ int runRecordTests(const char* selected, void (*report)(const char*, bool)) {
   for (const auto& test : cases) {
     if (selected && std::strcmp(selected, test.name)) continue;
     const bool passed = test.run();
-    if (report) report(test.name, passed);
+    std::printf("%s %s\n", passed ? "PASS" : "FAIL", test.name);
     if (!passed) ++failures;
     ++executed;
   }

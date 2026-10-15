@@ -1,4 +1,0 @@
-00000000 00002048 V chess::attacks::BishopTable
-00000000 00002048 V chess::attacks::RookTable
-00000000 00041984 V chess::attacks::BishopAttacks
-00000000 00819200 V chess::attacks::RookAttacks

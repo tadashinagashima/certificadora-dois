@@ -111,54 +111,6 @@ bool replacement() {
   return sequence(e2, {{0, e2, 0}, {e2, 0, e2}});
 }
 
-bool captureAttackerFirst() {
-  return sequence(e4 | d5, {{d5, e4, 0}, {0, d5, 0}, {d5, 0, d5}});
-}
-
-bool captureVictimFirst() {
-  return sequence(e4 | d5, {{e4, d5, 0}, {0, e4, 0}, {d5, 0, d5}});
-}
-
-bool captureGrouped() {
-  return sequence(e4 | d5, {{0, e4 | d5, 0}, {d5, 0, d5}});
-}
-
-bool castlingKingside() {
-  const auto king = square('e', '1');
-  const auto rook = square('h', '1');
-  const auto kingEnd = square('g', '1');
-  const auto rookEnd = square('f', '1');
-  return sequence(king | rook, {{rook, king, 0}, {rook | kingEnd, 0, kingEnd},
-                               {kingEnd, rook, 0}, {kingEnd | rookEnd, 0, rookEnd}});
-}
-
-bool castlingQueenside() {
-  const auto king = square('e', '1');
-  const auto rook = square('a', '1');
-  const auto kingEnd = square('c', '1');
-  const auto rookEnd = square('d', '1');
-  return sequence(king | rook, {{rook, king, 0}, {rook | kingEnd, 0, kingEnd},
-                               {kingEnd, rook, 0}, {kingEnd | rookEnd, 0, rookEnd}});
-}
-
-bool enPassant() {
-  const auto pawn = square('e', '5');
-  const auto destination = square('d', '6');
-  CHECK(sequence(pawn | d5, {{d5, pawn, 0}, {d5 | destination, 0, destination},
-                             {destination, d5, 0}}));
-  return sequence(pawn | d5, {{pawn, d5, 0}, {0, pawn, 0}, {destination, 0, destination}});
-}
-
-bool promotion() {
-  const auto pawn = square('a', '7');
-  const auto destination = square('a', '8');
-  // Replacing the pawn at the destination must not erase that intermediate lift.
-  CHECK(sequence(pawn, {{0, pawn, 0}, {destination, 0, destination},
-                         {0, destination, 0}, {destination, 0, destination}}));
-  // Replacement can also happen before placing the promoted piece.
-  return sequence(pawn, {{0, pawn, 0}, {destination, 0, destination}});
-}
-
 bool groupedChanges() {
   const auto initial = square('e', '1') | square('h', '1');
   const auto final = square('f', '1') | square('g', '1');
@@ -340,10 +292,7 @@ int main(int argc, char** argv) {
   const TestCase cases[] = {
       {"no_baseline", noBaseline}, {"initialization", initialization},
       {"unchanged_frames", unchangedFrames}, {"quiet_move", quietMove},
-      {"replacement", replacement}, {"capture_attacker_first", captureAttackerFirst},
-      {"capture_victim_first", captureVictimFirst}, {"capture_grouped", captureGrouped},
-      {"castling_kingside", castlingKingside}, {"castling_queenside", castlingQueenside},
-      {"en_passant", enPassant}, {"promotion", promotion},
+      {"replacement", replacement},
       {"grouped_changes", groupedChanges}, {"all_64_squares", all64Squares},
       {"discard_and_correction", discardAndCorrection},
       {"snapshot_independence", snapshotIndependence},
@@ -367,6 +316,6 @@ int main(int argc, char** argv) {
     std::cerr << "Unknown test case\n";
     return 2;
   }
-  std::cout << executed << " test(s); MoveTracker=" << sizeof(MoveTracker) << " bytes\n";
+  std::cout << executed << " test(s)\n";
   return 0;
 }

@@ -1,8 +1,0 @@
-Versão do MSBuild 17.11.9+a69bbaaf5 para .NET Framework
-
-  1>Checking Build System
-  Building Custom Rule C:/Users/danie/Desktop/certificadora-dois/firmware/avaliacao-xadrez/htcw/CMakeLists.txt
-  htcw_chess.vcxproj -> C:\Users\danie\Desktop\certificadora-dois\firmware\avaliacao-xadrez\htcw\build\native\Release\htcw_chess.lib
-  Building Custom Rule C:/Users/danie/Desktop/certificadora-dois/firmware/avaliacao-xadrez/htcw/CMakeLists.txt
-  htcw_tests.vcxproj -> C:\Users\danie\Desktop\certificadora-dois\firmware\avaliacao-xadrez\htcw\build\native\Release\htcw_tests.exe
-  Building Custom Rule C:/Users/danie/Desktop/certificadora-dois/firmware/avaliacao-xadrez/htcw/CMakeLists.txt

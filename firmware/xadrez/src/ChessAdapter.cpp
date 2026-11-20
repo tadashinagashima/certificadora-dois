@@ -63,6 +63,10 @@ Color ChessAdapter::sideToMove() const {
   return rules_.white ? Color::White : Color::Black;
 }
 
+std::uint32_t ChessAdapter::fullmoveNumber() const {
+  return static_cast<std::uint32_t>(rules_.full_move_count);
+}
+
 Piece ChessAdapter::pieceAt(Square square) const {
   if (square >= kInvalidSquare) return Piece::Empty;
   switch (rules_.squares[square ^ 56U]) {

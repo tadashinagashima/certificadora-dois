@@ -1,7 +1,6 @@
 #include "SerialGame.h"
 
 #include <cstdio>
-#include <utility>
 
 namespace principal {
 using namespace chessboard;
@@ -115,77 +114,82 @@ bool occupancy(const std::string& text, Occupancy& value) {
 }
 }  // namespace
 
-SerialGame::SerialGame() { fault_ = record_.begin(game_.position()); }
-
 std::string SerialGame::fault(RecordStatus error) {
-  fault_ = error;
   return std::string("ERROR RecordFailure ") + name(error) + "\n";
 }
 
 std::string SerialGame::start(const std::string& scenario) {
+  if (!simulation_ && scenario != "start") return "ERROR SimulationOnly\n";
   const Scenario* selected = nullptr;
   for (const auto& item : scenarios) if (scenario == item.id) selected = &item;
   if (!selected) return "ERROR Scenario\n";
   ChessAdapter initial;
   if (selected->fen && !initial.loadFen(selected->fen)) return "ERROR Fixture\n";
-  GameController next(initial);
-  GameRecord nextRecord;
-  auto result = nextRecord.begin(next.position());
-  if (result == RecordStatus::Ok && next.state() == GameState::Finished)
-    result = nextRecord.finish(next.position(), next.ending());
-  if (result != RecordStatus::Ok) return fault(result);
-  game_ = std::move(next);
-  record_ = std::move(nextRecord);
-  fault_ = RecordStatus::Ok;
+  if (!app_.start(initial)) return fault(app_.fault());
+  simAvailable_ = false;
+  simButtons_ = 0;
   return "OK new " + scenario + "\n";
 }
 
 std::string SerialGame::confirm() {
-  // Keep the authoritative position/history until BOTH modules accept.
-  // Copies retain repetition history; no round-trip through FEN.
-  GameController next = game_;
-  const auto confirmation = next.confirm();
-  if (confirmation.status == ConfirmationStatus::Accepted) {
-    GameRecord nextRecord = record_;
-    auto result = nextRecord.record(game_.position(), confirmation, next.position());
-    if (result == RecordStatus::Ok && next.state() == GameState::Finished)
-      result = nextRecord.finish(next.position(), next.ending());
-    if (result != RecordStatus::Ok) return fault(result);
-    record_ = std::move(nextRecord);
-  }
-  game_ = std::move(next);
-  return std::string("CONFIRM ") + name(confirmation.status) + "\n";
+  const auto result = app_.confirm(now_);
+  if (app_.fault() != RecordStatus::Ok) return fault(app_.fault());
+  return std::string("CONFIRM ") + name(result) + "\n";
 }
 
 std::string SerialGame::end(bool resignation, Color player) {
-  GameController next = game_;
-  if (!(resignation ? next.resign(player) : next.finish())) return "ERROR GameFinished\n";
-  const auto result = record_.finish(next.position(), next.ending());
-  if (result != RecordStatus::Ok) return fault(result);
-  game_ = std::move(next);
+  if (!app_.finish(resignation, player)) {
+    if (app_.fault() != RecordStatus::Ok) return fault(app_.fault());
+    return "ERROR GameFinished\n";
+  }
   return "OK finish\n";
 }
 
-void SerialGame::inputLost() { game_.markInputInterrupted(); }
+void SerialGame::inputLost() {
+  // UART errors do not imply loss of independent physical sensor readings.
+  if (!simulation_) return;
+  app_.inputLost();
+  simAvailable_ = false;
+}
+
+void SerialGame::advance(std::uint32_t duration) {
+  while (duration) {
+    const auto step = duration > 5 ? 5U : duration;
+    simNow_ += step;
+    duration -= step;
+    if (simAvailable_ && simNow_ - simSampleAt_ >= board::SCAN_INTERVAL_MS) {
+      simSampleAt_ = simNow_;
+      app_.sample(simRaw_, simNow_);
+    }
+    app_.tick(simNow_, simButtons_);
+  }
+  now_ = simNow_;
+}
 
 std::string SerialGame::status() const {
-  const auto attempt = game_.attempt();
-  const auto position = game_.position().status();
-  std::string output = std::string("STATE ") + name(game_.state()) + " fault=" + name(fault_) +
-      " plies=" + std::to_string(record_.plyCount()) + " promotion=" + name(game_.selectedPromotion()) +
-      " record_finished=" + std::to_string(record_.finished()) +
+  const auto attempt = app_.game().attempt();
+  const auto position = app_.game().position().status();
+  std::string output = std::string("STATE ") + name(app_.game().state()) + " fault=" + name(app_.fault()) +
+      " plies=" + std::to_string(app_.record().plyCount()) + " promotion=" + name(app_.game().selectedPromotion()) +
+      " record_finished=" + std::to_string(app_.record().finished()) +
       " frames=" + std::to_string(attempt.frameCount) + " reliable=" + std::to_string(attempt.reliable()) +
       " overflow=" + std::to_string(attempt.historyOverflow) + " interrupted=" + std::to_string(attempt.inputInterrupted) + "\n";
-  output += "FEN " + game_.position().fen() + "\n";
-  output += "OCC official=" + hex(game_.position().occupancy()) + " observed=" + hex(attempt.currentOccupancy) +
+  output += "FEN " + app_.game().position().fen() + "\n";
+  output += "OCC official=" + hex(app_.game().position().occupancy()) + " observed=" + hex(attempt.currentOccupancy) +
       " available=" + std::to_string(attempt.readingAvailable) + "\n";
-  output += std::string("ENDING ") + name(game_.ending().reason) + " result=" + name(game_.ending().result) + "\n";
+  output += std::string("ENDING ") + name(app_.game().ending().reason) + " result=" + name(app_.game().ending().result) + "\n";
   output += "CLAIMS repetition=" + std::to_string(position.threefoldRepetitionClaim) +
       " fifty=" + std::to_string(position.fiftyMoveClaim) + "\n";
+  const auto lights = app_.indicators(now_);
+  output += "IO settled=" + std::to_string(app_.settled(now_)) + " green=" + std::to_string(lights.green) +
+      " red=" + std::to_string(lights.red) + " buzzer=" + std::to_string(lights.buzzer) +
+      " sd_error=" + std::to_string(app_.storageError()) + " saved=" +
+      (app_.savedPath().empty() ? "-" : app_.savedPath()) + "\n";
   return output;
 }
 
 std::string SerialGame::command(const std::string& line, std::uint32_t now) {
+  now_ = simulation_ ? simNow_ : now;
   // Exactly one optional argument; no partial parsing or silent suffixes.
   const auto separator = line.find(' ');
   const std::string verb = line.substr(0, separator);
@@ -196,38 +200,78 @@ std::string SerialGame::command(const std::string& line, std::uint32_t now) {
     return "ERROR Syntax\n";
   }
   if (verb == "help" && bare) {
-    std::string text = "COMMANDS new [scenario], sync, observe HEX16, lift SQ, place SQ, confirm, promote Q|R|B|N, interrupt, finish, resign white|black, status, pgn, metrics, help\nSCENARIOS";
+    if (!simulation_)
+      return "COMMANDS new, confirm, promote Q|R|B|N, finish, resign white|black, save, status, pgn, metrics, help\n";
+    std::string text = "COMMANDS new [scenario], sync, observe HEX16, lift SQ, place SQ, confirm, promote Q|R|B|N, interrupt, finish, resign white|black, status, pgn, help\nSCENARIOS";
     for (const auto& item : scenarios) text += std::string(" ") + item.id;
-    return text + "\n";
+    return text + "\nIO save, raw HEX16, wait MS, buttons MASK(0..7), press confirm|promote|end, hold confirm|end\n";
   }
   if (verb == "status" && bare) return status();
-  if (verb == "pgn" && bare) return "PGN_BEGIN\n" + record_.pgn() + "PGN_END\n";
+  if (verb == "pgn" && bare) return "PGN_BEGIN\n" + app_.record().pgn() + "PGN_END\n";
   if (verb == "new") return start(bare ? "start" : arg);
-  if (fault_ != RecordStatus::Ok) return std::string("ERROR FaultLatched ") + name(fault_) + "\n";
+  if (verb == "save" && bare) return app_.requestSave() ? "OK save\n" : "ERROR NotFinished\n";
+  if (verb == "raw" || verb == "wait" || verb == "buttons" || verb == "press" || verb == "hold") {
+    if (!simulation_) return "ERROR SimulationOnly\n";
+    if (verb == "raw") {
+      Occupancy value;
+      if (!occupancy(arg, value)) return "ERROR Observation\n";
+      simRaw_ = value;
+      simAvailable_ = true;
+    } else if (verb == "wait" || verb == "buttons") {
+      unsigned value = 0;
+      if (arg.empty() || arg.size() > 5) return "ERROR Number\n";
+      for (char ch : arg) {
+        if (ch < '0' || ch > '9') return "ERROR Number\n";
+        value = value * 10 + static_cast<unsigned>(ch - '0');
+      }
+      if (verb == "buttons") {
+        if (value > 7) return "ERROR Number\n";
+        simButtons_ = static_cast<std::uint8_t>(value);
+      } else {
+        if (value > 60000) return "ERROR Number\n";
+        advance(value);
+      }
+    } else {
+      if (arg != "confirm" && arg != "promote" && arg != "end") return "ERROR Button\n";
+      simButtons_ = arg == "confirm" ? 1 : arg == "promote" ? 2 : 4;
+      advance(verb == "hold" ? 2100 : 75);
+      simButtons_ = 0;
+      advance(75);
+    }
+    return "OK " + verb + "\n";
+  }
+  if (app_.fault() != RecordStatus::Ok) return std::string("ERROR FaultLatched ") + name(app_.fault()) + "\n";
   if (verb == "confirm" && bare) return confirm();
   if (verb == "finish" && bare) return end(false, Color::White);
   if (verb == "resign" && (arg == "white" || arg == "black")) return end(true, arg == "white" ? Color::White : Color::Black);
-  if (verb == "interrupt" && bare) { inputLost(); return "OK interrupt\n"; }
+  if (verb == "interrupt" && bare) {
+    if (!simulation_) return "ERROR SimulationOnly\n";
+    inputLost();
+    return "OK interrupt\n";
+  }
   if (verb == "promote" && !bare) {
     Promotion selection = Promotion::None;
     if (arg == "Q") selection = Promotion::Queen;
     if (arg == "R") selection = Promotion::Rook;
     if (arg == "B") selection = Promotion::Bishop;
     if (arg == "N") selection = Promotion::Knight;
-    return game_.selectPromotion(selection) ? "OK promote\n" : "ERROR Promotion\n";
+    return app_.promote(selection) ? "OK promote\n" : "ERROR Promotion\n";
   }
   if (verb == "sync" || verb == "observe" || verb == "lift" || verb == "place") {
+    if (!simulation_) return "ERROR SimulationOnly\n";
     Occupancy value = 0;
-    if (verb == "sync" && bare) value = game_.position().occupancy();
+    if (verb == "sync" && bare) value = app_.game().position().occupancy();
     else if (verb == "observe" && occupancy(arg, value)) { /* complete frame */ }
     else if ((verb == "lift" || verb == "place") && arg.size() == 2 && arg[0] >= 'a' && arg[0] <= 'h' && arg[1] >= '1' && arg[1] <= '8') {
-      const auto attempt = game_.attempt();
+      const auto attempt = app_.game().attempt();
       if (!attempt.readingAvailable) return "ERROR NoObservation\n";
       const Occupancy bit = Occupancy{1} << ((arg[1] - '1') * 8 + arg[0] - 'a');
       value = verb == "lift" ? attempt.currentOccupancy & ~bit : attempt.currentOccupancy | bit;
     } else { inputLost(); return "ERROR Observation\n"; }
-    if (game_.state() == GameState::Finished) return "ERROR GameFinished\n";
-    game_.observe(value, now);
+    if (app_.game().state() == GameState::Finished) return "ERROR GameFinished\n";
+    simRaw_ = value;
+    simAvailable_ = true;
+    advance(75);
     return "OK observe\n";
   }
   inputLost();

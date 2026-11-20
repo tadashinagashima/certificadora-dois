@@ -72,7 +72,7 @@ assert power_sources=={('A1','R15')},('3V3 must come only from onboard regulator
 for r,net in zip(range(11,16),['SD_CS','SPI_MOSI','SPI_MISO','SD_DAT1','SD_DAT2']):expected(f'R{r}',1,'3V3_IO');expected(f'R{r}',2,net)
 
 # Compare actual GPIO/port functions in the netlist with the firmware constants.
-cfg = (ROOT.parents[1] / "firmware/diagnostico/board_config.h").read_text(encoding="utf8")
+cfg = (ROOT.parents[1] / "firmware/board_config.h").read_text(encoding="utf8")
 constants = dict(re.findall(r"constexpr uint(?:8|16|32)_t (\w+) = (\d+);", cfg))
 for constant, expected_net in {
     "SDA_PIN": "I2C_SDA", "SCL_PIN": "I2C_SCL", "MCP_RESET_PIN": "MCP_RESET",

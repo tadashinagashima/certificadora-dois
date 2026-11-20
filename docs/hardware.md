@@ -25,7 +25,7 @@ A1 usa identificadores **L1…L15 e R1…R15**, definidos neste projeto de cima 
 | Alimentação dos periféricos | — | R15 | Saída 3V3 da placa |
 | Terra | — | L14 / R14 | GND comum |
 
-GPIO34 é somente entrada e requer o resistor externo. GPIOs de strapping, flash e UART0 não são usados pela aplicação. A referência no firmware está em [board_config.h](../firmware/diagnostico/board_config.h).
+GPIO34 é somente entrada e requer o resistor externo. GPIOs de strapping, flash e UART0 não são usados pela aplicação. A referência no firmware está em [board_config.h](../firmware/board_config.h).
 
 ### MCP23017 e matriz direta
 
@@ -66,7 +66,7 @@ CMD e DAT0–DAT3 recebem pull-ups de 10 kΩ, inclusive DAT1/2 sem uso, conforme
 
 O buzzer previsto é ativo, 3,3 V, até 30 mA. Q1=2N3904 usa pino 1=emissor/GND, 2=base, 3=coletor; resistor de base de 680 Ω, resistor base-emissor de 100 kΩ e diodo flyback. Conferir tipo, consumo e pinagem dos componentes reaproveitados. Um NPN equivalente só pode ser usado com a ligação ajustada ao seu datasheet; não alimentar o buzzer diretamente pelo GPIO.
 
-Os botões usam 10 kΩ e 100 nF, além do debounce descrito no [firmware](firmware.md). A indicação de promoção por pulsos do LED permanece parte da interface funcional futura.
+Os botões usam 10 kΩ e 100 nF, além do debounce descrito no [firmware](firmware.md). O firmware principal indica a seleção de promoção por 1/2/3/4 pulsos verdes (dama/torre/bispo/cavalo), com nova confirmação para aplicar. A operação dos três botões está no guia de firmware.
 
 J2 é a interface lógica do OLED, marcado DNP na configuração mínima. Seus números não garantem a ordem física do módulo. Se incluído, conferir controlador, pinagem, alimentação, endereço e pull-ups, e repetir o teste de alimentação com essa carga.
 
@@ -126,4 +126,4 @@ A exportação não salva nem substitui o FCStd; os resultados ficam em `hardwar
 5. Com o USB/cabo da demonstração, medir 3V3 na placa e no SD durante `w` e `t`: 3,0…3,6 V, sem resets, desconexões ou erros de gravação. Conferir aquecimento, botões, LEDs e buzzer. Investigar falhas medidas antes de mudar o circuito.
 6. Conferir isolamento, fixação, apoio do vidro e acesso ao fundo/USB/cartão. Repetir os testes ao acrescentar o OLED ou modificar cargas.
 
-A montagem completa e a aquisição física integrada ainda precisam dessa validação. Compilação, ERC e geometria não demonstram comportamento elétrico, magnético, térmico ou resistência mecânica.
+A aquisição física já está integrada ao firmware principal, com filtro por casa e sinalização de perdas. A montagem completa e os tempos de aquisição ainda precisam dessa validação. Compilação, ERC e geometria não demonstram comportamento elétrico, magnético, térmico ou resistência mecânica.

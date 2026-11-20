@@ -18,15 +18,20 @@ A montagem adota USB do computador, regulador da DevKit V1, matriz direta e oito
 
 | Componente | Responsabilidade |
 | --- | --- |
-| Aquisição | Produzir quadros completos e informar perda de continuidade; ainda não integrada à partida. |
+| `Hardware` / aquisição | Varrer o MCP23017, publicar quadros completos e informar falhas. |
 | `MoveTracker` | Preservar alterações de ocupação e confiabilidade da tentativa. |
 | `ChessAdapter` | Manter posição, regras legais e SAN, usando THC local. |
 | `MoveInterpreter` | Relacionar snapshot da tentativa e posição oficial sem modificar nenhum deles. |
 | `GameController` | Coordenar observação, confirmação, promoção, retomada e encerramento. |
 | `GameRecord` | Registrar lances aceitos e produzir PGN consistente com os contextos recebidos. |
-| `SerialGame` / `main.cpp` | Integrar Controle/Registro e substituir entradas físicas por comandos Serial. |
+| `BoardApp` | Filtrar sensores, tratar botões/sinais e coordenar Controle/Registro. |
+| `PgnStorage` | Gravar, reler e publicar um novo PGN no fim da partida. |
+| `SerialGame` | Console e comandos do simulador; não recebe entradas simuladas na aplicação física. |
+| `main.cpp` / simulador | Adaptar GPIO/SD reais ou entradas/arquivos do computador à mesma aplicação. |
 
-O fluxo implementado é `Serial → SerialGame → GameController → MoveTracker/MoveInterpreter/ChessAdapter`; `SerialGame` entrega os contextos ao Registro. As chamadas são serializadas no `loopTask`, fora de interrupções. Ao confirmar, cópias do Controle e do Registro são publicadas somente após ambas aceitarem; uma falha preserva posição e PGN anteriores e bloqueia a sessão até reiniciar.
+O fluxo é `MCP23017 → Hardware → BoardApp → GameController → MoveTracker/MoveInterpreter/ChessAdapter`. Os botões e o console chamam a mesma aplicação; `BoardApp` entrega os contextos ao Registro. O simulador substitui a aquisição física por ocupações e botões com relógio virtual, mantendo filtro, controle, registro e lógica de gravação.
+
+As chamadas são serializadas no `loopTask`, fora de interrupções. Ao confirmar, cópias do Controle e do Registro são publicadas somente após ambas aceitarem; uma falha preserva posição e PGN anteriores e bloqueia a sessão até reiniciar. Uma lacuna de aquisição invalida a tentativa. A escrita em SD acontece apenas ao encerrar; falha conserva o PGN em RAM e permite tentar novamente. O simulador salva num diretório local.
 
 A tentativa começa com uma observação igual à ocupação oficial. Após rejeição ou interrupção, a reposição e uma nova observação compatível permitem retomar. Igualdade de ocupação não verifica identidade das peças. Capturas exigem observar a vacância do destino; transições perdidas entre amostras não são reconstruídas. As peças devem ser levantadas, evitando arraste.
 
@@ -34,7 +39,7 @@ O [guia de firmware](firmware.md) define os contratos e a operação. O [projeto
 
 ## Estado do projeto
 
-A partida via Serial e os cinco módulos estão implementados. A montagem elétrica/mecânica é um projeto de protótipo: ainda faltam aquisição integrada, botões, sinalização física e gravação PGN em SD. O diagnóstico de periféricos é um programa separado. Verificações por software não validam magnetismo, alimentação ou montagem.
+A aplicação física, os cinco módulos e o simulador estão implementados. A integração foi verificada por software, incluindo leitura simulada, botões, sinais e persistência em arquivos. O funcionamento na montagem completa ainda não foi validado: os tempos de aquisição e os componentes reais exigem bancada. O diagnóstico de periféricos permanece separado para essa etapa. Verificações por software não validam magnetismo, alimentação ou montagem.
 
 ## Requisitos funcionais
 

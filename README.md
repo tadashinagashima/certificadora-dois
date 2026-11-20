@@ -1,36 +1,68 @@
 # Tabuleiro de Xadrez Sensorial
 
-Projeto de Engenharia de Computação da UTFPR — Câmpus Cornélio Procópio, disciplina Certificadora da Competência 2. O tabuleiro 8×8 usa reeds e ímãs para acompanhar peças, validar jogadas e produzir PGN.
+Projeto de Engenharia de Computação da UTFPR — Câmpus Cornélio Procópio, disciplina Certificadora da Competência 2. Um tabuleiro 8×8 com reeds e ímãs acompanha as peças, valida jogadas e registra partidas em PGN.
 
-O firmware atual executa partidas completas por entradas simuladas na Serial do ESP32. Há também um diagnóstico de matriz, botões, indicadores e SD. Aquisição física integrada, interface de partida e persistência PGN em SD ainda estão pendentes; os projetos de montagem precisam ser conferidos com os componentes reais.
+O firmware integra matriz MCP23017, três botões, dois LEDs, buzzer e microSD. O **simulador de terminal funciona sem montagem** e compartilha a aplicação, o filtro de sensores, os botões e a lógica de gravação com o ESP32. A integração foi verificada por software; alimentação, magnetismo, tempos e funcionamento no conjunto físico ainda precisam de ensaio.
 
-## Documentação
+## Experimentar sem hardware
 
-- [Arquitetura e requisitos](docs/arquitetura.md): responsabilidades, fluxo e critérios do produto.
-- [Firmware](docs/firmware.md): compilação, protocolo Serial, contratos e testes.
-- [Hardware](docs/hardware.md): componentes adotados, pinagem, dimensões, edição e montagem.
+Na raiz do repositório, com CMake 3.20+ e compilador C++17 (Visual Studio com ferramentas C++ no Windows):
 
-## Estrutura
-
-```text
-docs/                   Arquitetura, firmware, hardware e fonte UML Astah
-firmware/CMakeLists.txt Build nativo e testes dos cinco módulos
-firmware/principal/     Aplicação PlatformIO e testes de integração
-firmware/diagnostico/   Diagnóstico Arduino e pinagem
-firmware/acompanhamento/ MoveTracker
-firmware/xadrez/        ChessAdapter e única cópia da THC (licença MIT)
-firmware/interpretacao/ MoveInterpreter
-firmware/controle/      GameController
-firmware/registro/      GameRecord
-hardware/eletronica/    Projeto KiCad, biblioteca e exportação/verificação
-hardware/mecanica/      Modelo FreeCAD e exportação/verificação
+```powershell
+cmake -S firmware -B firmware/build
+cmake --build firmware/build --config Release
+.\firmware\build\Release\tabuleiro_sim.exe --sd firmware/build/sd
 ```
 
-## Começar
+No Linux/macOS, o executável fica em `firmware/build/tabuleiro_sim`. Não são necessárias bibliotecas externas de xadrez nem Python para compilar o simulador.
 
-Usar ESP32 clássico, Arduino-ESP32 **3.3.12**, PlatformIO **6.2.0** e a plataforma fixada no [platformio.ini](firmware/principal/platformio.ini). Seguir a preparação do [guia de firmware](docs/firmware.md); na Serial, `help` lista os comandos. `new`, `sync`, `lift e2`, `place e4`, `confirm` simulam o primeiro lance. Cada comando deve aguardar a resposta `DONE`. `pgn` exporta a partida em RAM.
+Dentro do simulador, digitar uma linha de cada vez:
 
-Para manutenção, executar os testes de contratos e integração pelo CMake/CTest, conforme o guia de firmware. Para montar, abrir KiCad/FreeCAD e seguir as verificações do guia de hardware. Builds, caches e saídas geradas ficam em `build/` e são ignorados; não se armazenam relatórios históricos ou cópias de sondas.
+```text
+new
+sync
+lift e2
+place e4
+press confirm
+status
+press end
+pgn
+status
+```
+
+O registro terá `1. e4 *`. Ao encerrar, o simulador grava um novo `GAME0001.PGN` (ou o próximo nome livre) em `firmware/build/sd/`; `status` informa o nome. `help` lista os comandos. Para sair, enviar EOF: Ctrl+Z e Enter no Windows, Ctrl+D no Linux/macOS.
+
+`lift` e `place` simulam a retirada e a colocação de peças. `press` percorre o mesmo tratamento de botões usado pela placa. O simulador também permite leituras brutas, ruído e interrupções; exemplos no guia de firmware.
+
+## Usar no ESP32
+
+Compilar e gravar o projeto [PlatformIO](firmware/principal/platformio.ini) conforme o [guia de firmware](docs/firmware.md). A configuração `esp32` é a aplicação física: comandos de ocupação simulada são recusados. A alimentação prevista é USB do computador, com o regulador da DevKit V1 e matriz direta com pull-ups de 47 kΩ.
+
+Posicionar as peças iniciais e aguardar o LED verde. Após mover, apertar e soltar **Confirmar**. Em promoção, **Promover** percorre dama/torre/bispo/cavalo, indicados por 1/2/3/4 pulsos verdes; confirmar novamente. **Encerrar** termina a partida; segurá-lo por pelo menos dois segundos antes de soltar registra abandono do lado que tem a vez.
+
+O PGN é salvo automaticamente no final. Verde piscando indica gravação concluída; vermelho piscando pede verificar o SD e apertar Encerrar para tentar novamente. Depois de salvo, segurar Confirmar por dois segundos e soltar inicia outra partida. Os gestos completos e demais sinais estão no guia.
+
+## Como ler o projeto
+
+| Caminho | Conteúdo |
+| --- | --- |
+| `firmware/principal/src/BoardApp.*` | Aplicação compartilhada: aquisição filtrada, botões, confirmação, registro e sinais. |
+| `firmware/principal/src/Hardware.*` | Acesso físico ao MCP23017, GPIO e cartão. |
+| `firmware/principal/src/PgnStorage.h` | Gravação e verificação de um novo PGN. |
+| `firmware/principal/src/main.cpp` | Inicialização e ciclo do ESP32. |
+| `firmware/principal/src/SerialGame.*` | Console e entradas do simulador. |
+| `firmware/simulador/` | Executável no computador; diretório local representa o cartão. |
+| `firmware/board_config.h` | Pinagem e tempos ajustáveis, compartilhados com o diagnóstico. |
+| `firmware/acompanhamento/`, `xadrez/`, `interpretacao/`, `controle/`, `registro/` | Cinco módulos da lógica de xadrez; THC local em `xadrez/src/thc/`. |
+| `firmware/diagnostico/` | Programa independente para conferir a montagem. |
+| `hardware/` | Projetos editáveis KiCad/FreeCAD e exportadores. |
+| `docs/` | Três guias e fonte UML Astah. |
+
+- [Arquitetura e requisitos](docs/arquitetura.md): responsabilidades, fluxo e critérios do produto.
+- [Firmware](docs/firmware.md): compilação, operação, simulação e contratos.
+- [Hardware](docs/hardware.md): componentes, pinagem, medidas, montagem e ensaios.
+
+Builds, PGNs de simulação e exportações ficam em `build/`, ignorado pelo Git. A demonstração acima permite conferir a aplicação a partir de um clone limpo.
 
 ## Equipe
 

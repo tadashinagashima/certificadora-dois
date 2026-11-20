@@ -52,6 +52,7 @@ class ChessAdapter {
   std::string fen() const;
 
   Color sideToMove() const;
+  std::uint32_t fullmoveNumber() const;
   Piece pieceAt(Square square) const;
   std::uint64_t occupancy() const;
   LegalMoves legalMoves() const;

@@ -47,8 +47,6 @@ class GameRecord {
   std::size_t plyCount_ = 0;
   Color nextSide_ = Color::White;
   GameEnd ending_{};
-  bool started_ = false;
-  bool finished_ = false;
   bool customStart_ = false;
 };
 

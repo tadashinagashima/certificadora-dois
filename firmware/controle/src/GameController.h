@@ -26,7 +26,7 @@ struct ConfirmationResult {
 
 class GameController {
  public:
-  GameController();
+  GameController() = default;
   explicit GameController(const ChessAdapter& initial);
 
   void reset();

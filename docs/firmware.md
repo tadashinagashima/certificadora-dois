@@ -1,12 +1,24 @@
 # Firmware
 
-O projeto [principal](../firmware/principal/platformio.ini) integra cinco bibliotecas locais e implementa partidas por ocupações simuladas na Serial. O [diagnóstico](../firmware/diagnostico/diagnostico.ino) é independente e acessa os periféricos. A pinagem reside em [board_config.h](../firmware/diagnostico/board_config.h) e está descrita em [hardware.md](hardware.md).
+Há duas entradas para a mesma aplicação: [main.cpp](../firmware/principal/src/main.cpp) no ESP32 e [simulador/main.cpp](../firmware/simulador/main.cpp) no computador. Ambas usam `BoardApp`, os cinco módulos C++ e `PgnStorage`. `Hardware` implementa Wire/GPIO/SD; o simulador fornece ocupações, botões e um diretório local. Não há emulação de CPU, magnetismo ou sinais elétricos.
 
-## Compilar e usar
+## Compilar o simulador
 
-Alvo: ESP32 clássico/ESP-WROOM-32, DevKit V1 de 30 pinos; CPU 240 MHz, flash 4 MiB QIO/80 MHz, partições `default.csv`, sem PSRAM. PlatformIO Core **6.2.0** e pioarduino **55.03.312** fixam Arduino-ESP32 **3.3.12** / IDF **5.5.5**. O cabeçalho DIO produzido para o bootloader QIO é esperado. Não instalar as cinco bibliotecas globalmente: o projeto usa `symlink://` para os diretórios irmãos.
+Requer CMake 3.20+ e compilador C++17. Os módulos e a aplicação compartilhada continuam em C++14; somente o acesso a arquivos do simulador usa C++17. Na raiz:
 
-Na raiz, com Python 3.13 (preparar venv/pacotes uma vez):
+```powershell
+cmake -S firmware -B firmware/build
+cmake --build firmware/build --config Release
+.\firmware\build\Release\tabuleiro_sim.exe --sd firmware/build/sd
+```
+
+No Windows, usar CMake no PATH ou o fornecido pelo Visual Studio com ferramentas C++. No Linux/macOS, executar `./firmware/build/tabuleiro_sim --sd firmware/build/sd`. O diretório é criado na primeira gravação; sem argumento, o padrão é `firmware/build/sd`, relativo ao diretório de execução. Usar uma instância por diretório de cartão.
+
+## Compilar e gravar o ESP32
+
+Alvo: ESP32 clássico/ESP-WROOM-32, DevKit V1 de 30 pinos; CPU 240 MHz, flash 4 MiB QIO/80 MHz, partições `default.csv`, sem PSRAM. PlatformIO Core **6.2.0**, pioarduino **55.03.312**, Arduino-ESP32 **3.3.12** / IDF **5.5.5**. O cabeçalho DIO do bootloader QIO é esperado. O [platformio.ini](../firmware/principal/platformio.ini) usa as cinco bibliotecas locais por `symlink://`.
+
+Na raiz, com Python 3.13; preparar o ambiente uma vez:
 
 ```powershell
 python -m venv --without-scm-ignore-files firmware/principal/build/venv
@@ -18,74 +30,115 @@ $env:PYTHONIOENCODING = 'utf-8'
 & $python -m serial.tools.list_ports -v
 ```
 
-Em novas sessões, redefinir `$python` e as variáveis; não recriar o ambiente. A primeira compilação baixa o toolchain e o core fixados. Substituir COM7 pela porta encontrada; upload substitui o programa da placa:
+Em sessões seguintes, redefinir as variáveis sem recriar o ambiente. A primeira compilação baixa o toolchain/core. Substituir COM7 pela porta encontrada; upload substitui o programa da placa:
 
 ```powershell
 & $python -m platformio run --project-dir firmware/principal --environment esp32 --target upload --upload-port COM7
 & $python -m platformio device monitor --project-dir firmware/principal --port COM7
 ```
 
-`main.cpp` inicia a Serial e informa versão, placa e hash ELF. Reserva 32 KiB de pilha para `loopTask`, habilita seu watchdog e cede tempo ao runtime. `SerialGame` coordena as chamadas C++ e o protocolo; o callback UART apenas sinaliza erro por variável atômica. Partida e PGN ficam em RAM: exportar antes de reiniciar ou desligar. Metadados desconhecidos permanecem `?`.
+A configuração `esp32` lê o hardware real. O boot informa `mode=physical` e o estado inicial da partida. Há pilha de 32 KiB para `loopTask` e watchdog. Wi-Fi, Bluetooth e OLED não são inicializados. O console continua disponível para diagnóstico e operação assistida.
 
-## Protocolo Serial v1
+## Operação com três botões
 
-115200 baud, 8N1. Comandos ASCII minúsculos, um por linha LF ou CRLF, sem espaços adicionais; casas `a1`–`h8`. Esperar `DONE` antes de enviar o próximo comando. Todas as respostas de comando terminam em uma linha `DONE`; o boot termina em `READY protocol=1`. `ERROR` informa entrada rejeitada ou bloqueio, e `CONFIRM` conserva o resultado público do Controle.
+O sistema inicia aguardando a posição padrão. Colocar todas as peças corretamente; verde contínuo indica aquisição estável e partida pronta. Reeds identificam presença, não identidade das peças.
 
-| Comando | Efeito |
+| Ação | Gesto |
 | --- | --- |
-| `help` | Lista comandos e cenários. |
-| `new` / `new start` | Descarta a sessão e inicia a posição padrão. |
-| `new CENARIO` | Inicia uma das posições conhecidas da tabela abaixo. |
-| `observe HEX16` | Entrega uma ocupação completa de exatamente 16 dígitos hexadecimais; bit 0 = a1, bit 63 = h8. |
-| `sync` | Simula uma nova observação igual à ocupação oficial, inclusive para retomar uma tentativa. |
-| `lift e2` / `place e4` | Retira/coloca ocupação na última leitura disponível e entrega o quadro completo. Exige leitura anterior. |
-| `confirm` | Interpreta e confirma a tentativa. Repetir uma confirmação aceita não duplica o lance. |
-| `promote Q` / `R` / `B` / `N` | Seleciona dama, torre, bispo ou cavalo durante promoção pendente; exige nova confirmação. |
-| `interrupt` | Simula perda de continuidade da aquisição. |
-| `finish` | Encerra manualmente, com resultado `*`. |
-| `resign white` / `resign black` | Abandono da cor indicada; registra a vitória da outra cor. |
-| `status` | Estado, falha, lances registrados, promoção, confiabilidade, FEN, ocupações, encerramento e indicadores de empate. |
-| `pgn` | Documento entre `PGN_BEGIN` e `PGN_END`. Não encerra a partida. |
-| `metrics` | Tempo ativo, comandos, erros de entrada, maior duração de comando, heap, maior bloco livre, pilha, integridade e watchdog. |
+| Confirmar uma jogada | Apertar e soltar Confirmar depois de concluir a movimentação. |
+| Escolher promoção | Após a primeira confirmação, apertar Promover: dama → torre → bispo → cavalo → dama. Confirmar novamente para aplicar. |
+| Encerrar sem atribuir vencedor | Apertar e soltar Encerrar antes de dois segundos; resultado `*`. |
+| Abandonar | Segurar Encerrar por pelo menos dois segundos e soltar; perde o lado que tem a vez. |
+| Repetir gravação após falha | Com partida encerrada, apertar Encerrar. |
+| Iniciar outra partida | Depois da gravação bem-sucedida, segurar Confirmar por dois segundos e soltar; repor a posição inicial. |
 
-`sync`, `lift` e `place` são recursos exclusivos da simulação: não leem nem movem peças reais. Capturas exigem observar a casa capturada vazia. No roque, entregar também as alterações da torre; no en passant, retirar o peão capturado. Concluir a substituição física simulada antes de escolher a promoção. Os módulos continuam sendo a única fonte das regras de xadrez.
+Os gestos são processados ao soltar, com debounce de 30 ms. Não apertar botões simultaneamente: a combinação é cancelada até todos serem soltos. Uma jogada rejeitada mantém a posição oficial; repor as peças, aguardar a retomada e refazer o lance. Levantar as peças, evitando arraste. Na captura, retirar a peça capturada de modo que o destino vazio seja observado antes de ocupá-lo.
 
-| Cenário | Posição preparada |
+| Sinal | Significado |
 | --- | --- |
-| `start` | Posição inicial. |
-| `castle_w`, `castle_b` | Reis e torres com os quatro direitos de roque; lado indicado a jogar. |
-| `ep_w`, `ep_b` | Captura en passant e5–d6 ou e4–d3. |
-| `promotion_w`, `promotion_b` | Peão a7–a8 ou a2–a1. |
-| `promotion_capture_w`, `promotion_capture_b` | Promoção capturando torre em b8 ou b1. |
-| `ambiguous` | Torre a1 pode capturar a8 ou b1; permite testar evidências conflitantes. |
-| `mate`, `stalemate`, `insufficient` | Posições já encerradas, sem lances. |
-| `busy` | Posição com muitos movimentos legais, incluindo Bxa6. |
+| Verde contínuo | Partida em acompanhamento, leitura estabilizada. |
+| Vermelho contínuo | Aguardando reposição, aquisição instável/indisponível ou falha do registro; `status` distingue. |
+| Vermelho por 400 ms e buzzer por 120 ms | Confirmação rejeitada. |
+| Vermelho + verde lento | Promoção aguardando seleção. |
+| Vermelho + 1/2/3/4 pulsos verdes a cada 2 s | Dama/torre/bispo/cavalo selecionado. |
+| Vermelho durante gravação; depois vermelho piscando | Gravação em andamento ou ainda sem sucesso; verificar `status`. |
+| Verde piscando | Partida encerrada e PGN gravado. Pode retirar o cartão. |
 
-As FENs estão definidas apenas em `SerialGame.cpp`; `status` permite consultá-las, e o PGN não padrão inclui `FEN`/`SetUp`. Não se aceita FEN arbitrária pela Serial, respeitando o escopo do parser THC.
+As indicações usam temporizadores, sem `delay` para pulsos. Partidas em andamento ficam em RAM; desligar ou reiniciar antes de salvar perde o registro. `new` no console descarta explicitamente a sessão, inclusive um PGN ainda não salvo. Exportar `pgn` antes se necessário.
 
-Exemplo de uma partida completa, enviando uma linha e esperando `DONE` a cada passo:
+## Aquisição e gravação
+
+A [pinagem e os tempos](../firmware/board_config.h) são compartilhados com o diagnóstico. A aplicação tenta uma varredura completa a cada **25 ms**, I²C a 100 kHz, MCP `0x20`, uma coluna LOW e demais em alta impedância. Acomodação inicial de **300 µs**; `OLAT=0`, `GPPU=0` e pull-ups externos de 47 kΩ. Falha I²C descarta a varredura e mantém RESET LOW; há tentativa de reinicialização a cada segundo.
+
+`BoardApp::sample()` aplica debounce de **25 ms por casa**, preservando quadros com alterações estáveis. A referência inicial exige estabilização das 64 casas. Uma confirmação exige leitura disponível, recente e sem mudanças pendentes no filtro. Um intervalo **maior que 100 ms** sem amostra completa invalida a tentativa, inclusive quando provocado por processamento ou saída Serial prolongada. Recuperar exige nova leitura estável igual à ocupação oficial. Esses valores são iniciais e devem ser ajustados com a montagem.
+
+A varredura não é instantânea: mudanças muito rápidas, entre leituras ou mais curtas que o filtro, podem não ser observadas. Isso também vale para a vacância de uma captura. Software não recupera transições que os sensores não entregaram.
+
+O PGN é salvo **somente ao encerrar** (mate, empate automático suportado, encerramento manual ou abandono), evitando acesso ao cartão durante jogadas. SPI inicia em 1 MHz. `PgnStorage` procura `GAME0001`…`GAME9999` livres, grava `.TMP`, fecha, compara todo o conteúdo e só então renomeia para `.PGN`. Arquivos existentes, inclusive `.TMP` de tentativas anteriores, não são sobrescritos. Não há formatação automática.
+
+Falha mantém o PGN em RAM e sinaliza erro; inserir/verificar o cartão e usar Encerrar ou `save`. Repetir `save` após sucesso não cria duplicata. A leitura de verificação não garante integridade contra falta de energia no FAT/cartão; aguardar verde piscando antes de retirar. Se todos os nomes estiverem ocupados, arquivar os arquivos num computador antes de tentar novamente.
+
+## Console e simulação
+
+Serial do ESP32: 115200 baud, 8N1; ASCII, um comando por linha LF/CRLF. Esperar `DONE` antes de enviar outro. O simulador usa o mesmo protocolo em stdin/stdout, sem mensagem de boot. O ESP32 termina a inicialização com `READY protocol=1`.
+
+| Comando comum | Efeito |
+| --- | --- |
+| `help` | Comandos disponíveis no ambiente atual. |
+| `new` | Descarta a sessão e inicia a posição padrão. |
+| `confirm` | Confirma pela aplicação compartilhada; não duplica lances aceitos. |
+| `promote Q` / `R` / `B` / `N` | Seleciona promoção pendente; exige nova confirmação. |
+| `finish` | Encerra com resultado `*` e solicita gravação. |
+| `resign white` / `resign black` | Registra abandono da cor indicada e solicita gravação. |
+| `save` | Repete gravação de uma partida encerrada ainda não salva. |
+| `status` | Estado, FEN, ocupações, confiabilidade, encerramento, sinais e caminho salvo/erro SD. |
+| `pgn` | Exporta o PGN em RAM entre `PGN_BEGIN` e `PGN_END`. |
+
+`metrics` existe somente no ESP32 e informa, em bytes, o heap livre atual, o mínimo de heap livre desde o boot e a menor folga de pilha do `loopTask`. Serve para acompanhar o consumo de memória durante os ensaios.
+
+| Comando exclusivo do simulador | Efeito |
+| --- | --- |
+| `sync` | Oferece a ocupação oficial ao filtro e avança 75 ms. |
+| `observe HEX16` | Oferece ocupação de 16 dígitos hexadecimais ao filtro e avança 75 ms; bit 0=a1, bit 63=h8. |
+| `lift e2` / `place e4` | Retira/coloca uma ocupação na última leitura estável e avança 75 ms. Exige leitura anterior. |
+| `raw HEX16` | Altera somente a ocupação bruta, sem avançar tempo. |
+| `wait MS` | Avança o relógio virtual em 0…60000 ms. |
+| `buttons MASK` | Define botões brutos: Confirmar=1, Promover=2, Encerrar=4; 0 solta todos. Combinações somam bits. |
+| `press confirm` / `promote` / `end` | Pressiona 75 ms e solta por 75 ms. |
+| `hold confirm` / `promote` / `end` | Pressiona 2100 ms e solta por 75 ms. |
+| `interrupt` | Interrompe a aquisição simulada; `raw`, `observe` ou `sync` voltam a oferecer amostras. |
+| `new CENARIO` | Inicia uma posição conhecida, somente para experimentar situações especiais. |
+
+O relógio virtual só avança nos comandos descritos: esperar no teclado não simula perda de leitura. Há ticks de até 5 ms e amostras a cada 25 ms de tempo virtual. Gravação no diretório usa arquivos reais. O simulador não reproduz a velocidade de execução do ESP32.
+
+Cenários: `start`; `castle_w`/`castle_b`; `ep_w`/`ep_b`; `promotion_w`/`promotion_b`; `promotion_capture_w`/`promotion_capture_b`; `ambiguous`; `mate`; `stalemate`; `insufficient`; `busy`. As FENs estão em `SerialGame.cpp`; `status` mostra a posição. Não há parser público de FEN arbitrária. Cenários já encerrados também geram PGN automaticamente.
+
+Demonstração completa, usando os botões simulados:
 
 ```text
 new
 sync
 lift f2
 place f3
-confirm
+press confirm
 lift e7
 place e5
-confirm
+press confirm
 lift g2
 place g4
-confirm
+press confirm
 lift d8
 place h4
-confirm
+press confirm
+status
 pgn
 ```
 
-O corpo do PGN será `1. f3 e5 2. g4 Qh4# 0-1` e o estado será `Finished`.
+Esperado: estado `Finished`, caminho `saved=/GAME....PGN` e corpo `1. f3 e5 2. g4 Qh4# 0-1`. O arquivo no diretório de cartão contém o mesmo PGN mostrado no console.
 
-O receptor aceita até **96 caracteres** por linha. Linha excedente, NUL, controles ou CR fora do CRLF são descartados até LF, sem executar sufixos. Uma pausa de mais de dois segundos no meio da linha também descarta o restante até LF. Erros UART detectados e comandos malformados invalidam a tentativa quando há perda potencial de entrada. Receber novos quadros divergentes não restaura essa confiabilidade; usar `sync` ou uma observação oficial completa. Não se promete detectar corrupção que produza outro comando sintaticamente válido.
+Para experimentar ruído na casa e2, iniciar com `new`, `sync`; enviar `raw ffff00000000efff`, `wait 25`, `raw ffff00000000ffff`, `wait 50`. A retirada curta é filtrada; `status` deve mostrar zero quadros de alterações. Para uma captura, manter cada alteração com `lift`/`place` ou oferecer leituras brutas suficientemente longas.
+
+O receptor limita linhas a **96 caracteres**. Linha excedente, NUL, controles ou CR fora de CRLF são descartados até LF, sem executar sufixos. No ESP32, pausa maior que dois segundos numa linha parcial também provoca descarte. Erros no fluxo simulado invalidam sua tentativa; erros de console na placa não invalidam as leituras físicas independentes. Nenhum parser detecta toda corrupção que resulte em outro comando válido.
 
 ## Contratos dos módulos
 
@@ -99,7 +152,7 @@ Os cabeçalhos em `firmware/*/src/` são a referência das assinaturas e enums. 
 
 ### Regras e interpretação
 
-`ChessAdapter` fornece `reset`, `fen`, `loadFen`, `pieceAt`, `occupancy`, `sideToMove`, `legalMoves`, `isLegal`, `san`, `apply` e `status`. `Move` contém origem/destino (0–63) e promoção; 64 é casa inválida. `legalMoves()` comporta até 218 movimentos. `apply()` revalida antes de modificar; `san()` opera na posição anterior. Cópias preservam o histórico de repetição. `loadFen()` limpa esse histórico e usa o dialeto permissivo da THC: somente posições de teste conhecidas, não validação estrita ou recuperação por sensores.
+`ChessAdapter` fornece `reset`, `fen`, `loadFen`, `pieceAt`, `occupancy`, `sideToMove`, `fullmoveNumber`, `legalMoves`, `isLegal`, `san`, `apply` e `status`. `Move` contém origem/destino (0–63) e promoção; 64 é casa inválida. `legalMoves()` comporta até 218 movimentos. `apply()` revalida antes de modificar; `san()` opera na posição anterior. `fullmoveNumber()` fornece diretamente o número da jogada mantido pela biblioteca. Cópias preservam o histórico de repetição. `loadFen()` limpa esse histórico e usa o dialeto permissivo da THC: somente posições de teste conhecidas, não validação estrita ou recuperação por sensores.
 
 A THC reside somente em [xadrez/src/thc](../firmware/xadrez/src/thc/LICENSE). É a cópia sem alterações do repositório `billforsternz/thc-chess-library`, commit `aa217cb9b4d759cd7c07e11c98526b0187b0a64b`, sob MIT. Não alterar os fontes vendorizados sem revisar a integração.
 
@@ -124,7 +177,7 @@ O construtor padrão e `reset()` estabelecem a posição inicial. O construtor c
 
 `GameRecord::begin(initial, metadata)` inicia/substitui o registro. `record(before, confirmation, after)` aceita apenas `Accepted`; os demais retornam `Ignored`. Gera SAN no contexto anterior, aplica o lance numa cópia e confere a FEN posterior/esperada. Duplicatas, saltos e contexto incorreto são rejeitados. `finish(official, ending)` confere contexto/resultado; repetição do mesmo encerramento é idempotente. `pgn()` exporta o documento; antes de iniciar retorna vazio.
 
-Retornos: `Ok`, `Ignored`, `NotStarted`, `AlreadyFinished`, `InvalidMetadata`, `InvalidContext`, `InvalidMove`, `CapacityExceeded`, `InvalidResult`. Erros preservam o registro. O chamador deve preservar a posição anterior antes de confirmar. `SerialGame` faz isso confirmando numa cópia do Controle; só publica Controle e Registro após ambos aceitarem e, quando aplicável, encerra o Registro na mesma operação. Falha ativa `fault`, bloqueando comandos até `new`; o PGN anterior continua exportável.
+Retornos: `Ok`, `Ignored`, `NotStarted`, `AlreadyFinished`, `InvalidMetadata`, `InvalidContext`, `InvalidMove`, `CapacityExceeded`, `InvalidResult`. Erros preservam o registro. O chamador deve preservar a posição anterior antes de confirmar. `BoardApp` faz isso confirmando numa cópia do Controle; só publica Controle e Registro após ambos aceitarem e, quando aplicável, encerra o Registro na mesma operação. Falha ativa `fault`, bloqueando comandos até `new`; o PGN anterior continua exportável.
 
 Limites: movetext de **8192 bytes**, sem truncamento; valores de metadados até **128 bytes**, sem controles ASCII/NUL/DEL e com linha de cabeçalho escapada menor que 256 bytes. Data `YYYY.MM.DD`, permitindo partes inteiramente `?`; verifica faixas, não calendário. Aspas e barras são escapadas; UTF-8 é preservado. PGN inclui sete tags padrão, SAN numerada, resultado consistente e linhas de até 79 caracteres. Início não padrão inclui FEN/SetUp e respeita número/lado inicial. Partida ativa exporta `*` sem encerrar.
 
@@ -154,22 +207,10 @@ O arquivo de teste é preservado; não há formatação. Não retirar SD durante
 
 A varredura usa I²C 100 kHz, MCP `0x20`, `OLAT=0`, `GPPU=0`, somente uma coluna LOW e demais em alta impedância. Espera inicial de 300 µs e período de 25 ms, sujeitos à fiação real. Falha I²C descarta amostra, acende vermelho e mantém MCP em RESET; `r` tenta recuperar. Sensores não têm debounce neste diagnóstico; botões usam 30 ms. Ele não preserva todas as transições nem interpreta xadrez. Wi-Fi, Bluetooth e OLED não são inicializados.
 
-## Verificações de manutenção
+## Verificar antes da entrega física
 
-Um executável por módulo verifica seus contratos (109 casos); dez grupos de integração exercitam o protocolo real, partidas completas, especiais, rejeições, retomada, comandos inválidos, capacidade e repetição. O CTest executa os cinco conjuntos de contratos e os dez grupos de integração; cada caso unitário é registrado apenas no respectivo fonte de teste. Compilar em C++14 Release com CMake 3.20+, compilador C++ e Python 3:
+Antes de gravar a placa, compilar o simulador e o firmware e executar a demonstração acima. Experimentar uma captura, roque, en passant, as quatro promoções, confirmação repetida, jogada ilegal, `interrupt` e reposição. Conferir que posição e PGN não avançam em rejeições.
 
-```powershell
-cmake -S firmware -B firmware/build
-cmake --build firmware/build --config Release
-ctest --test-dir firmware/build -C Release --output-on-failure --no-tests=error
-```
+Para conferir falha de armazenamento, iniciar o simulador com `--sd` apontando para um arquivo comum, encerrar uma partida e verificar `sd_error=1`, `saved=-` e PGN preservado. Corrigir o destino para um diretório e enviar `save`; o PGN deve ser gravado sem reiniciar a partida. Conferir que arquivos anteriores permanecem intactos.
 
-No Windows, instalar CMake/MSVC ou usar os executáveis distribuídos pelo Visual Studio. O [CMake único](../firmware/CMakeLists.txt) mantém dependências e opções comuns. Cada executável de contratos aceita o nome de um caso para execução isolada; `ctest -R controller` seleciona um conjunto. Saídas de build/testes ficam locais.
-
-Para verificar a aplicação já gravada no ESP32, fechar outros monitores e usar o mesmo ELF do upload:
-
-```powershell
-& $python firmware/principal/tests/integration.py --port COM7 --elf firmware/principal/build/pio/build/esp32/firmware.elf
-```
-
-O teste reinicia via RTS, confere versão/hash, envia comandos e substitui partidas em RAM. Asserções verificam PGN, estado, confiabilidade, limite de registro, heap e pilha. Para diagnóstico opcional, `--output firmware/principal/build/test-run` salva saídas numa pasta nova. Não se mantêm históricos no repositório.
+Na montagem, executar primeiro o diagnóstico e os ensaios de [hardware](hardware.md). Depois verificar os botões, promoção por pulsos, partidas completas, cartão ausente/removido/cheio, captura rápida, interrupção I²C e recuperação. Ler os PGNs num computador. Compilação e simulação não validam magnetismo, alimentação, fiação, temporização real ou estabilidade prolongada.

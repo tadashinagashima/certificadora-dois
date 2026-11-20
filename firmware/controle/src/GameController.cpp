@@ -2,21 +2,12 @@
 
 namespace chessboard {
 
-GameController::GameController() {
-  checkAutomaticEnd();
-}
-
 GameController::GameController(const ChessAdapter& initial) : position_(initial) {
   checkAutomaticEnd();
 }
 
 void GameController::reset() {
-  position_.reset();
-  tracker_ = MoveTracker{};
-  state_ = GameState::AwaitingPosition;
-  selection_ = Promotion::None;
-  ending_ = GameEnd{};
-  checkAutomaticEnd();
+  *this = GameController{};
 }
 
 void GameController::observe(Occupancy occupancy, std::uint32_t timestampMs) {

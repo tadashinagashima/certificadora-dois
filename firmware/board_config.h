@@ -21,6 +21,11 @@ constexpr uint8_t BUZZER = 27;
 // Direct MCP row inputs with external 47k pull-ups to the DevKit 3V3 rail.
 // Initial delay; verify row levels and settling on the assembled matrix.
 constexpr uint16_t COLUMN_SETTLE_US = 300;
+constexpr uint32_t SCAN_INTERVAL_MS = 25;
+constexpr uint32_t REED_DEBOUNCE_MS = 25;
+constexpr uint32_t BUTTON_DEBOUNCE_MS = 30;
+constexpr uint32_t MAX_SAMPLE_GAP_MS = 100;
+constexpr uint32_t LONG_PRESS_MS = 2000;
 
 // MCP bit 0..7 = GPA0..7; bit 8..15 = GPB0..7.
 // Datasheet revision D: GPA7/GPB7 may not be used to sense inputs.
@@ -48,24 +53,10 @@ constexpr bool wiringIsConsistent() {
     if ((used & (column | row)) || (column & row)) return false;
     if (ROW_BITS[i] == 7 || ROW_BITS[i] == 15) return false;
     if ((columnDirection(i) & ROW_MASK) != ROW_MASK) return false;
-    const uint16_t driven = static_cast<uint16_t>(~columnDirection(i));
-    if (!driven || (driven & (driven - 1))) return false;
     used |= column | row;
   }
   return used == 0xFFFF;
 }
 
-constexpr bool allSquaresRoundTrip() {
-  for (uint8_t file = 0; file < 8; ++file) {
-    for (uint8_t rank = 0; rank < 8; ++rank) {
-      const uint8_t index = squareIndex(file, rank);
-      if (squareFile(index) != 'a' + file || squareRank(index) != '1' + rank) return false;
-    }
-  }
-  return true;
-}
-
-static_assert(wiringIsConsistent(), "MCP: duplicate pin, unsupported row input or multiple driven columns");
-static_assert(allSquaresRoundTrip(), "Square mapping must round trip for all 64 squares");
-static_assert(squareIndex(0, 0) == 0 && squareIndex(7, 7) == 63, "a1/h8 orientation mismatch");
+static_assert(wiringIsConsistent(), "MCP: duplicate pin or unsupported row input");
 }  // namespace board

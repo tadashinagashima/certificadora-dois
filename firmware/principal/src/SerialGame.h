@@ -1,17 +1,18 @@
 #pragma once
 
-#include <GameRecord.h>
+#include "BoardApp.h"
 #include <array>
 #include <string>
 
 namespace principal {
 
-// One owner, called serially from loop(). No hardware or chess rules here.
+// Console adapter; simulated inputs are explicitly disabled on the physical board.
 class SerialGame {
  public:
-  SerialGame();
+  explicit SerialGame(bool simulation = true) : simulation_(simulation) {}
   std::string command(const std::string& line, std::uint32_t now);
   void inputLost();
+  BoardApp& app() { return app_; }
 
  private:
   std::string start(const std::string& scenario);
@@ -19,9 +20,13 @@ class SerialGame {
   std::string end(bool resignation, chessboard::Color player);
   std::string status() const;
   std::string fault(chessboard::RecordStatus error);
-  chessboard::GameController game_;
-  chessboard::GameRecord record_;
-  chessboard::RecordStatus fault_ = chessboard::RecordStatus::Ok;
+  void advance(std::uint32_t duration);
+  BoardApp app_;
+  bool simulation_;
+  std::uint32_t now_ = 0, simNow_ = 0, simSampleAt_ = 0;
+  chessboard::Occupancy simRaw_ = 0;
+  bool simAvailable_ = false;
+  std::uint8_t simButtons_ = 0;
 };
 
 // A bad/oversize line is discarded through LF; never execute a valid suffix.

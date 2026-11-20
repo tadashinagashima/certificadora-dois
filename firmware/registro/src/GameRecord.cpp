@@ -1,7 +1,5 @@
 #include "GameRecord.h"
 
-#include <limits>
-
 namespace chessboard {
 namespace {
 
@@ -40,19 +38,6 @@ bool validMetadata(const GameMetadata& metadata) {
 
 void normalize(std::string& value) {
   if (value.empty()) value = "?";
-}
-
-bool fullmoveNumber(const std::string& fen, std::uint32_t& result) {
-  const auto separator = fen.find_last_of(' ');
-  if (separator == std::string::npos || separator + 1 == fen.size()) return false;
-  result = 0;
-  for (std::size_t i = separator + 1; i < fen.size(); ++i) {
-    if (fen[i] < '0' || fen[i] > '9') return false;
-    const auto digit = static_cast<std::uint32_t>(fen[i] - '0');
-    if (result > (std::numeric_limits<std::uint32_t>::max() - digit) / 10) return false;
-    result = result * 10 + digit;
-  }
-  return result != 0;
 }
 
 const char* resultMarker(GameResult result) {
@@ -122,18 +107,14 @@ RecordStatus GameRecord::begin(const ChessAdapter& initial, const GameMetadata& 
   if (!validMetadata(normalized)) return RecordStatus::InvalidMetadata;
 
   const std::string fen = initial.fen();
-  std::uint32_t number = 0;
-  if (!fullmoveNumber(fen, number)) return RecordStatus::InvalidContext;
   metadata_ = normalized;
   initialFen_ = fen;
   expectedFen_ = fen;
   movetext_.clear();
-  fullmove_ = number;
+  fullmove_ = initial.fullmoveNumber();
   plyCount_ = 0;
   nextSide_ = initial.sideToMove();
   ending_ = GameEnd{};
-  started_ = true;
-  finished_ = false;
   customStart_ = fen != ChessAdapter{}.fen();
   return RecordStatus::Ok;
 }
@@ -141,8 +122,8 @@ RecordStatus GameRecord::begin(const ChessAdapter& initial, const GameMetadata& 
 RecordStatus GameRecord::record(const ChessAdapter& before,
                               const ConfirmationResult& confirmation, const ChessAdapter& after) {
   if (confirmation.status != ConfirmationStatus::Accepted) return RecordStatus::Ignored;
-  if (!started_) return RecordStatus::NotStarted;
-  if (finished_) return RecordStatus::AlreadyFinished;
+  if (!started()) return RecordStatus::NotStarted;
+  if (finished()) return RecordStatus::AlreadyFinished;
   if (before.fen() != expectedFen_) return RecordStatus::InvalidContext;
 
   std::string san;
@@ -168,25 +149,24 @@ RecordStatus GameRecord::record(const ChessAdapter& before,
 }
 
 RecordStatus GameRecord::finish(const ChessAdapter& official, GameEnd ending) {
-  if (!started_) return RecordStatus::NotStarted;
-  if (finished_) {
+  if (!started()) return RecordStatus::NotStarted;
+  if (finished()) {
     return ending.reason == ending_.reason && ending.result == ending_.result &&
                    official.fen() == expectedFen_ ? RecordStatus::Ok : RecordStatus::AlreadyFinished;
   }
   if (official.fen() != expectedFen_) return RecordStatus::InvalidContext;
   if (!validEnd(official, ending)) return RecordStatus::InvalidResult;
   ending_ = ending;
-  finished_ = true;
   return RecordStatus::Ok;
 }
 
-bool GameRecord::started() const { return started_; }
-bool GameRecord::finished() const { return finished_; }
+bool GameRecord::started() const { return !initialFen_.empty(); }
+bool GameRecord::finished() const { return ending_.reason != EndReason::None; }
 std::size_t GameRecord::plyCount() const { return plyCount_; }
 const std::string& GameRecord::movetext() const { return movetext_; }
 
 std::string GameRecord::pgn() const {
-  if (!started_) return {};
+  if (!started()) return {};
   std::string output;
   appendTag(output, "Event", metadata_.event);
   appendTag(output, "Site", metadata_.site);

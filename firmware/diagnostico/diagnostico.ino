@@ -2,7 +2,7 @@
 #include <Wire.h>
 #include <SPI.h>
 #include <SD.h>
-#include "board_config.h"
+#include "../board_config.h"
 
 constexpr uint8_t REG_IODIRA = 0x00;
 constexpr uint8_t REG_IPOLA = 0x02;

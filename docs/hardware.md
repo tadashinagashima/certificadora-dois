@@ -4,9 +4,9 @@ As fontes editáveis são o [projeto KiCad 10](../hardware/eletronica/tabuleiro-
 
 ## Eletrônica adotada
 
-Mantêm-se os componentes disponíveis: ESP-WROOM-32, módulo CJMCU-2317 com MCP23017-E/SS, 64 reeds normalmente abertos, 64 diodos 1N4148 PTH, microSD de 8 GB em adaptador SD passivo, três botões, dois LEDs e buzzer. O OLED de 0,96" anunciado SSD1315 (`NFP1315-157BY`) é opcional e fica fora da montagem mínima.
+A montagem usa uma DevKit V1 com ESP-WROOM-32, módulo CJMCU-2317 com MCP23017-E/SS, 64 reeds normalmente abertos, 64 diodos 1N4148 PTH, dois LEDs, buzzer e OLED I²C opcional. O computador alimenta o protótipo, controla a partida por USB serial e recebe o PGN.
 
-O pino **3V3/R15** alimenta a rede `3V3_IO`; GND é comum. **VIN/L15 fica desconectado.** Não usar fonte externa nem aplicar 5 V ao MCP, SD ou sinais. Wi-Fi e Bluetooth não são necessários e não são inicializados pelo diagnóstico. O regulador marcado `1117C 33 D405` pertence à placa; sua capacidade útil será conferida no teste com o computador e cabo da demonstração.
+O pino **3V3/R15** alimenta a rede `3V3_IO`; GND é comum. **VIN/L15 fica desconectado.** Não usar fonte externa nem aplicar 5 V ao MCP, OLED ou sinais. Wi-Fi e Bluetooth não são necessários e não são inicializados pelo diagnóstico. O regulador marcado `1117C 33 D405` pertence à placa; sua capacidade útil será conferida no teste com o computador e cabo da demonstração.
 
 Não duplicar passivos já existentes nos módulos. A BOM pode ser exportada do projeto KiCad conforme instruções ao final deste guia.
 
@@ -17,15 +17,13 @@ A1 usa identificadores **L1…L15 e R1…R15**, definidos neste projeto de cima 
 | Função | GPIO | Posição em A1 | Configuração |
 | --- | --- | --- | --- |
 | SDA / SCL | 21 / 22 | R5 / R2 | I²C a 100 kHz, pull-ups a 3,3 V |
-| SD SCK / MISO / MOSI / CS | 18 / 19 / 23 / 13 | R7 / R6 / R1 / L13 | SPI inicialmente a 1 MHz |
-| Confirmar / promover / encerrar | 32 / 33 / 34 | L6 / L7 / L4 | Ativos LOW, pull-ups externos de 10 kΩ |
 | LED verde / vermelho | 25 / 26 | L8 / L9 | Ativos HIGH, resistores de 1 kΩ |
 | Buzzer | 27 | L10 | Ativo HIGH, estágio NPN |
 | RESET MCP | 14 | L11 | Open-drain, pull-up externo de 10 kΩ |
 | Alimentação dos periféricos | — | R15 | Saída 3V3 da placa |
 | Terra | — | L14 / R14 | GND comum |
 
-GPIO34 é somente entrada e requer o resistor externo. GPIOs de strapping, flash e UART0 não são usados pela aplicação. A referência no firmware está em [board_config.h](../firmware/board_config.h).
+A UART0 atende a comunicação pelo conversor USB da DevKit. A referência no firmware está em [board_config.h](../firmware/board_config.h).
 
 ### MCP23017 e matriz direta
 
@@ -46,29 +44,24 @@ A varredura mantém `OLATA=OLATB=0` e `GPPU=0`, libera a coluna anterior e selec
 
 ### Periféricos
 
-#### MicroSD
+#### OLED de 0,96"
 
-J1 representa os contatos externos do **adaptador SD convencional passivo**, sem regulador ou conversão de nível. O cartão permanece removível. Conferir a orientação antes de soldar.
+O módulo disponível foi anunciado como SSD1315 (`NFP1315-157BY`). O firmware adota 128×64 pixels e o perfil SSD1315 NONAME da biblioteca U8g2 2.36.18 em modo U8x8. Confira controlador e resolução no módulo adquirido. Um ACK indica que há um dispositivo no endereço; letras legíveis na tela confirmam a configuração do painel. [Driver SSD1315 da U8g2](https://github.com/olikraus/u8g2/wiki/u8x8setupcpp)
 
-| Contato SD | Sinal |
+| Serigrafia do OLED | Ligação em J2 |
 | --- | --- |
-| 1 | CS / DAT3 |
-| 2 | MOSI / CMD |
-| 3 / 6 | GND |
-| 4 | 3V3_IO |
-| 5 | SCK |
-| 7 | MISO / DAT0 |
-| 8 / 9 | DAT1 / DAT2 |
+| GND | 1 — GND comum |
+| VCC | 2 — 3V3_IO |
+| SCL | 3 — GPIO22/R2, mesma rede SCL do MCP |
+| SDA | 4 — GPIO21/R5, mesma rede SDA do MCP |
 
-CMD e DAT0–DAT3 recebem pull-ups de 10 kΩ, inclusive DAT1/2 sem uso, conforme a [Espressif](https://docs.espressif.com/projects/esp-idf/en/stable/esp32/api-reference/peripherals/sd_pullup_requirements.html). Preservar C8=100 nF e C9=47 µF próximos ao adaptador, observando polaridade se eletrolítico. Começar com fios SPI curtos, até cerca de 10 cm, e 1 MHz.
+Confira os nomes dos quatro pinos antes de ligar. O endereço de 7 bits padrão é `0x3C`; para módulo configurado em `0x3D`, altere `OLED_ADDRESS` em [board_config.h](../firmware/board_config.h) e recompile. O MCP usa `0x20`. Mantenha o barramento a 100 kHz e verifique a resistência equivalente dos pull-ups dos dois módulos e sua ligação a 3,3 V. A biblioteca usa o Wire já inicializado, sem pino de reset dedicado. [Datasheet SSD1315](https://files.waveshare.com/upload/f/f0/SSD1315_1.1.pdf)
 
-#### Interface
+O firmware verifica o endereço no boot. Um display desconectado ou que passe a responder com erro sai do ciclo de atualização. Para ensaiar novamente, desligue, confira a fiação e religue após salvar a partida. Um curto que prenda SDA ou SCL afeta fisicamente ambos os dispositivos; a matriz sinaliza perda de aquisição e tenta se recuperar.
+
+#### LEDs e buzzer
 
 O buzzer previsto é ativo, 3,3 V, até 30 mA. Q1=2N3904 usa pino 1=emissor/GND, 2=base, 3=coletor; resistor de base de 680 Ω, resistor base-emissor de 100 kΩ e diodo flyback. Conferir tipo, consumo e pinagem dos componentes reaproveitados. Um NPN equivalente só pode ser usado com a ligação ajustada ao seu datasheet; não alimentar o buzzer diretamente pelo GPIO.
-
-Os botões usam 10 kΩ e 100 nF, além do debounce descrito no [firmware](firmware.md). O firmware principal indica a seleção de promoção por 1/2/3/4 pulsos verdes (dama/torre/bispo/cavalo), com nova confirmação para aplicar. A operação dos três botões está no guia de firmware.
-
-J2 é a interface lógica do OLED, marcado DNP na configuração mínima. Seus números não garantem a ordem física do módulo. Se incluído, conferir controlador, pinagem, alimentação, endereço e pull-ups, e repetir o teste de alimentação com essa carga.
 
 ## Mecânica e montagem
 
@@ -87,7 +80,7 @@ A planilha `Parametros`, coluna B, controla o modelo; preservar aliases e fórmu
 | Canais de fios | 3 mm de largura × 2 mm de profundidade |
 | Ímã de referência | Ferrite Ø12 × 3 mm |
 | Apoios / passagem de parafuso / piloto | 12 × 12 mm / Ø3,4 mm / Ø2,5 mm |
-| Botões / LEDs | Furos Ø12 / Ø5 mm, conferir componentes |
+| LEDs | Dois furos Ø5 mm na frente |
 
 A frente (brancas) fica no menor Y. Centros: `X=Margin+(coluna+0,5)×Pitch`, `Y=Margin+(linha+0,5)×Pitch`; a1=(43,75;43,75), h8=(306,25;306,25) mm. Não espelhar casas ao montar pela face inferior.
 
@@ -95,9 +88,9 @@ O fundo ocupa Z=0…6; suporte Z=50…56; junta Z=56…57; vidro Z=57…60. O re
 
 Fundo e suporte medem 350×350×6 mm, com quatro escareados de 90°, Ø6,8×1,7 mm para furos Ø3,4. Paredes frontal/traseira: 350×44×9 mm; laterais: 332×44×9 mm. Travessa central: 332×12×9 mm entre d/e. Apoios de canto possuem pilotos de 10 mm; selecionar fixação e comprimento dos parafusos conforme o MDF.
 
-O suporte tem 64 furos, canais, coletores e passagem de chicote 8×28 mm. Vidro apoiado em junta periférica externa 346×346 mm, com duas pegas laterais R10. A frente recebe três botões e dois LEDs; abertura lateral 70×20 mm reserva USB/SD. Conferir bordas lapidadas, apoio, remoção e retenção no transporte. Fios, soldas, cruzamentos e terminais dobrados não estão modelados; manter redes distintas isoladas e abaixo do apoio do vidro.
+O suporte tem 64 furos, canais, coletores e passagem de chicote 8×28 mm. Vidro apoiado em junta periférica externa 346×346 mm, com duas pegas laterais R10. A frente recebe os dois LEDs. A abertura lateral de 70×20 mm dá acesso ao USB. Conferir bordas lapidadas, apoio, remoção e retenção no transporte. Fios, soldas, cruzamentos e terminais dobrados não estão modelados; manter redes distintas isoladas e abaixo do apoio do vidro.
 
-Reservas `REF` são envelopes, não desenhos de fabricante: ESP32/USB 58×30×15 mm, adaptador SD 32×24×2,1 mm, placa MCP/interfaces 85×65×18 mm, buzzer 16×16×12 mm. Há 7 mm nominais entre a placa e os terminais inferiores dos reeds, sem fios/conectores. Medir módulos, USB, cartão e furação antes de fabricar suportes. OLED opcional não tem recorte previsto.
+Reservas `REF` são envelopes, não desenhos de fabricante: ESP32/USB 58×30×15 mm, placa MCP/interfaces 85×65×18 mm, buzzer 16×16×12 mm. Há 7 mm nominais entre a placa e os terminais inferiores dos reeds, sem fios/conectores. Medir módulos, USB e furação antes de fabricar suportes. Para a demonstração, posicionar o OLED externamente com os quatro fios acessíveis. O modelo não prevê recorte para esse módulo.
 
 ## Editar, exportar e conferir
 
@@ -123,7 +116,7 @@ A exportação não salva nem substitui o FCStd; os resultados ficam em `hardwar
 2. Montar piloto 3×3 com passo 37,5 mm, vidro e bases reais. Cada peça deve acionar só sua casa e liberar ao ser retirada, inclusive perto das fronteiras e com vizinhos. Ajustar altura/orientação antes dos 64 furos; não forçar o vidro dos reeds.
 3. Com os 47 kΩ, usar `v` do diagnóstico para medir VDD, coluna e ROW com zero, um e oito contatos fechados. Exigir ROW ocupada <0,2×VDD e vazia >0,8×VDD (0,66/2,64 V a 3,3 V), com margem. Não usar média da varredura no multímetro como nível LOW.
 4. Retomar a varredura e testar todas as casas, cantos, colunas g/h, posição inicial e retângulos de três/quatro contatos. Não devem existir casas fantasma ou instabilidade. Conferir acomodação dos 300 µs com a fiação real.
-5. Com o USB/cabo da demonstração, medir 3V3 na placa e no SD durante `w` e `t`: 3,0…3,6 V, sem resets, desconexões ou erros de gravação. Conferir aquecimento, botões, LEDs e buzzer. Investigar falhas medidas antes de mudar o circuito.
-6. Conferir isolamento, fixação, apoio do vidro e acesso ao fundo/USB/cartão. Repetir os testes ao acrescentar o OLED ou modificar cargas.
+5. Com o USB e cabo da demonstração, medir o 3V3 na placa e nos módulos durante varredura, atualização do OLED e teste `t`. Conferir 3,0…3,6 V, aquecimento e ausência de resets ou desconexões.
+6. Testar a mesma sequência de comandos primeiro sem OLED e depois com ele, desligando antes de mudar a ligação. Conferir a resposta a `o` no diagnóstico, a legibilidade do SAN, indicação de xeque e gravação do PGN pelo terminal. Verificar isolamento, apoio do vidro e acesso ao fundo/USB.
 
 A aquisição física já está integrada ao firmware principal, com filtro por casa e sinalização de perdas. A montagem completa e os tempos de aquisição ainda precisam dessa validação. Compilação, ERC e geometria não demonstram comportamento elétrico, magnético, térmico ou resistência mecânica.

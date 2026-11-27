@@ -34,5 +34,4 @@ target_sources(serial_game PRIVATE principal/src/BoardApp.cpp)
 
 add_executable(tabuleiro_sim simulador/main.cpp)
 target_link_libraries(tabuleiro_sim PRIVATE serial_game)
-set_property(TARGET tabuleiro_sim PROPERTY CXX_STANDARD 17)
 strict_warnings(tabuleiro_sim)

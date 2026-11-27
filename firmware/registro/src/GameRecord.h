@@ -36,6 +36,7 @@ class GameRecord {
   bool finished() const;
   std::size_t plyCount() const;
   const std::string& movetext() const;
+  const std::string& lastSan() const { return lastSan_; }
   std::string pgn() const;
 
  private:
@@ -43,6 +44,7 @@ class GameRecord {
   std::string initialFen_;
   std::string expectedFen_;
   std::string movetext_;
+  std::string lastSan_;
   std::uint32_t fullmove_ = 1;
   std::size_t plyCount_ = 0;
   Color nextSide_ = Color::White;

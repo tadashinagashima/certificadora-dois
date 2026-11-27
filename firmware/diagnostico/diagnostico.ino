@@ -1,7 +1,5 @@
 #include <Arduino.h>
 #include <Wire.h>
-#include <SPI.h>
-#include <SD.h>
 #include "../board_config.h"
 
 constexpr uint8_t REG_IODIRA = 0x00;
@@ -11,7 +9,7 @@ constexpr uint8_t REG_IOCON = 0x0A;
 constexpr uint8_t REG_GPPUA = 0x0C;
 constexpr uint8_t REG_GPIOA = 0x12;
 constexpr uint8_t REG_OLATA = 0x14;
-constexpr uint32_t SCAN_INTERVAL_MS = 25;
+
 
 bool matrixReady = false;
 bool wireReady = false;
@@ -156,24 +154,6 @@ void reportSnapshot(uint64_t next) {
   occupancy = next;
 }
 
-void checkSD() {
-  SD.end();
-  if (!SD.begin(board::SD_CS, SPI, 1000000, "/sd", 1, false)) {
-    Serial.println("SD: montagem falhou (cartao/contatos/alimentacao/FAT). Sem formatacao.");
-    return;
-  }
-  Serial.printf("SD: tipo=%u capacidade=%llu MiB\n", static_cast<unsigned>(SD.cardType()),
-                static_cast<unsigned long long>(SD.cardSize() / (1024 * 1024)));
-  File root = SD.open("/", FILE_READ);
-  if (!root || !root.isDirectory()) {
-    Serial.println("SD: nao foi possivel abrir o diretorio raiz para leitura.");
-  } else {
-    Serial.println("SD: diretorio raiz aberto para leitura; nenhum arquivo modificado.");
-  }
-  root.close();
-  SD.end();
-}
-
 void toggleMeasurementColumn() {
   if (measurementColumnHeld) {
     initialiseMatrix();
@@ -195,107 +175,10 @@ void toggleMeasurementColumn() {
   Serial.println("Medir ROW_1..8 com contatos da coluna a abertos/fechados. v ou r libera.");
 }
 
-uint8_t sdTestByte(uint32_t offset) {
-  return static_cast<uint8_t>(offset ^ (offset >> 8) ^ 0xA5);
-}
-
-void sampleDuringSDTest() {
-  if (!matrixReady) return;
-  uint64_t next = 0;
-  if (scanMatrix(next)) reportSnapshot(next);
-}
-
-void testSDWrite() {
-  if (measurementColumnHeld) {
-    Serial.println("SD escrita: encerrar medicao fixa com v ou r antes do ensaio.");
-    return;
-  }
-  SD.end();
-  if (!SD.begin(board::SD_CS, SPI, 1000000, "/sd", 1, false)) {
-    Serial.println("SD escrita: montagem falhou; sem formatacao.");
-    return;
-  }
-  char path[16];
-  bool freeName = false;
-  for (unsigned index = 0; index < 1000; ++index) {
-    snprintf(path, sizeof(path), "/DIAG%03u.TST", index);
-    if (!SD.exists(path)) {
-      freeName = true;
-      break;
-    }
-  }
-  if (!freeName) {
-    Serial.println("SD escrita: nomes DIAG000..999 ocupados; nenhum arquivo alterado.");
-    SD.end();
-    return;
-  }
-  File file = SD.open(path, FILE_WRITE);
-  if (!file) {
-    Serial.println("SD escrita: nao foi possivel criar arquivo novo.");
-    SD.end();
-    return;
-  }
-  Serial.printf("SD escrita: novo arquivo %s, 16384 bytes; preservar cartao conectado.\n", path);
-  const bool matrixAtStart = matrixReady;
-  constexpr uint32_t totalBytes = 16384;
-  uint8_t buffer[512];
-  bool ok = true;
-  digitalWrite(board::LED_GREEN, HIGH);
-  digitalWrite(board::LED_RED, HIGH);
-  // Include buzzer load during the first block; SD calls can extend this pulse.
-  digitalWrite(board::BUZZER, HIGH);
-  for (uint32_t offset = 0; offset < totalBytes && ok; offset += sizeof(buffer)) {
-    for (size_t i = 0; i < sizeof(buffer); ++i) buffer[i] = sdTestByte(offset + i);
-    ok = file.write(buffer, sizeof(buffer)) == sizeof(buffer);
-    file.flush();
-    digitalWrite(board::BUZZER, LOW);
-    sampleDuringSDTest();
-  }
-  file.close();
-  if (ok) {
-    file = SD.open(path, FILE_READ);
-    ok = file && file.size() == totalBytes;
-    for (uint32_t offset = 0; offset < totalBytes && ok; offset += sizeof(buffer)) {
-      ok = file.read(buffer, sizeof(buffer)) == static_cast<int>(sizeof(buffer));
-      for (size_t i = 0; i < sizeof(buffer) && ok; ++i) ok = buffer[i] == sdTestByte(offset + i);
-      sampleDuringSDTest();
-    }
-    file.close();
-  }
-  digitalWrite(board::BUZZER, LOW);
-  digitalWrite(board::LED_GREEN, LOW);
-  digitalWrite(board::LED_RED, matrixReady ? LOW : HIGH);
-  SD.end();
-  Serial.printf("SD %s: %s preservado; gravacao/flush/releitura %s.\n",
-                ok ? "OK" : "FALHOU", path, ok ? "conferidos" : "incompletos ou divergentes");
-  Serial.printf("Matriz durante SD: %s. Medir 3V3 e aquecimento; este teste nao mede tensao.\n",
-                matrixAtStart && matrixReady ? "varreduras intercaladas sem erro I2C" : "indisponivel ou com erro; ensaio integrado incompleto");
-}
-
-void pollButtons() {
-  static const uint8_t pins[3] = {board::BUTTON_CONFIRM, board::BUTTON_PROMOTE, board::BUTTON_END};
-  static const char *names[3] = {"confirmar", "promover", "encerrar"};
-  static bool observed[3] = {false, false, false};
-  static bool stable[3] = {false, false, false};
-  static uint32_t changedAt[3] = {0, 0, 0};
-  for (uint8_t i = 0; i < 3; ++i) {
-    const bool pressed = digitalRead(pins[i]) == LOW;
-    if (pressed != observed[i]) {
-      observed[i] = pressed;
-      changedAt[i] = millis();
-    }
-    if (observed[i] != stable[i] && millis() - changedAt[i] >= 30) {
-      stable[i] = observed[i];
-      Serial.printf("Botao %s: %s (diagnostico, sem efeito em partida).\n", names[i],
-                    stable[i] ? "pressionado" : "solto");
-    }
-  }
-}
-
 void printHelp() {
   Serial.println("DIAGNOSTICO, NAO E FIRMWARE DE XADREZ. Serial 115200 baud.");
   Serial.println("m=matriz; r=reset MCP; v=COL_a fixa/liberar para medicao; ?=ajuda");
-  Serial.println("s=ler SD; w=novo arquivo SD 16KiB + releitura/cargas; t=LEDs+buzzer 120ms");
+  Serial.println("o=consultar endereco OLED; t=LEDs+buzzer 120ms");
   Serial.println("Transicoes da matriz sao brutas, sem debounce e sem historico persistente.");
 }
 
@@ -308,17 +191,10 @@ void setup() {
     digitalWrite(pin, LOW);
     pinMode(pin, OUTPUT);
   }
-  for (uint8_t pin : {board::BUTTON_CONFIRM, board::BUTTON_PROMOTE, board::BUTTON_END}) {
-    pinMode(pin, INPUT);  // External 10k pull-ups, including input-only GPIO34.
-  }
-  digitalWrite(board::SD_CS, HIGH);
-  pinMode(board::SD_CS, OUTPUT);
-  SPI.begin(board::SD_SCK, board::SD_MISO, board::SD_MOSI, board::SD_CS);
-  wireReady = Wire.begin(board::SDA_PIN, board::SCL_PIN, 100000);
+  wireReady = Wire.begin(board::SDA_PIN, board::SCL_PIN, board::I2C_HZ);
   Wire.setTimeOut(25);
   printHelp();
   initialiseMatrix();
-  Serial.println("Ensaios: s=SD leitura; w=SD escrita; v=medicao de linha; t=indicadores.");
 }
 
 void loop() {
@@ -328,14 +204,17 @@ void loop() {
     digitalWrite(board::LED_RED, matrixReady ? LOW : HIGH);
     digitalWrite(board::BUZZER, LOW);
   }
-  // Keep the indicator pulse bounded: do not run blocking SD/MCP operations during it.
+  // Keep the indicator pulse bounded: do not run blocking I2C operations during it.
   if (Serial.available() && !indicatorTest) {
     switch (Serial.read()) {
       case 'm': printBoard(); break;
       case 'r': initialiseMatrix(); break;
       case 'v': toggleMeasurementColumn(); break;
-      case 's': checkSD(); break;
-      case 'w': testSDWrite(); break;
+      case 'o':
+        Wire.beginTransmission(board::OLED_ADDRESS);
+        Serial.printf("OLED 0x%02X: %s\n", board::OLED_ADDRESS,
+                      Wire.endTransmission() == 0 ? "ACK" : "sem resposta");
+        break;
       case 't':
         indicatorTest = true;
         indicatorStart = millis();
@@ -346,8 +225,7 @@ void loop() {
       case '?': printHelp(); break;
     }
   }
-  pollButtons();
-  if (matrixReady && !measurementColumnHeld && !indicatorTest && millis() - lastScan >= SCAN_INTERVAL_MS) {
+  if (matrixReady && !measurementColumnHeld && !indicatorTest && millis() - lastScan >= board::SCAN_INTERVAL_MS) {
     lastScan = millis();
     uint64_t next = 0;
     if (scanMatrix(next)) reportSnapshot(next);

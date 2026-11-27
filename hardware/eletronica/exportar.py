@@ -52,7 +52,7 @@ for rank in range(1,9):
     assert nets[f'ROW_{rank}']==row_nodes,('direct row topology',rank)
 for p,n in {1:'GND',2:'BUZZER_BASE',3:'BUZZER_LOW'}.items():expected('Q1',p,n)
 for p,n in {1:'3V3_IO',2:'BUZZER_LOW'}.items():expected('D67',p,n)
-for p,n in {1:'SD_CS',2:'SPI_MOSI',3:'GND',4:'3V3_IO',5:'SPI_SCK',6:'GND',7:'SPI_MISO',8:'SD_DAT1',9:'SD_DAT2'}.items():expected('J1',p,n)
+for p,n in {1:'GND',2:'3V3_IO',3:'I2C_SCL',4:'I2C_SDA'}.items():expected('J2',p,n)
 # Front/component view, USB down. L/R are assembly coordinates, not GPIO numbers.
 headers={
     'L':['EN','GPIO36','GPIO39','GPIO34','GPIO35','GPIO32','GPIO33','GPIO25','GPIO26','GPIO27','GPIO14','GPIO12','GPIO13','GND','VIN'],
@@ -63,21 +63,18 @@ source=doc.find("./components/comp[@ref='A1']/libsource")
 part=doc.find(f"./libparts/libpart[@lib='{source.get('lib')}'][@part='{source.get('part')}']")
 actual_header={p.get('num'):p.get('name') for p in part.findall('./pins/pin')}
 assert len(part.findall('./pins/pin'))==30 and actual_header==expected_header,('DevKit 30-pin header',actual_header)
-connections={'L4':'BTN_END','L6':'BTN_CONFIRM','L7':'BTN_PROMOTE','L8':'LED_GREEN','L9':'LED_RED','L10':'BUZZER_EN','L11':'MCP_RESET','L13':'SD_CS','L14':'GND','R1':'SPI_MOSI','R2':'I2C_SCL','R5':'I2C_SDA','R6':'SPI_MISO','R7':'SPI_SCK','R14':'GND','R15':'3V3_IO'}
+connections={'L8':'LED_GREEN','L9':'LED_RED','L10':'BUZZER_EN','L11':'MCP_RESET','L14':'GND','R2':'I2C_SCL','R5':'I2C_SDA','R14':'GND','R15':'3V3_IO'}
 for p,n in connections.items():expected('A1',p,n)
 for p in expected_header.keys()-connections.keys():
     assert nets[pins['A1',p]]=={('A1',p)} and 'no_connect' in pin_types['A1',p],('unused DevKit pin must be NC',p)
 power_sources={p for p in nets['3V3_IO'] if 'power_out' in pin_types[p]}
 assert power_sources=={('A1','R15')},('3V3 must come only from onboard regulator',power_sources)
-for r,net in zip(range(11,16),['SD_CS','SPI_MOSI','SPI_MISO','SD_DAT1','SD_DAT2']):expected(f'R{r}',1,'3V3_IO');expected(f'R{r}',2,net)
 
 # Compare actual GPIO/port functions in the netlist with the firmware constants.
 cfg = (ROOT.parents[1] / "firmware/board_config.h").read_text(encoding="utf8")
 constants = dict(re.findall(r"constexpr uint(?:8|16|32)_t (\w+) = (\d+);", cfg))
 for constant, expected_net in {
     "SDA_PIN": "I2C_SDA", "SCL_PIN": "I2C_SCL", "MCP_RESET_PIN": "MCP_RESET",
-    "SD_CS": "SD_CS", "SD_SCK": "SPI_SCK", "SD_MISO": "SPI_MISO", "SD_MOSI": "SPI_MOSI",
-    "BUTTON_CONFIRM": "BTN_CONFIRM", "BUTTON_PROMOTE": "BTN_PROMOTE", "BUTTON_END": "BTN_END",
     "LED_GREEN": "LED_GREEN", "LED_RED": "LED_RED", "BUZZER": "BUZZER_EN",
 }.items():
     gpio = "GPIO" + constants[constant]

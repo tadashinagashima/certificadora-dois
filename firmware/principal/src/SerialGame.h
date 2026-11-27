@@ -9,12 +9,14 @@ namespace principal {
 // Console adapter; simulated inputs are explicitly disabled on the physical board.
 class SerialGame {
  public:
-  explicit SerialGame(bool simulation = true) : simulation_(simulation) {}
+  SerialGame(bool simulation, std::uint64_t bootId) : simulation_(simulation), bootId_(bootId) {}
   std::string command(const std::string& line, std::uint32_t now);
   void inputLost();
   BoardApp& app() { return app_; }
 
  private:
+  std::string dispatch(const std::string& line);
+  std::string sessionId() const;
   std::string start(const std::string& scenario);
   std::string confirm();
   std::string end(bool resignation, chessboard::Color player);
@@ -26,7 +28,8 @@ class SerialGame {
   std::uint32_t now_ = 0, simNow_ = 0, simSampleAt_ = 0;
   chessboard::Occupancy simRaw_ = 0;
   bool simAvailable_ = false;
-  std::uint8_t simButtons_ = 0;
+  std::uint64_t bootId_;
+  std::uint32_t session_ = 1;
 };
 
 // A bad/oversize line is discarded through LF; never execute a valid suffix.

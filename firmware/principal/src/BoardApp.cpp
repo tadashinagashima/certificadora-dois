@@ -16,9 +16,8 @@ bool BoardApp::start(const ChessAdapter& initial) {
   game_ = std::move(next);
   record_ = std::move(nextRecord);
   fault_ = RecordStatus::Ok;
-  haveRaw_ = haveStable_ = rejecting_ = storageError_ = false;
-  savedPath_.clear();
-  saveRequested_ = record_.finished();
+  haveRaw_ = haveStable_ = rejecting_ = saved_ = false;
+  inCheck_ = initial.status().inCheck;
   return true;
 }
 
@@ -75,7 +74,9 @@ ConfirmationStatus BoardApp::confirm(std::uint32_t now) {
       return ConfirmationStatus::ApplyFailed;
     }
     record_ = std::move(nextRecord);
-    saveRequested_ = record_.finished();
+    const char suffix = record_.lastSan().back();
+    inCheck_ = suffix == '+' || suffix == '#';
+    rejecting_ = false;
   }
   game_ = std::move(next);
   if (confirmation.status != ConfirmationStatus::Accepted &&
@@ -95,62 +96,12 @@ bool BoardApp::finish(bool resignation, Color player) {
   const auto result = record_.finish(next.position(), next.ending());
   if (result != RecordStatus::Ok) { fault_ = result; return false; }
   game_ = std::move(next);
-  saveRequested_ = true;
   return true;
 }
 
-bool BoardApp::requestSave() {
-  if (!record_.finished()) return false;
-  if (savedPath_.empty()) saveRequested_ = true;
-  return true;
-}
-bool BoardApp::takeSaveRequest() {
-  const bool requested = saveRequested_;
-  saveRequested_ = false;
-  return requested;
-}
-void BoardApp::saved(const std::string& path) {
-  savedPath_ = path;
-  storageError_ = path.empty();
-}
-
-void BoardApp::released(unsigned button, std::uint32_t held, std::uint32_t now) {
-  if (game_.state() == GameState::Finished) {
-    if (button == 2) requestSave();
-    if (button == 0 && held >= board::LONG_PRESS_MS && !savedPath_.empty()) start();
-    return;
-  }
-  if (button == 0) confirm(now);
-  if (button == 1 && game_.state() == GameState::AwaitingPromotion) {
-    Promotion next = Promotion::Queen;
-    switch (game_.selectedPromotion()) {
-      case Promotion::Queen: next = Promotion::Rook; break;
-      case Promotion::Rook: next = Promotion::Bishop; break;
-      case Promotion::Bishop: next = Promotion::Knight; break;
-      default: break;
-    }
-    promote(next);
-  }
-  if (button == 2) finish(held >= board::LONG_PRESS_MS, game_.position().sideToMove());
-}
-
-void BoardApp::tick(std::uint32_t now, std::uint8_t buttons) {
+void BoardApp::tick(std::uint32_t now) {
   if (haveRaw_ && now - lastSample_ > board::MAX_SAMPLE_GAP_MS) inputLost();
-  if (rejecting_ && now - rejectedAt_ >= 400) rejecting_ = false;
-  // Simultaneous buttons cancel the gesture until every button is released.
-  if (buttons && (buttons & (buttons - 1))) buttonChord_ = true;
-  for (unsigned i = 0; i < buttons_.size(); ++i) {
-    auto& b = buttons_[i];
-    const bool pressed = (buttons & (1U << i)) != 0;
-    if (pressed != b.raw) { b.raw = pressed; b.changed = now; }
-    if (b.stable != b.raw && now - b.changed >= board::BUTTON_DEBOUNCE_MS) {
-      b.stable = b.raw;
-      if (b.stable) b.pressed = now;
-      else if (!buttonChord_) released(i, now - b.pressed, now);
-    }
-  }
-  if (!buttons && !buttons_[0].stable && !buttons_[1].stable && !buttons_[2].stable)
-    buttonChord_ = false;
+  if (rejecting_ && now - rejectedAt_ >= 1800) rejecting_ = false;
 }
 
 Indicators BoardApp::indicators(std::uint32_t now) const {
@@ -160,8 +111,8 @@ Indicators BoardApp::indicators(std::uint32_t now) const {
     out.buzzer = now - rejectedAt_ < 120;
   } else if (fault_ != RecordStatus::Ok) out.red = true;
   else if (game_.state() == GameState::Finished) {
-    out.green = !savedPath_.empty() && (now % 1000 < 500);
-    out.red = savedPath_.empty() && (now % 500 < 250);
+    out.green = saved_ && (now % 1000 < 500);
+    out.red = !saved_ && (now % 500 < 250);
   } else if (!settled(now) || game_.state() == GameState::AwaitingPosition) out.red = true;
   else if (game_.state() == GameState::AwaitingPromotion) {
     unsigned pulses = 0;

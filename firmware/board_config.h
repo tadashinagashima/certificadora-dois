@@ -7,13 +7,8 @@ constexpr uint8_t SDA_PIN = 21;
 constexpr uint8_t SCL_PIN = 22;
 constexpr uint8_t MCP_RESET_PIN = 14;
 constexpr uint8_t MCP_ADDRESS = 0x20;
-constexpr uint8_t SD_CS = 13;
-constexpr uint8_t SD_SCK = 18;
-constexpr uint8_t SD_MISO = 19;
-constexpr uint8_t SD_MOSI = 23;
-constexpr uint8_t BUTTON_CONFIRM = 32;
-constexpr uint8_t BUTTON_PROMOTE = 33;
-constexpr uint8_t BUTTON_END = 34;
+constexpr uint8_t OLED_ADDRESS = 0x3C; // Alternate strap: 0x3D.
+constexpr uint32_t I2C_HZ = 100000;
 constexpr uint8_t LED_GREEN = 25;
 constexpr uint8_t LED_RED = 26;
 constexpr uint8_t BUZZER = 27;
@@ -23,9 +18,7 @@ constexpr uint8_t BUZZER = 27;
 constexpr uint16_t COLUMN_SETTLE_US = 300;
 constexpr uint32_t SCAN_INTERVAL_MS = 25;
 constexpr uint32_t REED_DEBOUNCE_MS = 25;
-constexpr uint32_t BUTTON_DEBOUNCE_MS = 30;
 constexpr uint32_t MAX_SAMPLE_GAP_MS = 100;
-constexpr uint32_t LONG_PRESS_MS = 2000;
 
 // MCP bit 0..7 = GPA0..7; bit 8..15 = GPB0..7.
 // Datasheet revision D: GPA7/GPB7 may not be used to sense inputs.

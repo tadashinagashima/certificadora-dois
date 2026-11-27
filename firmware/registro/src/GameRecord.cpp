@@ -111,6 +111,7 @@ RecordStatus GameRecord::begin(const ChessAdapter& initial, const GameMetadata& 
   initialFen_ = fen;
   expectedFen_ = fen;
   movetext_.clear();
+  lastSan_.clear();
   fullmove_ = initial.fullmoveNumber();
   plyCount_ = 0;
   nextSide_ = initial.sideToMove();
@@ -141,6 +142,7 @@ RecordStatus GameRecord::record(const ChessAdapter& before,
   if (addition.size() > kMovetextCapacity - movetext_.size()) return RecordStatus::CapacityExceeded;
 
   movetext_ += addition;
+  lastSan_ = san;
   expectedFen_ = afterFen;
   if (nextSide_ == Color::Black) ++fullmove_;
   nextSide_ = after.sideToMove();

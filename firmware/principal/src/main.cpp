@@ -1,7 +1,7 @@
 #include <Arduino.h>
 #include <atomic>
 #include "SerialGame.h"
-#include "Hardware.h"
+#include "../../BoardHardware.h"
 #include "Display.h"
 #include <esp_random.h>
 
@@ -10,7 +10,7 @@ SET_LOOP_TASK_STACK_SIZE(32 * 1024);
 namespace {
 principal::SerialGame* game = nullptr;
 principal::LineReceiver receiver;
-principal::Hardware hardware;
+board::Hardware hardware;
 std::uint32_t lastScan = 0, lastRetry = 0;
 std::atomic<bool> uartError{false};
 std::uint32_t lastByteMs = 0;

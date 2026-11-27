@@ -138,40 +138,42 @@ def interact(writer, reader, args):
         print("Simulação: sync monta a posição inicial. Experimente lift e2, place e4 e confirm.")
     print(f"Pasta dos PGNs: {directory}")
     pending = False
-    command = "status"  # retoma também um encerramento anterior à conexão
-    while True:
-        responses = send(command)
-        for line in responses:
-            if not line.startswith("SAVE_PENDING "):
+
+    def execute(command):
+        nonlocal pending
+        for line in send(command):
+            if line.startswith("SAVE_PENDING "):
+                pending = not save_pending(send, line, directory)
+            else:
                 print(line)
                 if line in HINTS:
                     print(HINTS[line])
-                continue
-            pending = not save_pending(send, line, directory)
 
-        while True:
-            try:
-                command = input("xadrez> ").strip()
-            except EOFError:
-                command = "sair"
-            if command in ("sair", "exit", "quit"):
-                if pending:
-                    print("PGN pendente de gravação. A sessão em RAM depende da alimentação do ESP32."
-                          if args.port else "O simulador terminou com um PGN pendente.", file=sys.stderr)
-                return int(pending)
-            if command in ("ajuda", "help"):
-                print(HELP)
-                command = "help"
-            if command.startswith("pasta "):
-                directory = Path(command[6:].strip()).expanduser().resolve()
-                print(f"Pasta dos PGNs: {directory}. Use save para repetir.")
-                continue
-            if command.split(" ", 1)[0] == "saved":
-                print("A confirmação de gravação é enviada automaticamente.")
-                continue
-            if command and len(command) <= 96 and command.isascii() and command.isprintable():
-                break
+    execute("status")  # Recupera também um PGN pendente na reconexão.
+    while True:
+        try:
+            command = input("xadrez> ").strip()
+        except EOFError:
+            break
+        if command in ("sair", "exit", "quit"):
+            break
+        if command in ("ajuda", "help"):
+            print(HELP)
+            execute("help")
+        elif command.startswith("pasta "):
+            directory = Path(command[6:].strip()).expanduser().resolve()
+            print(f"Pasta dos PGNs: {directory}. Use save para repetir.")
+        elif command.split(" ", 1)[0] == "saved":
+            print("A confirmação de gravação é enviada automaticamente.")
+        elif command and len(command) <= 96 and command.isascii() and command.isprintable():
+            execute(command)
+        else:
             print("Digite um comando ASCII com até 96 caracteres. Use ajuda.")
+
+    if pending:
+        print("PGN pendente de gravação. A sessão em RAM depende da alimentação do ESP32."
+              if args.port else "O simulador terminou com um PGN pendente.", file=sys.stderr)
+    return int(pending)
 
 
 def main():

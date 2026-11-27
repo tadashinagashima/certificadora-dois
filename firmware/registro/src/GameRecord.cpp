@@ -112,16 +112,15 @@ RecordStatus GameRecord::begin(const ChessAdapter& initial, const GameMetadata& 
   expectedFen_ = fen;
   movetext_.clear();
   lastSan_.clear();
-  fullmove_ = initial.fullmoveNumber();
   plyCount_ = 0;
-  nextSide_ = initial.sideToMove();
   ending_ = GameEnd{};
   customStart_ = fen != ChessAdapter{}.fen();
   return RecordStatus::Ok;
 }
 
 RecordStatus GameRecord::record(const ChessAdapter& before,
-                              const ConfirmationResult& confirmation, const ChessAdapter& after) {
+                               const ConfirmationResult& confirmation,
+                               const ChessAdapter& after, GameEnd ending) {
   if (confirmation.status != ConfirmationStatus::Accepted) return RecordStatus::Ignored;
   if (!started()) return RecordStatus::NotStarted;
   if (finished()) return RecordStatus::AlreadyFinished;
@@ -134,18 +133,23 @@ RecordStatus GameRecord::record(const ChessAdapter& before,
   const std::string afterFen = after.fen();
   if (expected.fen() != afterFen) return RecordStatus::InvalidContext;
 
+  if (ending.reason == EndReason::None) {
+    if (ending.result != GameResult::Ongoing) return RecordStatus::InvalidResult;
+  } else if (!validEnd(after, ending)) {
+    return RecordStatus::InvalidResult;
+  }
+
   std::string addition;
   if (plyCount_ != 0) addition += ' ';
-  if (nextSide_ == Color::White) addition += std::to_string(fullmove_) + ". ";
-  else if (plyCount_ == 0) addition += std::to_string(fullmove_) + "... ";
+  if (before.sideToMove() == Color::White) addition += std::to_string(before.fullmoveNumber()) + ". ";
+  else if (plyCount_ == 0) addition += std::to_string(before.fullmoveNumber()) + "... ";
   addition += san;
   if (addition.size() > kMovetextCapacity - movetext_.size()) return RecordStatus::CapacityExceeded;
 
   movetext_ += addition;
   lastSan_ = san;
   expectedFen_ = afterFen;
-  if (nextSide_ == Color::Black) ++fullmove_;
-  nextSide_ = after.sideToMove();
+  ending_ = ending;
   ++plyCount_;
   return RecordStatus::Ok;
 }

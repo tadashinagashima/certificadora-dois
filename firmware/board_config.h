@@ -3,6 +3,8 @@
 #include <stdint.h>
 
 namespace board {
+struct Indicators { bool green = false, red = false, buzzer = false; };
+
 constexpr uint8_t SDA_PIN = 21;
 constexpr uint8_t SCL_PIN = 22;
 constexpr uint8_t MCP_RESET_PIN = 14;

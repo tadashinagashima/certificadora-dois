@@ -4,15 +4,7 @@ O [firmware da placa](../firmware/principal/src/main.cpp) e o [simulador](../fir
 
 ## Compilar o simulador
 
-Requer CMake 3.20+ e compilador C++14. Para executar a demonstração, use Python 3.9+; a comunicação com o simulador usa apenas a biblioteca padrão. Na raiz:
-
-```powershell
-cmake -S firmware -B firmware/build
-cmake --build firmware/build --config Release
-python firmware/terminal.py --sim firmware/build/Release/tabuleiro_sim.exe
-```
-
-Com gerador de configuração única no Linux/macOS, use `python3 firmware/terminal.py --sim firmware/build/tabuleiro_sim`. O executável também aceita o protocolo bruto em stdin/stdout. O terminal é o componente que grava os arquivos.
+Siga os [comandos de compilação e demonstração](../README.md#demonstração-sem-placa). O executável C++14 também aceita o protocolo bruto em stdin/stdout. Use o terminal Python para gravar os PGNs.
 
 ## Compilar e gravar o ESP32
 
@@ -55,9 +47,9 @@ A conexão recupera o estado atual da placa. Posicione as peças iniciais e cons
 | `ajuda` / `sair` | Lista os comandos / fecha a conexão. |
 | `metrics` | Somente na placa: heap livre, mínimo de heap e menor folga de pilha do loop em bytes. |
 
-O OLED tem quatro linhas de informação: vez ou resultado em faixa invertida, último SAN aceito, estado da partida e situação do PGN. Na rejeição, exibe um aviso temporário; na promoção, orienta a escolha pelo PC. `status` também informa `OLED online` ou `OLED offline` na placa. O perfil SSD1315 do U8x8 atualiza grupos de até quatro caracteres que mudaram, sem redesenhar a tela inteira em cada varredura. A primeira falha I²C do display desativa novas transferências para ele até o próximo boot. Veja [ligação, endereço e limites do barramento](hardware.md#oled-de-096).
+O OLED mostra vez ou resultado, último SAN, estado da partida e situação do PGN. Atualiza até quatro caracteres por vez. Uma falha de transferência desativa a tela até o próximo boot. `status` informa `OLED online` ou `OLED offline`. [Ligação e endereço](hardware.md#oled-de-096)
 
-O LED verde contínuo indica acompanhamento estável. O vermelho indica espera, reposição ou falha; rejeição também aciona brevemente o buzzer. Na promoção, o LED verde pulsa 1/2/3/4 vezes para Q/R/B/N. Após encerrar, vermelho piscando indica PGN pendente e verde piscando indica que o computador confirmou a gravação.
+Verde contínuo indica acompanhamento estável. Vermelho indica espera ou falha e o buzzer acompanha a rejeição. Na promoção, 1/2/3/4 pulsos verdes indicam Q/R/B/N. Após o encerramento, vermelho piscando indica PGN pendente e verde piscando indica gravação confirmada.
 
 ## Aquisição e gravação
 
@@ -93,75 +85,25 @@ O relógio virtual só avança nos comandos descritos: esperar no teclado não s
 
 Cenários: `start`; `castle_w`/`castle_b`; `ep_w`/`ep_b`; `promotion_w`/`promotion_b`; `promotion_capture_w`/`promotion_capture_b`; `ambiguous`; `mate`; `stalemate`; `insufficient`; `busy`. As FENs estão em `SerialGame.cpp`; `status` mostra a posição. Não há parser público de FEN arbitrária. Cenários já encerrados também geram PGN automaticamente.
 
-Demonstração completa de mate no terminal com `--sim`:
-
-```text
-new
-sync
-lift f2
-place f3
-confirm
-lift e7
-place e5
-confirm
-lift g2
-place g4
-confirm
-lift d8
-place h4
-confirm
-status
-pgn
-```
-
-Após a última confirmação, o terminal informa o caminho do PGN. Confira `Finished`, `Checkmate`, `saved=1` e o corpo `1. f3 e5 2. g4 Qh4# 0-1` no arquivo.
+Para demonstrar mate, envie `new` e `sync`. Execute f2–f3, e7–e5, g2–g4 e d8–h4 usando `lift ORIGEM`, `place DESTINO` e `confirm` a cada lance. O terminal deve salvar o PGN com `1. f3 e5 2. g4 Qh4# 0-1`. Confira `Finished`, `Checkmate` e `saved=1` em `status`.
 
 Para experimentar ruído na casa e2, iniciar com `new`, `sync`; enviar `raw ffff00000000efff`, `wait 25`, `raw ffff00000000ffff`, `wait 50`. A retirada curta é filtrada; `status` deve mostrar zero quadros de alterações. Para uma captura, manter cada alteração com `lift`/`place` ou oferecer leituras brutas suficientemente longas.
 
 O receptor limita linhas a **96 caracteres**. Linha excedente, NUL, controles ou CR fora de CRLF são descartados até LF, sem executar sufixos. No ESP32, pausa maior que dois segundos numa linha parcial também provoca descarte. Erros no fluxo simulado invalidam sua tentativa; erros de console na placa não invalidam as leituras físicas independentes. Nenhum parser detecta toda corrupção que resulte em outro comando válido.
 
-## Contratos dos módulos
+## Do sensor ao PGN
 
-Os cabeçalhos em `firmware/*/src/` são a referência das assinaturas e enums. Os módulos são C++14 independentes de Arduino. Consultas são `const` ou cópias; chamadas à mesma instância devem ser serializadas, fora de interrupções.
+- **Acompanhamento.** Uma ocupação usa 64 bits (a1=0, h8=63). A primeira leitura cria a referência. Cada mudança estável registra casas retiradas e adicionadas, em ordem de observação. O limite é de 64 quadros de mudanças. Uma interrupção ou estouro invalida a tentativa até a reposição.
+- **Interpretação.** O interpretador compara a tentativa com os movimentos legais da posição oficial. A captura exige observar o destino vazio antes de reocupá-lo. Em roque e en passant, as peças podem ser levantadas em ordens diferentes. A ocupação final precisa corresponder ao movimento completo.
+- **Regras.** A [biblioteca THC](../firmware/xadrez/src/thc/LICENSE) é a cópia MIT do commit `aa217cb9b4d759cd7c07e11c98526b0187b0a64b` de `billforsternz/thc-chess-library`. O adaptador fornece FEN, lances legais, SAN e estado da posição. O controle encerra por mate, afogamento ou material insuficiente reconhecido. Tripla repetição e 50 lances são indicadores consultáveis.
+- **Registro.** O registro gera o SAN na posição anterior, confere a FEN resultante e só acrescenta o lance se o contexto e o eventual resultado estiverem corretos. Lado e número do lance vêm da posição. O PGN aceita até 8192 bytes de texto de lances; ultrapassar o limite conserva o registro anterior e sinaliza falha. Partidas iniciadas em posição especial incluem FEN e SetUp. O PGN ativo termina em `*`.
 
-### Ocupação e acompanhamento
-
-`Occupancy` é `uint64_t`: bit 1 = ocupada, a1=0, h1=7, a8=56, h8=63. `MoveTracker::observe(occupancy, timestampMs)` recebe somente quadros completos e válidos. A primeira leitura cria a referência; cada mudança posterior ocupa um quadro com máscaras disjuntas `removed` e `added`. Quadros idênticos não gastam histórico. A ordem é a do vetor, não a do timestamp; tempos iguais e wrap de 32 bits são permitidos.
-
-`snapshot()` devolve cópia independente. Somente `frames[0..frameCount)` é válido. Há limite fixo de **64 quadros com alterações**, não de casas. `reliable()` exige referência inicial, leitura disponível e ausência de estouro/interrupção. `markInputInterrupted()` informa perda sem fabricar quadro vazio; o prefixo fica congelado, mas novas leituras continuam atualizando a ocupação. `discardAttempt()` usa a última leitura como referência e limpa as causas apenas se houver leitura disponível. A recuperação da partida cabe ao Controle.
-
-### Regras e interpretação
-
-`ChessAdapter` fornece `reset`, `fen`, `loadFen`, `pieceAt`, `occupancy`, `sideToMove`, `fullmoveNumber`, `legalMoves`, `isLegal`, `san`, `apply` e `status`. `Move` contém origem/destino (0–63) e promoção; 64 é casa inválida. `legalMoves()` comporta até 218 movimentos. `apply()` revalida antes de modificar; `san()` opera na posição anterior. `fullmoveNumber()` fornece diretamente o número da jogada mantido pela biblioteca. Cópias preservam o histórico de repetição. `loadFen()` limpa esse histórico e usa o dialeto permissivo da THC: somente posições de teste conhecidas, não validação estrita ou recuperação por sensores.
-
-A THC reside somente em [xadrez/src/thc](../firmware/xadrez/src/thc/LICENSE). É a cópia sem alterações do repositório `billforsternz/thc-chess-library`, commit `aa217cb9b4d759cd7c07e11c98526b0187b0a64b`, sob MIT. Não alterar os fontes vendorizados sem revisar a integração.
-
-`interpretMove(snapshot, position, selection)` preserva as entradas e retorna `Identified`, `NoMove`, `NoLegalMatch`, `Ambiguous`, `PromotionRequired`, `UnreliableInput` ou `PositionMismatch`. Apenas `Identified` preenche `move`; os demais mantêm casas inválidas. A função verifica confiabilidade e consistência dos quadros antes de comparar movimentos legais. Capturas exigem evidência de destino vazio; promoção não escolhe dama automaticamente. Roque e en passant podem ter ordens distintas de retirada/colocação, mas o quadro final precisa corresponder ao lance completo.
-
-### Controle e encerramento
-
-| Estado | Contrato |
+| Estado do Controle | Como prosseguir |
 | --- | --- |
-| `AwaitingPosition` | Exige nova observação igual à ocupação oficial. `confirm()` não cria a referência. |
-| `Tracking` | Acumula alterações e aceita confirmação. |
-| `AwaitingPromotion` | Aguarda Q/R/B/N e nova confirmação; posição oficial ainda anterior. Mudança de ocupação cancela a seleção. |
-| `Finished` | Observações/interrupções ignoradas, comandos de partida bloqueados até reiniciar. |
-
-O construtor padrão e `reset()` estabelecem a posição inicial. O construtor com adaptador copia integralmente a posição preparada, inclusive repetição. `position()` fornece referência const, `attempt()` uma cópia, e `ending()` informa motivo/resultado.
-
-`confirm()` retorna `Accepted`, `NoMove`, `NoLegalMatch`, `Ambiguous`, `PromotionRequired`, `UnreliableInput`, `PositionMismatch`, `ApplyFailed` ou `GameFinished`. Apenas `Accepted` preenche o lance e aplica a posição. `NoMove` limpa a tentativa sem registro; rejeições preservam a posição/histórico e aguardam reposição. A primeira confirmação de promoção apenas solicita a escolha; a segunda reinterpreta as observações atuais. Repetir confirmação após aceitação não reaplica o lance.
-
-`resign(cor)` atribui vitória à outra cor. `finish()` encerra com `Unfinished` (`*`). Mate encerra com vitória; afogamento e o material insuficiente reconhecido pela THC encerram como empate. Os indicadores de 50 lances e tripla repetição são consultáveis, sem adjudicação automática. Não há novas regras de 75 lances, cinco repetições ou prova de todas as posições mortas.
-
-### Registro e consistência
-
-`GameRecord::begin(initial, metadata)` inicia/substitui o registro. `record(before, confirmation, after)` aceita apenas `Accepted`; os demais retornam `Ignored`. Gera SAN no contexto anterior, aplica o lance numa cópia e confere a FEN posterior/esperada. Duplicatas, saltos e contexto incorreto são rejeitados. `finish(official, ending)` confere contexto/resultado; repetição do mesmo encerramento é idempotente. `pgn()` exporta o documento; antes de iniciar retorna vazio.
-
-Retornos: `Ok`, `Ignored`, `NotStarted`, `AlreadyFinished`, `InvalidMetadata`, `InvalidContext`, `InvalidMove`, `CapacityExceeded`, `InvalidResult`. Erros preservam o registro. O chamador deve preservar a posição anterior antes de confirmar. `BoardApp` faz isso confirmando numa cópia do Controle; só publica Controle e Registro após ambos aceitarem e, quando aplicável, encerra o Registro na mesma operação. Falha ativa `fault`, bloqueando comandos até `new`; o PGN anterior continua exportável.
-
-Limites: movetext de **8192 bytes**, sem truncamento; valores de metadados até **128 bytes**, sem controles ASCII/NUL/DEL e com linha de cabeçalho escapada menor que 256 bytes. Data `YYYY.MM.DD`, permitindo partes inteiramente `?`; verifica faixas, não calendário. Aspas e barras são escapadas; UTF-8 é preservado. PGN inclui sete tags padrão, SAN numerada, resultado consistente e linhas de até 79 caracteres. Início não padrão inclui FEN/SetUp e respeita número/lado inicial. Partida ativa exporta `*` sem encerrar.
-
-Esse limite textual não é orçamento total de RAM; cópias, strings e exportação consomem heap adicional. Falha geral do alocador não é convertida em `CapacityExceeded`. Medições de uma partida não garantem estabilidade indefinida.
+| `AwaitingPosition` | Repor a ocupação oficial e aguardar uma leitura estável. |
+| `Tracking` | Mover as peças e confirmar. |
+| `AwaitingPromotion` | Escolher a peça e confirmar novamente. Alterar a ocupação cancela a seleção. |
+| `Finished` | Aguardar a gravação e usar `new` para jogar de novo. |
 
 ## Diagnóstico de montagem
 
@@ -182,7 +124,7 @@ arduino-cli monitor --port COM7 --config baudrate=115200
 | `o` | Consulta o endereço configurado para o OLED e informa ACK ou ausência de resposta. |
 | `t` / `?` | Testa LEDs/buzzer por aproximadamente 120 ms / ajuda. |
 
-A varredura usa I²C 100 kHz, MCP `0x20`, `OLAT=0`, `GPPU=0`, somente uma coluna LOW e demais em alta impedância. Espera inicial de 300 µs e período de 25 ms, sujeitos à fiação real. Falha I²C descarta amostra, acende vermelho e mantém MCP em RESET; `r` tenta recuperar. O diagnóstico exibe a matriz bruta, sem debounce. Ele não preserva todas as transições nem interpreta xadrez. O comando `o` apenas consulta o endereço. O teste de texto usa a aplicação principal.
+O diagnóstico usa o [mesmo driver MCP23017 da aplicação](../firmware/BoardHardware.h) e exibe leituras brutas. Em falha, o driver descarta o quadro e mantém o MCP em RESET. Use `r` para retomar. Para testar texto no OLED, grave a aplicação principal.
 
 ## Verificar antes da entrega física
 

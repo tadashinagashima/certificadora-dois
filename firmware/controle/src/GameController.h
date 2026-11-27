@@ -42,12 +42,14 @@ class GameController {
   GameEnd ending() const;
   const ChessAdapter& position() const;
   AttemptSnapshot attempt() const;
+  const PositionStatus& positionStatus() const { return positionStatus_; }
 
  private:
   void checkAutomaticEnd();
   void end(EndReason reason, GameResult result);
 
   ChessAdapter position_;
+  PositionStatus positionStatus_{};
   MoveTracker tracker_;
   GameState state_ = GameState::AwaitingPosition;
   Promotion selection_ = Promotion::None;

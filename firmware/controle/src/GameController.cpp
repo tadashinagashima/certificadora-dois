@@ -43,6 +43,7 @@ ConfirmationResult GameController::confirm() {
   }
 
   const auto interpretation = interpretMove(snapshot, position_, selection_);
+  ConfirmationStatus failure = ConfirmationStatus::ApplyFailed;
   switch (interpretation.status) {
     case InterpretationStatus::Identified:
       if (position_.apply(interpretation.move)) {
@@ -61,25 +62,24 @@ ConfirmationResult GameController::confirm() {
     case InterpretationStatus::PromotionRequired:
       state_ = GameState::AwaitingPromotion;
       return {ConfirmationStatus::PromotionRequired, {}};
-    default:
+    case InterpretationStatus::NoLegalMatch:
+      failure = ConfirmationStatus::NoLegalMatch;
+      break;
+    case InterpretationStatus::Ambiguous:
+      failure = ConfirmationStatus::Ambiguous;
+      break;
+    case InterpretationStatus::UnreliableInput:
+      failure = ConfirmationStatus::UnreliableInput;
+      break;
+    case InterpretationStatus::PositionMismatch:
+      failure = ConfirmationStatus::PositionMismatch;
       break;
   }
 
-  // A rejected attempt is retained until a new observation matches the position.
+  // Keep the rejected attempt until a new observation matches the official position.
   selection_ = Promotion::None;
   state_ = GameState::AwaitingPosition;
-  switch (interpretation.status) {
-    case InterpretationStatus::NoLegalMatch:
-      return {ConfirmationStatus::NoLegalMatch, {}};
-    case InterpretationStatus::Ambiguous:
-      return {ConfirmationStatus::Ambiguous, {}};
-    case InterpretationStatus::UnreliableInput:
-      return {ConfirmationStatus::UnreliableInput, {}};
-    case InterpretationStatus::PositionMismatch:
-      return {ConfirmationStatus::PositionMismatch, {}};
-    default:
-      return {ConfirmationStatus::ApplyFailed, {}};
-  }
+  return {failure, {}};
 }
 
 bool GameController::selectPromotion(Promotion selection) {
@@ -111,13 +111,13 @@ bool GameController::finish() {
 }
 
 void GameController::checkAutomaticEnd() {
-  const auto status = position_.status();
-  if (status.terminal == TerminalState::Checkmate) {
-    end(EndReason::Checkmate, status.sideToMove == Color::White ? GameResult::BlackWin
-                                                             : GameResult::WhiteWin);
-  } else if (status.terminal == TerminalState::Stalemate) {
+  positionStatus_ = position_.status();
+  if (positionStatus_.terminal == TerminalState::Checkmate) {
+    const auto winner = positionStatus_.sideToMove == Color::White ? GameResult::BlackWin : GameResult::WhiteWin;
+    end(EndReason::Checkmate, winner);
+  } else if (positionStatus_.terminal == TerminalState::Stalemate) {
     end(EndReason::Stalemate, GameResult::Draw);
-  } else if (status.insufficientMaterial) {
+  } else if (positionStatus_.insufficientMaterial) {
     end(EndReason::InsufficientMaterial, GameResult::Draw);
   }
 }

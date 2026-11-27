@@ -30,42 +30,34 @@ A montagem adota USB do computador, regulador da DevKit V1, matriz direta e oito
 | `SerialGame` | Console e comandos do simulador; não recebe entradas simuladas na aplicação física. |
 | `main.cpp` / simulador | Adaptar GPIO e Serial ou ocupações simuladas e stdin/stdout à mesma aplicação. |
 
-O fluxo é `MCP23017 → Hardware → BoardApp → GameController → MoveTracker/MoveInterpreter/ChessAdapter`. O terminal envia comandos a `SerialGame`, que aciona a mesma aplicação nos dois ambientes. O simulador fornece ocupações com relógio virtual.
+O firmware da partida e o diagnóstico usam o mesmo [driver da matriz](../firmware/BoardHardware.h). O simulador substitui os contatos por leituras com relógio virtual e usa o mesmo filtro e o mesmo protocolo da placa.
 
-As chamadas no ESP32 são serializadas no `loopTask`. Uma lacuna de aquisição invalida a tentativa. Ao confirmar, o Controle e o Registro só publicam a nova posição e o PGN depois que ambos aceitam o lance. O OLED consulta o estado publicado e atualiza pequenos trechos de texto. O primeiro erro de transferência desativa sua saída.
+Ao receber `confirm`, a aplicação experimenta o lance numa cópia do Controle. O Registro verifica o lance, a posição resultante e o eventual encerramento antes de acrescentar o SAN. Só então a aplicação adota a nova posição. Uma rejeição mantém o tabuleiro lógico e o PGN no estado anterior.
 
-No encerramento, o ESP32 anuncia o identificador da partida, o tamanho e o CRC do PGN. O terminal solicita o registro, verifica a integridade, grava um arquivo novo e confirma o identificador. Até receber a confirmação, a placa mantém o PGN disponível em RAM e recusa outra partida. A consulta inicial do terminal recupera uma gravação pendente se a placa continuar ligada.
-
-A tentativa começa com uma observação igual à ocupação oficial. Após rejeição ou interrupção, a reposição e uma nova observação compatível permitem retomar. Igualdade de ocupação não verifica identidade das peças. Capturas exigem observar a vacância do destino; transições perdidas entre amostras não são reconstruídas. As peças devem ser levantadas, evitando arraste.
-
-O [guia de firmware](firmware.md) define os contratos e a operação. O [projeto Astah](diagramas/tabuleiro-xadrez-sensorial.asta) preserva os diagramas editáveis da concepção original; o fluxo acima descreve o protótipo USB atual. As exportações são feitas pelo próprio editor.
-
-## Estado do projeto
-
-A aplicação física, os cinco módulos e o simulador estão implementados. A integração foi verificada por software, incluindo leitura simulada, controle serial, sinais e persistência em arquivos. O funcionamento na montagem completa ainda não foi validado: os tempos de aquisição e os componentes reais exigem bancada. O diagnóstico de periféricos permanece separado para essa etapa. Verificações por software não validam magnetismo, alimentação ou montagem.
+O computador confirma a gravação somente depois de verificar e publicar o PGN. Enquanto aguarda essa confirmação, o ESP32 conserva a partida encerrada em RAM. O [guia de firmware](firmware.md) descreve a recuperação e os comandos. O [modelo Astah](diagramas/tabuleiro-xadrez-sensorial.asta) preserva os diagramas editáveis da concepção original.
 
 ## Requisitos funcionais
 
-| ID | Requisito | Critério de aceitação |
-| --- | --- | --- |
-| RF01 | O sistema deve identificar a ocupação de cada uma das 64 casas do tabuleiro. | Para cada casa, o estado informado corresponde à presença ou ausência de uma peça. |
-| RF02 | O sistema deve acompanhar as alterações de ocupação durante a execução física de uma jogada, incluindo estados intermediários. | As transições detectadas permanecem disponíveis para a interpretação da jogada até sua confirmação. |
-| RF03 | O sistema deve permitir a confirmação do término da movimentação física pelo terminal USB. | O comando `confirm` inicia a interpretação da jogada realizada. |
-| RF04 | O sistema deve identificar o movimento candidato com base no estado lógico da partida, na ocupação física e nas alterações observadas. | O movimento candidato corresponde ao lance fisicamente executado, incluindo as informações adicionais necessárias. |
-| RF05 | O sistema deve validar os movimentos candidatos de acordo com as regras do xadrez, incluindo capturas, roque, *en passant* e promoção. | Movimentos legais são aceitos e movimentos ilegais são rejeitados, inclusive nas situações especiais. |
-| RF06 | O sistema deve atualizar o estado lógico da partida somente após a confirmação e a validação do lance. | A posição lógica é atualizada após um lance confirmado e válido e permanece inalterada nos demais casos. |
-| RF07 | O sistema deve sinalizar visual e sonoramente a rejeição de uma jogada. | Uma jogada rejeitada produz ambas as sinalizações de erro. |
-| RF08 | O sistema deve permitir a seleção da peça de promoção entre dama, torre, bispo e cavalo. | O terminal aceita Q/R/B/N e uma nova confirmação aplica a peça escolhida. |
-| RF09 | O sistema deve permitir o encerramento manual da partida, inclusive por abandono. | A partida pode ser encerrada sem a realização de outro lance, e o encerramento é refletido em seu registro. |
-| RF10 | O sistema deve reconhecer condições de encerramento da partida por meio da biblioteca de xadrez integrada. | As condições de encerramento suportadas pela biblioteca são identificadas quando ocorrem. |
-| RF11 | O sistema deve registrar os lances válidos em notação algébrica padrão (SAN) e gerar o arquivo da partida em formato PGN. | O arquivo PGN contém, na ordem correta, os lances aceitos com a notação correspondente. |
-| RF12 | O sistema deve salvar automaticamente o PGN no computador. | Um encerramento publica um novo arquivo e uma falha permite nova tentativa sem perder o registro. |
-| RF13 | O OLED opcional deve informar vez, último lance, rejeição, xeque e encerramento. | Ausência ou erro de comunicação do display permite continuar a partida pelo terminal enquanto o barramento da matriz estiver operacional. |
+| ID | Comportamento verificável |
+| --- | --- |
+| RF01 | Cada reed indica a ocupação de sua casa. |
+| RF02 | Transições estáveis, inclusive a retirada da peça capturada, ficam disponíveis até a confirmação. |
+| RF03 | O comando USB `confirm` inicia a interpretação do movimento físico. |
+| RF04 | A ocupação e o histórico permitem identificar um candidato único na posição oficial. |
+| RF05 | A validação cobre capturas, roque, en passant e promoção. |
+| RF06 | Apenas lances confirmados e legais atualizam a posição. |
+| RF07 | LED vermelho e buzzer sinalizam rejeição. |
+| RF08 | O jogador escolhe Q/R/B/N pelo terminal e confirma a promoção. |
+| RF09 | O terminal permite encerrar a partida ou registrar abandono. |
+| RF10 | Mate, afogamento e material insuficiente reconhecido pela THC encerram a partida. |
+| RF11 | O PGN contém os lances aceitos em SAN e o resultado correspondente. |
+| RF12 | O terminal salva o PGN automaticamente em arquivo novo e permite repetir uma gravação pendente. |
+| RF13 | O OLED opcional mostra vez, último lance, rejeição, xeque e encerramento. A partida prossegue sem a tela enquanto o barramento da matriz estiver operacional. |
 
 ## Requisitos não funcionais
 
-| ID | Requisito | Critério de aceitação |
-| --- | --- | --- |
-| RNF01 | O sensoriamento deve distinguir de forma confiável a ocupação das casas, sem acionamentos indevidos de casas adjacentes. | Nas condições de operação verificadas, a presença de uma peça é detectada na casa correspondente sem gerar leituras falsas nas casas vizinhas. |
-| RNF02 | O firmware deve separar as responsabilidades de sensoriamento, acompanhamento e interpretação de jogadas, regras de xadrez, interface e registro da partida. | O código apresenta módulos ou componentes identificáveis para essas responsabilidades, permitindo sua verificação separada. |
-| RNF03 | Os circuitos e módulos conectados ao ESP32 devem utilizar alimentação e níveis elétricos compatíveis. | As tensões de alimentação e de sinal respeitam as especificações dos componentes conectados. |
+| ID | Critério |
+| --- | --- |
+| RNF01 | Uma peça aciona apenas a casa correspondente nas condições de montagem ensaiadas. |
+| RNF02 | Aquisição, interpretação, regras, controle, interface e registro têm responsabilidades identificáveis e podem ser verificados separadamente. |
+| RNF03 | Alimentação e sinais respeitam os limites dos componentes. A validação elétrica exige medição na montagem. |

@@ -29,7 +29,7 @@ class GameRecord {
   RecordStatus begin(const ChessAdapter& initial,
                      const GameMetadata& metadata = GameMetadata{});
   RecordStatus record(const ChessAdapter& before, const ConfirmationResult& confirmation,
-                      const ChessAdapter& after);
+                      const ChessAdapter& after, GameEnd ending = {});
   RecordStatus finish(const ChessAdapter& official, GameEnd ending);
 
   bool started() const;
@@ -45,9 +45,7 @@ class GameRecord {
   std::string expectedFen_;
   std::string movetext_;
   std::string lastSan_;
-  std::uint32_t fullmove_ = 1;
   std::size_t plyCount_ = 0;
-  Color nextSide_ = Color::White;
   GameEnd ending_{};
   bool customStart_ = false;
 };

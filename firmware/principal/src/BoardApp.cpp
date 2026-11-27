@@ -17,7 +17,6 @@ bool BoardApp::start(const ChessAdapter& initial) {
   record_ = std::move(nextRecord);
   fault_ = RecordStatus::Ok;
   haveRaw_ = haveStable_ = rejecting_ = saved_ = false;
-  inCheck_ = initial.status().inCheck;
   return true;
 }
 
@@ -64,18 +63,12 @@ ConfirmationStatus BoardApp::confirm(std::uint32_t now) {
   GameController next = game_;
   const auto confirmation = next.confirm();
   if (confirmation.status == ConfirmationStatus::Accepted) {
-    GameRecord nextRecord = record_;
-    auto result = nextRecord.record(game_.position(), confirmation, next.position());
-    if (result == RecordStatus::Ok && next.state() == GameState::Finished)
-      result = nextRecord.finish(next.position(), next.ending());
+    const auto result = record_.record(game_.position(), confirmation, next.position(), next.ending());
     if (result != RecordStatus::Ok) {
       fault_ = result;
       reject(now);
       return ConfirmationStatus::ApplyFailed;
     }
-    record_ = std::move(nextRecord);
-    const char suffix = record_.lastSan().back();
-    inCheck_ = suffix == '+' || suffix == '#';
     rejecting_ = false;
   }
   game_ = std::move(next);

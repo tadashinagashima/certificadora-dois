@@ -165,20 +165,19 @@ void SerialGame::inputLost() {
 void SerialGame::advance(std::uint32_t duration) {
   while (duration) {
     const auto step = duration > 5 ? 5U : duration;
-    simNow_ += step;
+    now_ += step;
     duration -= step;
-    if (simAvailable_ && simNow_ - simSampleAt_ >= board::SCAN_INTERVAL_MS) {
-      simSampleAt_ = simNow_;
-      app_.sample(simRaw_, simNow_);
+    if (simAvailable_ && now_ - simSampleAt_ >= board::SCAN_INTERVAL_MS) {
+      simSampleAt_ = now_;
+      app_.sample(simRaw_, now_);
     }
-    app_.tick(simNow_);
+    app_.tick(now_);
   }
-  now_ = simNow_;
 }
 
 std::string SerialGame::status() const {
   const auto attempt = app_.game().attempt();
-  const auto position = app_.game().position().status();
+  const auto& position = app_.game().positionStatus();
   std::string output = std::string("STATE ") + name(app_.game().state()) + " fault=" + name(app_.fault()) +
       " plies=" + std::to_string(app_.record().plyCount()) + " promotion=" + name(app_.game().selectedPromotion()) +
       " record_finished=" + std::to_string(app_.record().finished()) +
@@ -199,12 +198,11 @@ std::string SerialGame::status() const {
 }
 
 std::string SerialGame::command(const std::string& line, std::uint32_t now) {
-  now_ = simulation_ ? simNow_ : now;
-  const auto previous = session_;
-  const bool finished = app_.record().finished();
+  if (!simulation_) now_ = now;
+  const bool wasPending = app_.record().finished() && !app_.saved();
   auto reply = dispatch(line);
   if (app_.record().finished() && !app_.saved() &&
-      (!finished || session_ != previous || line == "status" || line == "save")) {
+      (!wasPending || line == "status" || line == "save")) {
     const auto pgn = app_.record().pgn();
     reply += "SAVE_PENDING " + sessionId() + " " + std::to_string(pgn.size()) +
              " " + std::to_string(crc32(pgn)) + "\n";

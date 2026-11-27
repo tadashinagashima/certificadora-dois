@@ -2,12 +2,11 @@
 
 #include <GameRecord.h>
 #include <array>
-#include <string>
 #include "../../board_config.h"
 
 namespace principal {
 
-struct Indicators { bool green = false, red = false, buzzer = false; };
+using board::Indicators;
 
 // Shared by ESP32 and the simulator. One owner, no calls from interrupts.
 class BoardApp {
@@ -24,7 +23,6 @@ class BoardApp {
   void acknowledgeSave() { saved_ = record_.finished(); }
   bool rejecting() const { return rejecting_; }
   bool readingAvailable() const { return haveStable_; }
-  bool inCheck() const { return inCheck_; }
   Indicators indicators(std::uint32_t now) const;
   bool settled(std::uint32_t now) const;
 
@@ -41,7 +39,7 @@ class BoardApp {
   std::array<std::uint32_t, 64> changed_{};
   bool haveRaw_ = false, haveStable_ = false;
   std::uint32_t lastSample_ = 0;
-  bool saved_ = false, inCheck_ = false;
+  bool saved_ = false;
   bool rejecting_ = false;
   std::uint32_t rejectedAt_ = 0;
 };

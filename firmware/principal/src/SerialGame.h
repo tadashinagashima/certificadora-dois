@@ -25,7 +25,7 @@ class SerialGame {
   void advance(std::uint32_t duration);
   BoardApp app_;
   bool simulation_;
-  std::uint32_t now_ = 0, simNow_ = 0, simSampleAt_ = 0;
+  std::uint32_t now_ = 0, simSampleAt_ = 0;
   chessboard::Occupancy simRaw_ = 0;
   bool simAvailable_ = false;
   std::uint64_t bootId_;

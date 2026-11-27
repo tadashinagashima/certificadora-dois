@@ -40,7 +40,7 @@ Cada casa conecta `ROW → anodo 1N4148 → catodo → reed → COL`. A faixa do
 
 **R16…R23 são oito pull-ups de 47 kΩ**, um entre cada ROW e 3V3_IO; a equipe confirmou seu estoque. As linhas chegam diretamente ao MCP e ficam LOW quando a casa da coluna selecionada está ocupada. Não adicionar pull-ups de 10 kΩ em paralelo.
 
-A varredura mantém `OLATA=OLATB=0` e `GPPU=0`, libera a coluna anterior e seleciona apenas uma saída LOW; as demais ficam em alta impedância. GPA7/GPB7 são usados somente como colunas, conforme o [datasheet MCP23017, revisão D](https://ww1.microchip.com/downloads/aemDocuments/documents/APID/ProductDocuments/DataSheets/MCP23017-Data-Sheet-DS20001952.pdf). O diagnóstico espera inicialmente **300 µs** antes da leitura, a conferir com a fiação real.
+A varredura mantém `OLATA=OLATB=0` e `GPPU=0`, libera a coluna anterior e seleciona apenas uma saída LOW; as demais ficam em alta impedância. GPA7/GPB7 são usados somente como colunas, conforme o [datasheet MCP23017, revisão D](https://ww1.microchip.com/downloads/aemDocuments/documents/APID/ProductDocuments/DataSheets/MCP23017-Data-Sheet-DS20001952.pdf). A aplicação e o diagnóstico aguardam **300 µs** antes da leitura de cada coluna. Confira a acomodação na fiação real.
 
 ### Periféricos
 
@@ -113,7 +113,7 @@ A exportação não salva nem substitui o FCStd; os resultados ficam em `hardwar
 ## Conferência antes de fabricar e usar
 
 1. Sem energia, verificar continuidade, curtos, faixa dos diodos, terras, pinagem real dos módulos e pull-ups I²C existentes.
-2. Montar piloto 3×3 com passo 37,5 mm, vidro e bases reais. Cada peça deve acionar só sua casa e liberar ao ser retirada, inclusive perto das fronteiras e com vizinhos. Ajustar altura/orientação antes dos 64 furos; não forçar o vidro dos reeds.
+2. Na matriz já soldada, testar o acionamento com as bases reais e o vidro na altura prevista. Cada peça deve acionar só sua casa e liberar ao ser retirada, inclusive perto das fronteiras e com vizinhos.
 3. Com os 47 kΩ, usar `v` do diagnóstico para medir VDD, coluna e ROW com zero, um e oito contatos fechados. Exigir ROW ocupada <0,2×VDD e vazia >0,8×VDD (0,66/2,64 V a 3,3 V), com margem. Não usar média da varredura no multímetro como nível LOW.
 4. Retomar a varredura e testar todas as casas, cantos, colunas g/h, posição inicial e retângulos de três/quatro contatos. Não devem existir casas fantasma ou instabilidade. Conferir acomodação dos 300 µs com a fiação real.
 5. Com o USB e cabo da demonstração, medir o 3V3 na placa e nos módulos durante varredura, atualização do OLED e teste `t`. Conferir 3,0…3,6 V, aquecimento e ausência de resets ou desconexões.

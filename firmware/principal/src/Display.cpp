@@ -49,7 +49,7 @@ const char* stateText(const BoardApp& app) {
   if (app.rejecting()) return "Lance rejeitado";
   if (app.game().state() == GameState::AwaitingPosition) return "Reponha as pecas";
   if (app.game().state() == GameState::AwaitingPromotion) return "Promova no PC";
-  return app.inCheck() ? "XEQUE" : "Em jogo";
+  return app.game().positionStatus().inCheck ? "XEQUE" : "Em jogo";
 }
 }
 

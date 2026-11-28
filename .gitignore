@@ -38,3 +38,8 @@ fp-info-cache
 *.asta.lock
 *.asta.bak
 *.class
+
+# Recursos locais de desenvolvimento
+.codex-attachments/
+.vs/
+/firmware/*/tests/

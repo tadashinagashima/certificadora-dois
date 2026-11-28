@@ -9,7 +9,7 @@ namespace arcade {
 struct Frame {
   uint8_t pages[8][128]{};
   void dot(int x, int y);
-  void text(const char* value, int x, int y, int scale = 1);
+  void text(const char* value, int x, int y, int scale = 1, bool marquee = false);
   void center(const char* value, int y, int scale = 1);
 };
 

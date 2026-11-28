@@ -8,6 +8,7 @@ namespace {
 
 const char* name(GameState value) {
   switch (value) {
+    case GameState::AwaitingCapture: return "AwaitingCapture";
     case GameState::AwaitingPosition: return "AwaitingPosition";
     case GameState::Tracking: return "Tracking";
     case GameState::AwaitingPromotion: return "AwaitingPromotion";
@@ -31,7 +32,11 @@ const char* name(RecordStatus value) {
 }
 const char* name(ConfirmationStatus value) {
   switch (value) {
+    case ConfirmationStatus::VerifyCapture: return "VerifyCapture";
+    case ConfirmationStatus::Incomplete: return "Incomplete";
+    case ConfirmationStatus::Settling: return "Settling";
     case ConfirmationStatus::Accepted: return "Accepted";
+    case ConfirmationStatus::UnexpectedPromotion: return "UnexpectedPromotion";
     case ConfirmationStatus::NoMove: return "NoMove";
     case ConfirmationStatus::NoLegalMatch: return "NoLegalMatch";
     case ConfirmationStatus::Ambiguous: return "Ambiguous";
@@ -159,6 +164,7 @@ std::string SerialGame::start(const std::string& scenario, const Tutorial* lesso
 }
 
 std::string SerialGame::confirm() {
+  if (simulation_ && simAvailable_) advance(board::SCAN_INTERVAL_MS + board::REED_DEBOUNCE_MS);
   const auto result = app_.confirm(now_);
   if (app_.fault() != RecordStatus::Ok) return fault(app_.fault());
   return std::string("CONFIRM ") + name(result) + "\n";
@@ -211,6 +217,17 @@ std::string SerialGame::status() const {
       " red=" + std::to_string(lights.red) + " buzzer=" + std::to_string(lights.buzzer) +
       " saved=" + std::to_string(app_.saved()) + " check=" + std::to_string(position.inCheck) +
       " last=" + (app_.record().lastSan().empty() ? "-" : app_.record().lastSan()) + "\n";
+  if (app_.game().state() == GameState::AwaitingCapture) {
+    output += "CAPTURE";
+    for (Square sq = 0; sq < 64; ++sq) {
+      if (app_.game().captureTargets() & (Occupancy{1} << sq)) {
+        output += ' ';
+        output += board::squareFile(sq);
+        output += board::squareRank(sq);
+      }
+    }
+    output += '\n';
+  }
   if (app_.computerMode()) {
     output += "MODE cpu\n";
     if (app_.suggestedMove().from != kInvalidSquare)

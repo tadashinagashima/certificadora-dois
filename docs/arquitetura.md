@@ -1,6 +1,6 @@
 # Arquitetura e requisitos
 
-O produto acompanha a ocupação de um tabuleiro 8×8, interpreta as transições estáveis quando o jogador confirma com Enter e registra lances legais em PGN. Reeds detectam presença; não identificam peças. A posição lógica e o histórico de transições são informações distintas.
+O produto acompanha a ocupação de um tabuleiro 8×8, combina a posição legal com a ocupação observada quando o jogador confirma com Enter e registra lances legais em PGN. Reeds detectam presença; não identificam peças. A posição lógica e o histórico de transições são informações distintas.
 
 ## Organização
 
@@ -32,9 +32,9 @@ A montagem adota USB do computador, regulador da DevKit V1, matriz direta e oito
 
 O firmware da partida e o diagnóstico usam o mesmo [driver da matriz](../firmware/BoardHardware.h). O simulador substitui os contatos por leituras com relógio virtual e usa o mesmo filtro e o mesmo protocolo da placa.
 
-Ao receber a confirmação do jogador com leitura estável, a aplicação experimenta o lance numa cópia do Controle. O Registro verifica o lance, a posição resultante e o eventual encerramento antes de acrescentar o SAN. Só então a aplicação adota a nova posição. Uma rejeição mantém o tabuleiro lógico e o PGN no estado anterior. A reposição da ocupação oficial, confirmada pelo filtro, libera a próxima tentativa.
+A cada Enter, o interpretador compara a ocupação final com a de todos os lances legais gerados pela THC. Num roque são quatro casas alteradas. Numa captura comum, o destino já estava ocupado, por isso a saída e o pouso ajudam a identificar a vítima. Se o jogador precisar esclarecer o destino, o controle conserva a posição e pede um gesto local. Uma posição ilegal ou uma perda real de aquisição exige reposição.
 
-Dois jogadores, máquina e tutorial usam o mesmo filtro, interpretador, registro e porta USB. Para a máquina, a sugestão vem da lista ordenada da THC. Para uma lição, a posição inicial e os passos pertencem a um roteiro fixo na placa. Em ambos os casos, o controle compara o lance físico identificado com o indicado antes de aplicá-lo. Cada passo avança somente quando o registro aceita o lance.
+Dois jogadores, máquina e tutoriais usam o mesmo caminho de confirmação. A máquina escolhe uma resposta entre os lances ordenados da THC. Os tutoriais fornecem uma FEN e uma sequência de movimentos físicos. A sugestão é conferida após a identificação do gesto. O controle aplica o lance numa cópia da posição e o registro confere o SAN, a posição resultante e o resultado antes de publicar a jogada.
 
 O computador confirma a gravação somente depois de verificar e publicar o PGN. Enquanto aguarda essa confirmação, o ESP32 conserva a partida encerrada em RAM. O [guia de firmware](firmware.md) descreve a recuperação e os comandos. O [modelo Astah](diagramas/tabuleiro-xadrez-sensorial.asta) preserva os diagramas editáveis da concepção original.
 
@@ -43,11 +43,11 @@ O computador confirma a gravação somente depois de verificar e publicar o PGN.
 | ID | Comportamento verificável |
 | --- | --- |
 | RF01 | Cada reed indica a ocupação de sua casa. |
-| RF02 | Transições estáveis, inclusive a retirada da peça capturada, ficam disponíveis até completar a jogada ou voltar à posição oficial. |
+| RF02 | A aquisição preserva transições estáveis e vacâncias breves relevantes para distinguir capturas. |
 | RF03 | Enter no terminal solicita a interpretação da tentativa. A espera ou o pouso isolado preservam a vez. |
 | Modo máquina | A aplicação guarda a sugestão legal das pretas. O terminal e o OLED mostram a origem e o destino, e o controle verifica a execução física antes de registrar a resposta. |
 | Tutorial | Selecionar e reiniciar roque, promoção ou en passant. O terminal orienta a montagem e cada ação física. O último passo encerra o registro da lição. |
-| RF04 | A ocupação e o histórico permitem identificar um candidato único na posição oficial. |
+| RF04 | A confirmação exige um candidato identificável na posição oficial. Um destino de captura indistinguível pode ser esclarecido levantando e recolocando a peça. |
 | RF05 | A validação cobre capturas, roque, en passant e promoção. |
 | RF06 | Apenas lances confirmados e legais atualizam a posição. |
 | RF07 | LED vermelho e buzzer sinalizam rejeição. |
@@ -56,7 +56,7 @@ O computador confirma a gravação somente depois de verificar e publicar o PGN.
 | RF10 | Mate, afogamento e material insuficiente reconhecido pela THC encerram a partida. |
 | RF11 | O PGN contém os lances aceitos em SAN e o resultado correspondente. |
 | RF12 | O terminal salva o PGN automaticamente em arquivo novo e permite repetir uma gravação pendente. |
-| RF13 | O OLED opcional mostra vez, último lance, rejeição, xeque e encerramento. A partida prossegue sem a tela enquanto o barramento da matriz estiver operacional. |
+| RF13 | Os dois OLEDs coordenam vez, lances, tutoriais, reposição e encerramento. A aquisição e o PGN funcionam com um painel ausente. |
 
 ## Requisitos não funcionais
 

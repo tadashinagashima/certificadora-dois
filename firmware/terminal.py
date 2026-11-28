@@ -44,6 +44,10 @@ HELP = """Comandos de partida
   ajuda / sair      Mostra esta ajuda / fecha o terminal."""
 
 HINTS = {
+    "CONFIRM UnexpectedPromotion": "Coloque a peça indicada e pressione Enter para escolher a promoção novamente.",
+    "CONFIRM VerifyCapture": "Levante e recoloque a peça que capturou na casa final. Depois pressione Enter.",
+    "CONFIRM Incomplete": "Complete o movimento na mesa e pressione Enter novamente.",
+    "CONFIRM Settling": "A leitura ainda oscila. Centralize as peças e pressione Enter novamente.",
     "CONFIRM Accepted": "Lance aceito.",
     "CONFIRM UnexpectedMove": "Reponha a posição anterior e execute o lance indicado.",
     "CONFIRM NoMove": "Nenhum movimento detectado.",
@@ -153,7 +157,12 @@ def show_position(lines, notice=""):
     print()
     rail = [colored(f"{number}  ·  {side}" + (f"  ·  {player}" if player else ""), CYAN),
             f"Último lance   {io['last']}", ""]
-    if state == "Finished":
+    if state == "AwaitingCapture":
+        targets = sections.get("CAPTURE", "").upper().split()
+        rail += [colored("CONFIRA A CAPTURA", YELLOW), "Levante e recoloque a peça que capturou.",
+                 "Casas possíveis   " + " ".join(targets), "Pressione Enter após o pouso.",
+                 "Para cancelar, reponha a posição do desenho."]
+    elif state == "Finished":
         reason, result = sections["ENDING"].split()
         endings = {"Manual": "Encerramento manual", "Checkmate": "Xeque-mate", "Stalemate": "Afogamento",
                    "InsufficientMaterial": "Material insuficiente", "Resignation": "Abandono"}
@@ -192,7 +201,9 @@ def show_position(lines, notice=""):
         cells = []
         for x, piece in enumerate(squares):
             coord = f"{'ABCDEFGH'[x]}{8-y}"
-            if coord == move[:2]:
+            if state == "AwaitingCapture" and coord in targets:
+                cells.append(colored(f"({piece})", "30;48;5;221"))
+            elif coord == move[:2]:
                 cells.append(colored(f"[{piece}]", "97;48;5;25"))
             elif coord == move[3:5]:
                 cells.append(colored(f"({piece if piece != '.' else '+'})", "30;48;5;221"))
@@ -204,7 +215,10 @@ def show_position(lines, notice=""):
     print("    A  B  C  D  E  F  G  H")
     for line in rail[8:] if wide else rail:
         print(line)
-    print("   Maiúsculas · brancas     Minúsculas · pretas")
+    if state == "AwaitingCapture":
+        print("   Diagrama da última posição aceita · ( ) casas de captura")
+    else:
+        print("   Maiúsculas · brancas     Minúsculas · pretas")
     if state == "AwaitingPosition":
         print("   R rei · D dama · T torre · B bispo · C cavalo · P peão")
     if lesson:
@@ -214,7 +228,7 @@ def show_position(lines, notice=""):
         print(colored(notice, RED if restoring or notice.startswith("PGN pendente") else GREEN if notice.startswith(("Lance aceito", "PGN gravado")) else YELLOW))
     if flags["fault"] != "Ok":
         print(colored(f"Falha de registro: {flags['fault']}", RED))
-    if state != "Finished" and (flags["interrupted"] == "1" or flags["overflow"] == "1"):
+    if state != "Finished" and flags["interrupted"] == "1":
         print(colored("Leitura interrompida. Reponha a última posição aceita.", YELLOW))
     show_squares(sections["OCC"], setup=state == "AwaitingPosition")
     offline = [label for key, label in (("OLED", "direita · 0x3C"), ("OLED_TABULEIRO", "esquerda · 0x3D"))
@@ -400,7 +414,7 @@ def interact(writer, reader, args):
         if panel:
             # Ignore blinking indicators and intermediate lifts while a move is in flight.
             key = tuple(line.split(" frames=")[0] for line in lines
-                        if line.startswith(("STATE ", "FEN ", "CPU ", "MODE ", "WHITE_NAME ", "BLACK_NAME ", "OLED", "LESSON ", "RESTORE ", "TARGET ", "CUE ")))
+                        if line.startswith(("STATE ", "FEN ", "CPU ", "MODE ", "WHITE_NAME ", "BLACK_NAME ", "OLED", "LESSON ", "RESTORE ", "TARGET ", "CUE ", "CAPTURE ")))
             if any(line.startswith("STATE AwaitingPosition") for line in lines):
                 key += tuple(line for line in lines if line.startswith("OCC "))
             if changes_only and key == last_panel and not (offer and save_offered):

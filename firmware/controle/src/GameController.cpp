@@ -20,35 +20,73 @@ void GameController::observe(Occupancy occupancy, std::uint32_t timestampMs) {
   }
   tracker_.observe(occupancy, timestampMs);
 
-  if (state_ == GameState::AwaitingPosition && occupancy == position_.occupancy()) {
+  if ((state_ == GameState::AwaitingPosition || state_ == GameState::AwaitingCapture) &&
+      occupancy == position_.occupancy()) {
+    captureTargets_ = 0;
     tracker_.discardAttempt();
     state_ = GameState::Tracking;
   }
 }
 
+// Reacquire the endpoint after a scheduling gap or an explicit request to
+// witness a capture. Crossing the gap creates no evidence of a replacement.
+void GameController::resumeObservation(Occupancy occupancy, std::uint32_t now) {
+  if (state_ != GameState::AwaitingPosition && state_ != GameState::Finished) {
+    tracker_ = MoveTracker{};
+    tracker_.observe(position_.occupancy(), now);
+    selection_ = Promotion::None;
+    if (state_ != GameState::AwaitingCapture) state_ = GameState::Tracking;
+  }
+  observe(occupancy, now);
+}
+
 void GameController::markInputInterrupted() {
   if (state_ == GameState::Finished) return;
   tracker_.markInputInterrupted();
+  captureTargets_ = 0;
   selection_ = Promotion::None;
   state_ = GameState::AwaitingPosition;
 }
 
-ConfirmationResult GameController::confirm(const Move* expected, bool useSuggestedPromotion) {
+ConfirmationResult GameController::confirm(const Move* expected, bool useSuggestedPromotion, Occupancy briefLandings) {
   if (state_ == GameState::Finished) return {ConfirmationStatus::GameFinished, {}};
 
-  const auto snapshot = tracker_.snapshot();
+  auto snapshot = tracker_.snapshot();
   if (state_ == GameState::AwaitingPosition) {
     return {snapshot.reliable() ? ConfirmationStatus::PositionMismatch
                                 : ConfirmationStatus::UnreliableInput, {}};
   }
 
+  if (snapshot.historyOverflow && !snapshot.inputInterrupted && snapshot.readingAvailable) {
+    resumeObservation(snapshot.currentOccupancy, 0);
+    snapshot = tracker_.snapshot();
+    briefLandings = 0;
+  }
+  if (state_ == GameState::AwaitingCapture && snapshot.currentOccupancy != capturePosition_)
+    return {ConfirmationStatus::Incomplete, {}};
+
   const auto piece = expected && selection_ == Promotion::None ? expected->promotion : selection_;
-  const auto interpretation = interpretMove(snapshot, position_, piece);
+  const auto interpretation = interpretMove(snapshot, position_, piece, briefLandings,
+                                            state_ == GameState::AwaitingCapture);
   ConfirmationStatus failure = ConfirmationStatus::ApplyFailed;
   switch (interpretation.status) {
     case InterpretationStatus::Identified:
-      if (expected && (expected->from != interpretation.move.from || expected->to != interpretation.move.to ||
-                       expected->promotion != interpretation.move.promotion)) {
+      if (expected && expected->from == interpretation.move.from && expected->to == interpretation.move.to &&
+          expected->promotion != interpretation.move.promotion) {
+        selection_ = Promotion::None;
+        state_ = GameState::AwaitingPromotion;
+        return {ConfirmationStatus::UnexpectedPromotion, {}};
+      }
+      if (expected && (expected->from != interpretation.move.from || expected->to != interpretation.move.to)) {
+        // In a guided castle the rook alone can also be an ordinary legal move.
+        const auto king = position_.pieceAt(expected->from);
+        const int delta = int(expected->to) - int(expected->from);
+        if ((king == Piece::WhiteKing || king == Piece::BlackKing) && (delta == 2 || delta == -2)) {
+          const int rank = expected->from & 56;
+          if (interpretation.move.from == rank + (delta == 2 ? 7 : 0) &&
+              interpretation.move.to == rank + (delta == 2 ? 5 : 3))
+            return {ConfirmationStatus::Incomplete, {}};
+        }
         failure = ConfirmationStatus::UnexpectedMove;
         break;
       }
@@ -58,6 +96,7 @@ ConfirmationResult GameController::confirm(const Move* expected, bool useSuggest
         return {ConfirmationStatus::PromotionRequired, {}};
       }
       if (position_.apply(interpretation.move)) {
+        captureTargets_ = 0;
         tracker_.discardAttempt();
         selection_ = Promotion::None;
         state_ = GameState::Tracking;
@@ -80,7 +119,16 @@ ConfirmationResult GameController::confirm(const Move* expected, bool useSuggest
     case InterpretationStatus::NoLegalMatch:
       failure = ConfirmationStatus::NoLegalMatch;
       break;
+    case InterpretationStatus::Incomplete:
+      return {ConfirmationStatus::Incomplete, {}};
     case InterpretationStatus::Ambiguous:
+      if (interpretation.captureTargets) {
+        resumeObservation(snapshot.currentOccupancy, 0);
+        capturePosition_ = snapshot.currentOccupancy;
+        captureTargets_ = interpretation.captureTargets;
+        state_ = GameState::AwaitingCapture;
+        return {ConfirmationStatus::VerifyCapture, {}};
+      }
       failure = ConfirmationStatus::Ambiguous;
       break;
     case InterpretationStatus::UnreliableInput:
@@ -91,6 +139,7 @@ ConfirmationResult GameController::confirm(const Move* expected, bool useSuggest
       break;
   }
 
+  captureTargets_ = 0;
   // Keep the rejected attempt until a new observation matches the official position.
   selection_ = Promotion::None;
   state_ = GameState::AwaitingPosition;
@@ -138,6 +187,7 @@ void GameController::checkAutomaticEnd() {
 }
 
 void GameController::end(EndReason reason, GameResult result) {
+  captureTargets_ = 0;
   state_ = GameState::Finished;
   ending_ = {reason, result};
   selection_ = Promotion::None;

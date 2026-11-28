@@ -33,7 +33,11 @@ class BoardApp {
   chessboard::ConfirmationStatus restoreReason() const { return restoreReason_; }
   const Tutorial* tutorial() const { return lesson_; }
   const LessonStep* step() const;
+  std::uint32_t lastMoveAt() const { return lastMoveAt_; }
+  chessboard::Piece lastVictim() const { return lastVictim_; }
+  const chessboard::Move& lastMove() const { return lastMove_; }
   bool lastEnPassant() const { return lastEnPassant_; }
+  bool incomplete() const { return incomplete_; }
   bool readingAvailable() const { return haveStable_; }
   chessboard::Occupancy sensorOccupancy() const { return filtered_; }
   Indicators indicators(std::uint32_t now) const;
@@ -54,7 +58,11 @@ class BoardApp {
   chessboard::Occupancy raw_ = 0, filtered_ = 0;
   std::array<std::uint32_t, 64> changed_{};
   bool haveRaw_ = false, haveStable_ = false, allDebounced_ = false;
-  std::uint32_t lastSample_ = 0;
+  std::uint32_t lastSample_ = 0, lastMoveAt_ = 0;
+  chessboard::Move lastMove_{};
+  chessboard::Piece lastVictim_ = chessboard::Piece::Empty;
+  chessboard::Occupancy briefOrigin_ = 0, briefLandings_ = 0;
+  bool requalifying_ = false, incomplete_ = false;
   const Tutorial* lesson_ = nullptr;
   chessboard::ConfirmationStatus restoreReason_ = chessboard::ConfirmationStatus::NoMove;
   bool lastEnPassant_ = false;

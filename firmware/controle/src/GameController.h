@@ -4,7 +4,7 @@
 
 namespace chessboard {
 
-enum class GameState { AwaitingPosition, Tracking, AwaitingPromotion, Finished };
+enum class GameState { AwaitingPosition, Tracking, AwaitingCapture, AwaitingPromotion, Finished };
 enum class GameResult { Ongoing, WhiteWin, BlackWin, Draw, Unfinished };
 enum class EndReason { None, Checkmate, Stalemate, InsufficientMaterial, Resignation, Manual };
 
@@ -15,7 +15,7 @@ struct GameEnd {
 
 enum class ConfirmationStatus {
   Accepted, NoMove, NoLegalMatch, Ambiguous, PromotionRequired,
-  UnreliableInput, PositionMismatch, ApplyFailed, GameFinished, UnexpectedMove
+  UnreliableInput, PositionMismatch, ApplyFailed, GameFinished, UnexpectedMove, Settling, Incomplete, VerifyCapture, UnexpectedPromotion
 };
 
 struct ConfirmationResult {
@@ -32,8 +32,11 @@ class GameController {
   void reset();
   void observe(Occupancy occupancy, std::uint32_t timestampMs);
   void markInputInterrupted();
+  void resumeObservation(Occupancy occupancy, std::uint32_t now);
+  Occupancy captureTargets() const { return captureTargets_; }
   void clearAttempt() { tracker_.discardAttempt(); }
-  ConfirmationResult confirm(const Move* expected = nullptr, bool useSuggestedPromotion = false);
+  ConfirmationResult confirm(const Move* expected = nullptr, bool useSuggestedPromotion = false,
+                             Occupancy briefLandings = 0);
   bool selectPromotion(Promotion selection);
   bool resign(Color player);
   bool finish();
@@ -55,6 +58,7 @@ class GameController {
   GameState state_ = GameState::AwaitingPosition;
   Promotion selection_ = Promotion::None;
   GameEnd ending_{};
+  Occupancy captureTargets_ = 0, capturePosition_ = 0;
 };
 
 }  // namespace chessboard

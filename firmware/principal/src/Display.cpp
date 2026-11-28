@@ -7,15 +7,14 @@ namespace principal {
 namespace display {
 namespace {
 using arcade::Frame;
-constexpr unsigned chunkBytes = 64;
-constexpr unsigned chunks = 1024 / chunkBytes;
+constexpr unsigned frameBytes = 1024;
 constexpr uint32_t probeMs = 3000;
 
 struct Panel {
   u8x8_t device{};
   uint8_t address;
   Frame target{}, sent{};
-  unsigned chunk = chunks;
+  unsigned offset = frameBytes;
   bool online = false, repaint = true;
   uint8_t error = 0;
   uint32_t probed = 0;
@@ -64,14 +63,16 @@ void probe(Panel& panel, uint32_t now) {
   u8x8_SetI2CAddress(&panel.device, panel.address << 1);
   u8x8_InitDisplay(&panel.device); // SSD1315 stays dark until its first complete frame.
   panel.repaint = true;
-  panel.chunk = chunks;
+  panel.offset = frameBytes;
 }
 
-bool pending(const Panel& panel) { return panel.online && panel.chunk < chunks; }
+bool pending(const Panel& panel) { return panel.online && panel.offset < frameBytes; }
 
 void flushChunk(Panel& panel) {
   while (pending(panel)) {
-    const unsigned offset = panel.chunk++ * chunkBytes;
+    const unsigned chunkBytes = frequency == 100000 ? 32 : 64;
+    const unsigned offset = panel.offset;
+    panel.offset += chunkBytes;
     auto* src = &panel.target.pages[offset / 128][offset % 128];
     auto* dst = &panel.sent.pages[offset / 128][offset % 128];
     unsigned first = 0, end = chunkBytes;
@@ -84,7 +85,7 @@ void flushChunk(Panel& panel) {
                   (end - first) / 8, src + first);
     if (!panel.online) return;
     std::memcpy(dst + first, src + first, end - first);
-    if (panel.chunk == chunks && panel.repaint) {
+    if (panel.offset == frameBytes && panel.repaint) {
       u8x8_SetPowerSave(&panel.device, 0);
       panel.repaint = false;
     }
@@ -133,7 +134,7 @@ void update(const BoardApp& app, uint32_t now) {
     if (now - frameAt < 40) return;
     arcade::render(left.target, right.target, app, now);
     frameAt = now;
-    left.chunk = right.chunk = 0;
+    left.offset = right.offset = 0;
   }
 
   // Yield to acquisition between bursts, even at 100 kHz. A slow panel

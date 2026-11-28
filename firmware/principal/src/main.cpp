@@ -1,5 +1,6 @@
 #include <Arduino.h>
 #include <atomic>
+#include <algorithm>
 #include "SerialGame.h"
 #include "../../BoardHardware.h"
 #include "Display.h"
@@ -13,7 +14,10 @@ principal::LineReceiver receiver;
 board::Hardware hardware;
 std::uint32_t lastScan = 0, lastRetry = 0;
 std::atomic<bool> uartError{false};
-std::uint32_t lastByteMs = 0;
+std::uint32_t lastByteMs = 0, confirmAt = 0;
+bool confirming = false;
+std::string reply;
+std::size_t sent = 0;
 
 void acquire() {
   lastScan = millis();
@@ -22,10 +26,63 @@ void acquire() {
   else game->app().inputLost();
 }
 
-void metrics() {
-  Serial.printf("METRICS heap_bytes=%u heap_min_bytes=%u stack_free_bytes=%u\n",
-      unsigned(ESP.getFreeHeap()), unsigned(ESP.getMinFreeHeap()),
-      unsigned(uxTaskGetStackHighWaterMark(nullptr)));
+void respond(const std::string& line) {
+  char info[160];
+  if (line == "metrics") {
+    std::snprintf(info, sizeof(info), "METRICS heap_bytes=%u heap_min_bytes=%u stack_free_bytes=%u\n",
+        unsigned(ESP.getFreeHeap()), unsigned(ESP.getMinFreeHeap()),
+        unsigned(uxTaskGetStackHighWaterMark(nullptr)));
+    reply = info;
+  } else if (line == "oled 100" || line == "oled 400") {
+    const bool ready = principal::display::setFrequency(line == "oled 100" ? 100000 : 400000);
+    reply = ready ? "OK oled\n" : "ERROR OledBus\n";
+  } else {
+    reply = game->command(line, millis());
+    if (line == "status") {
+      using namespace principal::display;
+      std::snprintf(info, sizeof(info), "OLED_HZ %u\nOLED 0x%02X %s\nOLED_TABULEIRO 0x%02X %s\n",
+                    unsigned(busFrequency()), board::OLED_RIGHT_ADDRESS, rightOnline() ? "online" : "offline",
+                    board::OLED_LEFT_ADDRESS, leftOnline() ? "online" : "offline");
+      reply += info;
+      if (!rightOnline() || !leftOnline()) {
+        std::snprintf(info, sizeof(info), "I2C_OLED 0x3C=%u 0x3D=%u\n", rightError(), leftError());
+        reply += info;
+      }
+    }
+  }
+  reply += "DONE\n";
+}
+
+void serviceConsole(bool scanned) {
+  if (confirming) {
+    // One Enter owns one reply. Allow the normal scan/debounce to finish
+    // while continuing to service the board, screens and watchdog.
+    if (scanned && (game->app().settled(millis()) || !hardware.ready() || millis() - confirmAt >= 200)) {
+      confirming = false;
+      respond("confirm");
+    }
+  } else if (reply.empty()) {
+    if (receiver.pending() && millis() - lastByteMs > 2000) receiver.discard();
+    for (unsigned budget = 0; budget < 64 && Serial.available(); ++budget) {
+      if (uartError.exchange(false)) receiver.discard();
+      lastByteMs = millis();
+      const auto result = receiver.push(static_cast<char>(Serial.read()));
+      if (result == principal::LineReceiver::Result::Pending) continue;
+      if (result == principal::LineReceiver::Result::Invalid) reply = "ERROR Line\nDONE\n";
+      else if (std::string(receiver.line()) == "confirm") {
+        confirming = true;
+        confirmAt = millis();
+      } else respond(receiver.line());
+      break;
+    }
+  }
+
+  if (reply.empty()) return;
+  const int room = Serial.availableForWrite();
+  if (room <= 0) return;
+  const auto count = std::min(reply.size() - sent, static_cast<std::size_t>(room));
+  sent += Serial.write(reinterpret_cast<const uint8_t*>(reply.data() + sent), count);
+  if (sent == reply.size()) { reply.clear(); sent = 0; }
 }
 }
 
@@ -49,40 +106,11 @@ void loop() {
     lastRetry = now;
     hardware.initialiseMatrix();
   }
-  if (now - lastScan >= board::SCAN_INTERVAL_MS) acquire();
+  const bool scanned = now - lastScan >= board::SCAN_INTERVAL_MS;
+  if (scanned) acquire();
   game->app().tick(millis());
+  serviceConsole(scanned);
   hardware.indicate(game->app().indicators(millis()));
   principal::display::update(game->app(), millis());
-  if (receiver.pending() && millis() - lastByteMs > 2000) receiver.discard();
-  for (unsigned budget = 0; budget < 64 && Serial.available(); ++budget) {
-    if (uartError.exchange(false)) receiver.discard();
-    lastByteMs = millis();
-    const auto result = receiver.push(static_cast<char>(Serial.read()));
-    if (result == principal::LineReceiver::Result::Pending) continue;
-    if (result == principal::LineReceiver::Result::Invalid) {
-      Serial.println("ERROR Line");
-    } else {
-      const std::string line = receiver.line();
-      if (line == "metrics") metrics();
-      else if (line == "oled 100" || line == "oled 400") {
-        const bool ready = principal::display::setFrequency(line == "oled 100" ? 100000 : 400000);
-        Serial.println(ready ? "OK oled" : "ERROR OledBus");
-      }
-      else {
-        if (line == "confirm") acquire();
-        Serial.print(game->command(line, millis()).c_str());
-        if (line == "status") {
-          Serial.printf("OLED_HZ %u\n", unsigned(principal::display::busFrequency()));
-          Serial.printf("OLED 0x%02X %s\n", board::OLED_RIGHT_ADDRESS, principal::display::rightOnline() ? "online" : "offline");
-          Serial.printf("OLED_TABULEIRO 0x%02X %s\n", board::OLED_LEFT_ADDRESS,
-                        principal::display::leftOnline() ? "online" : "offline");
-          if (!principal::display::rightOnline() || !principal::display::leftOnline())
-            Serial.printf("I2C_OLED 0x3C=%u 0x3D=%u\n", principal::display::rightError(), principal::display::leftError());
-        }
-      }
-    }
-    hardware.indicate(game->app().indicators(millis()));
-    Serial.println("DONE");
-  }
   delay(1);
 }

@@ -22,7 +22,10 @@ bool BoardApp::start(const ChessAdapter& initial, const Tutorial* lesson) {
   lesson_ = lesson;
   if (lesson_) computerMode_ = false;
   restoreReason_ = ConfirmationStatus::NoMove;
-  lastEnPassant_ = false;
+  lastEnPassant_ = requalifying_ = incomplete_ = false;
+  lastMoveAt_ = 0;
+  lastMove_ = {};
+  briefOrigin_ = briefLandings_ = 0;
   updateSuggestion();
   return true;
 }
@@ -58,14 +61,19 @@ std::string BoardApp::suggestedCoordinates() const {
 }
 
 void BoardApp::inputLost() {
-  if (game_.state() == GameState::Tracking || game_.state() == GameState::AwaitingPromotion)
+  if (game_.state() != GameState::AwaitingPosition && game_.state() != GameState::Finished)
     restoreReason_ = ConfirmationStatus::UnreliableInput;
   game_.markInputInterrupted();
-  haveRaw_ = haveStable_ = false;
+  haveRaw_ = haveStable_ = requalifying_ = incomplete_ = false;
+  briefOrigin_ = briefLandings_ = 0;
 }
 
 void BoardApp::sample(Occupancy raw, std::uint32_t now) {
-  if (haveRaw_ && now - lastSample_ > board::MAX_SAMPLE_GAP_MS) inputLost();
+  if (haveRaw_ && now - lastSample_ > board::MAX_SAMPLE_GAP_MS) {
+    haveRaw_ = haveStable_ = false;
+    requalifying_ = true;
+    briefOrigin_ = briefLandings_ = 0;
+  }
   lastSample_ = now;
   if (!haveRaw_) {
     raw_ = filtered_ = raw;
@@ -73,8 +81,8 @@ void BoardApp::sample(Occupancy raw, std::uint32_t now) {
     haveRaw_ = true;
     return;
   }
-  allDebounced_ = true;
   const auto previous = filtered_;
+  allDebounced_ = true;
   for (unsigned i = 0; i < 64; ++i) {
     const Occupancy bit = Occupancy{1} << i;
     if ((raw ^ raw_) & bit) changed_[i] = now;
@@ -82,15 +90,30 @@ void BoardApp::sample(Occupancy raw, std::uint32_t now) {
       filtered_ = (filtered_ & ~bit) | (raw & bit);
     else allDebounced_ = false;
   }
+  if (filtered_ != previous) incomplete_ = false;
+  const Occupancy officialMask = game_.position().occupancy();
+  const Occupancy missing = officialMask & ~raw;
+  if (raw & briefOrigin_) briefOrigin_ = briefLandings_ = 0;
+  const Occupancy refilled = officialMask & raw & ~raw_;
+  if (haveStable_ && refilled && missing && !(missing & (missing - 1))) {
+    if (missing != briefOrigin_) briefLandings_ = 0;
+    briefOrigin_ = missing;
+    briefLandings_ |= refilled;
+  }
   raw_ = raw;
   if (!haveStable_ && !allDebounced_) return;
   haveStable_ = true;
-  const bool official = filtered_ == game_.position().occupancy();
+  const bool official = filtered_ == officialMask;
   // A partially debounced frame cannot release the restoration gate.
-  if (game_.state() == GameState::AwaitingPosition && official && !allDebounced_) return;
-  game_.observe(filtered_, now);
-  if (official && game_.state() == GameState::Tracking) {
-    if (previous != filtered_) game_.clearAttempt();
+  if ((game_.state() == GameState::AwaitingPosition || game_.state() == GameState::AwaitingCapture) &&
+      official && !allDebounced_) return;
+  if (requalifying_) {
+    game_.resumeObservation(filtered_, now);
+    requalifying_ = false;
+  } else game_.observe(filtered_, now);
+  if (official && allDebounced_ && game_.state() == GameState::Tracking) {
+    briefOrigin_ = briefLandings_ = 0;
+    game_.clearAttempt();
     restoreReason_ = ConfirmationStatus::NoMove;
   }
 }
@@ -105,16 +128,16 @@ void BoardApp::reject(std::uint32_t now) { rejecting_ = true; rejectedAt_ = now;
 ConfirmationStatus BoardApp::confirm(std::uint32_t now) {
   if (fault_ != RecordStatus::Ok) { reject(now); return ConfirmationStatus::ApplyFailed; }
   if (game_.state() == GameState::Finished) return ConfirmationStatus::GameFinished;
-  if (!settled(now)) {
-    inputLost();
-    reject(now);
-    return ConfirmationStatus::UnreliableInput;
-  }
+  if (!settled(now))
+    return haveRaw_ ? ConfirmationStatus::Settling : ConfirmationStatus::UnreliableInput;
   // Publish only after both position and PGN accept; preserve repetition history.
   GameController next = game_;
   const auto* expected = suggestion_.from == kInvalidSquare ? nullptr : &suggestion_;
-  const auto confirmation = next.confirm(expected, computerMode_);
+  const Occupancy missing = game_.position().occupancy() & ~filtered_;
+  const auto confirmation = next.confirm(expected, computerMode_, missing == briefOrigin_ ? briefLandings_ : 0);
   const auto result = confirmation.status;
+  incomplete_ = result == ConfirmationStatus::Incomplete;
+  if (result == ConfirmationStatus::VerifyCapture) briefOrigin_ = briefLandings_ = 0;
   if (result == ConfirmationStatus::Accepted) {
     if (lesson_ && record_.plyCount() + 1 == lesson_->count && next.state() != GameState::Finished)
       next.finish();
@@ -124,16 +147,20 @@ ConfirmationStatus BoardApp::confirm(std::uint32_t now) {
       reject(now);
       return ConfirmationStatus::ApplyFailed;
     }
+    briefOrigin_ = briefLandings_ = 0;
+    lastMove_ = confirmation.move;
+    lastMoveAt_ = now;
     const Move& move = confirmation.move;
     const auto piece = game_.position().pieceAt(move.from);
     lastEnPassant_ = (piece == Piece::WhitePawn || piece == Piece::BlackPawn) &&
         move.from % 8 != move.to % 8 && game_.position().pieceAt(move.to) == Piece::Empty;
+    lastVictim_ = lastEnPassant_ ? game_.position().pieceAt((move.from & 56) | (move.to & 7))
+                                 : game_.position().pieceAt(move.to);
     rejecting_ = false;
   }
   game_ = std::move(next);
   if (result == ConfirmationStatus::Accepted) updateSuggestion();
-  if (result != ConfirmationStatus::Accepted && result != ConfirmationStatus::NoMove &&
-      result != ConfirmationStatus::PromotionRequired) {
+  if (game_.state() == GameState::AwaitingPosition) {
     if (restoreReason_ == ConfirmationStatus::NoMove) restoreReason_ = result;
     reject(now);
   }
@@ -157,7 +184,6 @@ bool BoardApp::finish(bool resignation, Color player) {
 }
 
 void BoardApp::tick(std::uint32_t now) {
-  if (haveRaw_ && now - lastSample_ > board::MAX_SAMPLE_GAP_MS) inputLost();
   if (rejecting_ && now - rejectedAt_ >= 400) rejecting_ = false;
 }
 

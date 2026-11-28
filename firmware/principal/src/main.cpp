@@ -50,7 +50,7 @@ void loop() {
   }
   game->app().tick(millis());
   hardware.indicate(game->app().indicators(millis()));
-  principal::display::update(game->app(), millis());
+  if (hardware.ready()) principal::display::update(game->app(), millis());
   if (receiver.pending() && millis() - lastByteMs > 2000) receiver.discard();
   for (unsigned budget = 0; budget < 64 && Serial.available(); ++budget) {
     if (uartError.exchange(false)) receiver.discard();
@@ -63,8 +63,13 @@ void loop() {
       if (std::string(receiver.line()) == "metrics") metrics();
       else {
         Serial.print(game->command(receiver.line(), millis()).c_str());
-        if (std::string(receiver.line()) == "status")
+        if (std::string(receiver.line()) == "status") {
           Serial.printf("OLED %s\n", principal::display::available() ? "online" : "offline");
+          Serial.printf("OLED_TABULEIRO 0x%02X %s\n", board::BOARD_OLED_ADDRESS,
+                        principal::display::boardAvailable() ? "online" : "offline");
+          if (!principal::display::available() || !principal::display::boardAvailable())
+            Serial.printf("I2C_OLED 0x3C=%u 0x3D=%u\n", principal::display::matchError(), principal::display::boardError());
+        }
       }
     }
     hardware.indicate(game->app().indicators(millis()));

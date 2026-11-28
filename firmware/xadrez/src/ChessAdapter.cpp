@@ -104,6 +104,13 @@ LegalMoves ChessAdapter::legalMoves() const {
   return result;
 }
 
+Move ChessAdapter::computerMove() const {
+  thc::ChessEvaluation position(rules_);
+  thc::MOVELIST ranked;
+  position.GenLegalMoveListSorted(&ranked);
+  return ranked.count ? fromThc(ranked.moves[0]) : Move{};
+}
+
 bool ChessAdapter::isLegal(const Move& move) const {
   auto position = rules_;
   thc::Move selected;

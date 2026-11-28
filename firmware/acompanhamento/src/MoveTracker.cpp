@@ -47,6 +47,7 @@ AttemptSnapshot MoveTracker::snapshot() const {
 void MoveTracker::discardAttempt() {
   attempt_.initialOccupancy = attempt_.currentOccupancy;
   attempt_.frameCount = 0;
+  attempt_.captureEvidenceFrom = 0;
   attempt_.historyOverflow = false;
   // Discarding while acquisition is unavailable cannot make it trustworthy.
   attempt_.inputInterrupted = attempt_.initialized && !attempt_.readingAvailable;

@@ -56,6 +56,7 @@ class ChessAdapter {
   Piece pieceAt(Square square) const;
   std::uint64_t occupancy() const;
   LegalMoves legalMoves() const;
+  Move computerMove() const;
   bool isLegal(const Move& move) const;
 
   // SAN is generated in the current position; failure leaves output unchanged.

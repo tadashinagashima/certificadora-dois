@@ -37,6 +37,8 @@ class GameRecord {
   std::size_t plyCount() const;
   const std::string& movetext() const;
   const std::string& lastSan() const { return lastSan_; }
+  const std::string& playerName(Color side) const { return side == Color::White ? metadata_.white : metadata_.black; }
+  bool setPlayerName(Color side, const std::string& name);
   std::string pgn() const;
 
  private:

@@ -109,9 +109,11 @@ void loop() {
       case 'r': hardware.initialiseMatrix(); reportInitialisation(); break;
       case 'v': toggleMeasurementColumn(); break;
       case 'o':
-        Wire.beginTransmission(board::OLED_ADDRESS);
-        Serial.printf("OLED 0x%02X: %s\n", board::OLED_ADDRESS,
-                      Wire.endTransmission() == 0 ? "ACK" : "sem resposta");
+        for (uint8_t address : {board::OLED_ADDRESS, board::BOARD_OLED_ADDRESS}) {
+          Wire.beginTransmission(address);
+          Serial.printf("OLED 0x%02X: %s\n", address,
+                        Wire.endTransmission() == 0 ? "ACK" : "sem resposta");
+        }
         break;
       case 't':
         indicatorTest = true;

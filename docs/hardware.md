@@ -55,9 +55,11 @@ O módulo disponível foi anunciado como SSD1315 (`NFP1315-157BY`). O firmware a
 | SCL | 3 — GPIO22/R2, mesma rede SCL do MCP |
 | SDA | 4 — GPIO21/R5, mesma rede SDA do MCP |
 
-Confira os nomes dos quatro pinos antes de ligar. O endereço de 7 bits padrão é `0x3C`; para módulo configurado em `0x3D`, altere `OLED_ADDRESS` em [board_config.h](../firmware/board_config.h) e recompile. O MCP usa `0x20`. Mantenha o barramento a 100 kHz e verifique a resistência equivalente dos pull-ups dos dois módulos e sua ligação a 3,3 V. A biblioteca usa o Wire já inicializado, sem pino de reset dedicado. [Datasheet SSD1315](https://files.waveshare.com/upload/f/f0/SSD1315_1.1.pdf)
+Confira os nomes dos quatro pinos antes de ligar. A tela da partida usa `0x3C` e a da animação usa `0x3D` (endereços de 7 bits). Nos módulos da montagem, o resistor de seleção fica em R11/0x78 na primeira tela e em R12/0x7A na segunda. O MCP usa `0x20`. Mantenha o barramento a 100 kHz e verifique a resistência equivalente dos pull-ups dos dois módulos e sua ligação a 3,3 V. A biblioteca usa o Wire já inicializado, sem pino de reset dedicado. [Datasheet SSD1315](https://files.waveshare.com/upload/f/f0/SSD1315_1.1.pdf)
 
-O firmware verifica o endereço no boot. Um display desconectado ou que passe a responder com erro sai do ciclo de atualização. Para ensaiar novamente, desligue, confira a fiação e religue após salvar a partida. Um curto que prenda SDA ou SCL afeta fisicamente ambos os dispositivos; a matriz sinaliza perda de aquisição e tenta se recuperar.
+As duas telas compartilham SDA, SCL, 3,3 V e GND. Use endereços distintos para enviar uma imagem a cada módulo. Considere os pull-ups da segunda tela na resistência equivalente do barramento. Confira a imagem em cada tela após verificar os endereços pelo terminal.
+
+O firmware verifica os dois endereços no boot e repete a consulta a cada três segundos para cada tela offline enquanto a matriz está operacional. Se apenas as telas continuarem offline, salve a partida, desligue a alimentação e confira os quatro fios no trecho que atende os OLEDs. Um curto que prenda SDA ou SCL afeta todo o barramento.
 
 #### LEDs e buzzer
 

@@ -171,6 +171,12 @@ bool GameRecord::finished() const { return ending_.reason != EndReason::None; }
 std::size_t GameRecord::plyCount() const { return plyCount_; }
 const std::string& GameRecord::movetext() const { return movetext_; }
 
+bool GameRecord::setPlayerName(Color side, const std::string& name) {
+  if (!started() || finished() || !validValue(name, 5)) return false;
+  (side == Color::White ? metadata_.white : metadata_.black) = name.empty() ? "?" : name;
+  return true;
+}
+
 std::string GameRecord::pgn() const {
   if (!started()) return {};
   std::string output;

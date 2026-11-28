@@ -33,7 +33,7 @@ void GameController::markInputInterrupted() {
   state_ = GameState::AwaitingPosition;
 }
 
-ConfirmationResult GameController::confirm() {
+ConfirmationResult GameController::confirm(const Move* expected, bool allowPartial) {
   if (state_ == GameState::Finished) return {ConfirmationStatus::GameFinished, {}};
 
   const auto snapshot = tracker_.snapshot();
@@ -42,10 +42,17 @@ ConfirmationResult GameController::confirm() {
                                 : ConfirmationStatus::UnreliableInput, {}};
   }
 
-  const auto interpretation = interpretMove(snapshot, position_, selection_);
+  const auto interpretation = interpretMove(snapshot, position_, expected ? expected->promotion : selection_, expected, allowPartial);
   ConfirmationStatus failure = ConfirmationStatus::ApplyFailed;
   switch (interpretation.status) {
+    case InterpretationStatus::InProgress:
+      return {ConfirmationStatus::InProgress, {}};
     case InterpretationStatus::Identified:
+      if (expected && (expected->from != interpretation.move.from || expected->to != interpretation.move.to ||
+                       expected->promotion != interpretation.move.promotion)) {
+        failure = ConfirmationStatus::UnexpectedMove;
+        break;
+      }
       if (position_.apply(interpretation.move)) {
         tracker_.discardAttempt();
         selection_ = Promotion::None;
@@ -60,6 +67,10 @@ ConfirmationResult GameController::confirm() {
       state_ = GameState::Tracking;
       return {ConfirmationStatus::NoMove, {}};
     case InterpretationStatus::PromotionRequired:
+      if (expected) {
+        failure = ConfirmationStatus::UnexpectedMove;
+        break;
+      }
       state_ = GameState::AwaitingPromotion;
       return {ConfirmationStatus::PromotionRequired, {}};
     case InterpretationStatus::NoLegalMatch:

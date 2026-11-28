@@ -32,6 +32,7 @@ const char* name(RecordStatus value) {
 const char* name(ConfirmationStatus value) {
   switch (value) {
     case ConfirmationStatus::Accepted: return "Accepted";
+    case ConfirmationStatus::InProgress: return "InProgress";
     case ConfirmationStatus::NoMove: return "NoMove";
     case ConfirmationStatus::NoLegalMatch: return "NoLegalMatch";
     case ConfirmationStatus::Ambiguous: return "Ambiguous";
@@ -40,6 +41,7 @@ const char* name(ConfirmationStatus value) {
     case ConfirmationStatus::PositionMismatch: return "PositionMismatch";
     case ConfirmationStatus::ApplyFailed: return "ApplyFailed";
     case ConfirmationStatus::GameFinished: return "GameFinished";
+    case ConfirmationStatus::UnexpectedMove: return "UnexpectedMove";
   }
   return "Unknown";
 }
@@ -194,6 +196,16 @@ std::string SerialGame::status() const {
       " red=" + std::to_string(lights.red) + " buzzer=" + std::to_string(lights.buzzer) +
       " saved=" + std::to_string(app_.saved()) + " check=" + std::to_string(position.inCheck) +
       " last=" + (app_.record().lastSan().empty() ? "-" : app_.record().lastSan()) + "\n";
+  if (app_.computerMode()) {
+    output += "MODE cpu\n";
+    if (app_.suggestedMove().from != kInvalidSquare)
+      output += "CPU " + app_.suggestedCoordinates() + "\n";
+  }
+  if (app_.adjustment() != ConfirmationStatus::NoMove)
+    output += std::string("ADJUST ") + name(app_.adjustment()) + "\n";
+  const auto& record = app_.record();
+  if (record.playerName(Color::White) != "?") output += "WHITE_NAME " + record.playerName(Color::White) + "\n";
+  if (record.playerName(Color::Black) != "?") output += "BLACK_NAME " + record.playerName(Color::Black) + "\n";
   return output;
 }
 
@@ -220,16 +232,27 @@ std::string SerialGame::dispatch(const std::string& line) {
   const std::string verb = line.substr(0, separator);
   const std::string arg = separator == std::string::npos ? "" : line.substr(separator + 1);
   const bool bare = separator == std::string::npos;
+  if (verb == "white_name" || verb == "black_name") {
+    if ((!arg.empty() && (arg.front() == ' ' || arg.back() == ' ')) || arg.size() > 24 ||
+        arg.find_first_not_of("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 .'-") != std::string::npos)
+      return "ERROR PlayerName\n";
+    if (!app_.setPlayerName(verb == "white_name" ? Color::White : Color::Black, arg)) return "ERROR GameFinished\n";
+    return "OK name\n";
+  }
   if (line.empty() || line.size() > LineReceiver::capacity || (!bare && (arg.empty() || arg.find(' ') != std::string::npos))) {
     inputLost();
     return "ERROR Syntax\n";
   }
   if (verb == "help" && bare) {
     if (!simulation_)
-      return "COMMANDS new, confirm, promote Q|R|B|N, finish, resign white|black, save, status, pgn, metrics, help\n";
-    std::string text = "COMMANDS new [scenario], sync, observe HEX16, lift SQ, place SQ, confirm, promote Q|R|B|N, interrupt, finish, resign white|black, status, pgn, help\nSCENARIOS";
+      return "COMMANDS new, mode cpu|local, promote Q|R|B|N, finish, resign white|black, save, status, pgn, metrics, help\n";
+    std::string text = "COMMANDS new [scenario], sync, observe HEX16, lift SQ, place SQ, promote Q|R|B|N, interrupt, finish, resign white|black, status, pgn, help\nSCENARIOS";
     for (const auto& item : scenarios) text += std::string(" ") + item.id;
-    return text + "\nIO save, raw HEX16, wait MS\n";
+    return text + "\nIO mode cpu|local, save, raw HEX16, wait MS\n";
+  }
+  if (verb == "mode" && (arg == "cpu" || arg == "local")) {
+    app_.setComputerMode(arg == "cpu");
+    return "OK mode " + arg + "\n";
   }
   if (verb == "status" && bare) return status();
   if (verb == "hello" && bare) return "PROTOCOL 2\n";

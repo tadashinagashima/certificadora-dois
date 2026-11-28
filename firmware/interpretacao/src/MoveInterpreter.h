@@ -7,6 +7,7 @@ namespace chessboard {
 
 enum class InterpretationStatus {
   Identified,
+  InProgress,
   NoMove,
   NoLegalMatch,
   Ambiguous,
@@ -23,6 +24,7 @@ struct InterpretationResult {
 
 InterpretationResult interpretMove(const AttemptSnapshot& attempt,
                                    const ChessAdapter& position,
-                                   Promotion selection = Promotion::None);
+                                   Promotion selection = Promotion::None,
+                                   const Move* expected = nullptr, bool allowPartial = false);
 
 }  // namespace chessboard

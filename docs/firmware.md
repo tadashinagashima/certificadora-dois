@@ -33,56 +33,62 @@ Feche outros monitores que ocupem a porta. O ambiente PlatformIO já contém pyS
 
 ## Operar pelo terminal
 
-Na abertura de uma partida nova, Enter seleciona dois jogadores; 4 seleciona a máquina. No modo local, digite primeiro o nome das brancas e depois o das pretas. Enter pula o nome e a tela usa a cor. Use 6 ou `nomes` para editar durante a partida. Cada nome aceita até 24 caracteres; o terminal simplifica acentos para a fonte do OLED. Os nomes informados também seguem nos campos White e Black do PGN.
+Na abertura, Enter escolhe dois jogadores, 4 escolhe máquina e 2 abre a lista de tutoriais. No modo local, informe os nomes das brancas e pretas ou pressione Enter para usar as cores. Os nomes seguem para o PGN e o letreiro. A fonte do OLED aceita até 24 caracteres ASCII. O terminal simplifica acentos.
 
-O painel reúne a posição e a próxima ação lado a lado. **4** (`maquina`) ativa o adversário de pretas e **5** (`local`) volta ao modo de dois jogadores, preservando a partida. A seleção e a sugestão ficam no ESP32 durante a conexão e após reabrir o terminal. O boot começa no modo local.
+Monte a posição desenhada com A1 embaixo à esquerda. R, D, T, B, C e P representam rei, dama, torre, bispo, cavalo e peão. Maiúsculas são brancas. A placa reconhece a ocupação inicial e acende o verde. A cor e a identidade das peças devem ser conferidas por quem as monta.
 
-No modo máquina, o adaptador usa a lista de lances legais ordenada por `ChessEvaluation::GenLegalMoveListSorted`, da biblioteca THC já incluída. Ela pontua o resultado imediato por material, posição e mate. A sugestão fica no OLED da partida e no terminal até o tabuleiro reconhecer a execução. Se pousar na casa errada, leve a peça diretamente à casa indicada. No roque, mova primeiro o rei e depois a torre. Uma torre movida sozinha pode constituir um lance legal. Em promoção da máquina, use a peça indicada depois de `=`. Pelo protocolo bruto, use `mode cpu`, `mode local` e `status`.
+**Mova primeiro, confirme depois.** No prompt de partida, uma linha vazia envia `confirm`. Termine o gesto e deixe as peças centradas antes de pressionar Enter. Pode pausar entre rei e torre no roque. Na captura, a retirada da peça adversária precisa deixar a casa visivelmente livre para a varredura. Na promoção, substitua o peão pela peça desejada e pressione Enter. Quando solicitado, envie `promote Q`, `promote R`, `promote B` ou `promote N` e confirme com outro Enter.
 
-Na janela interativa, digite um atalho e pressione Enter: `1` consulta a posição, `3` exibe o PGN e `?` abre a ajuda. O painel mostra a vez, o último lance e as casas que diferem da posição esperada. Para ver FEN e as respostas originais da placa, use `tecnico`.
+Se o lance for ilegal, ambíguo ou diferente do indicado, o buzzer soa e o LED vermelho acompanha o bloqueio. **Reponha todas as peças na última posição exibida**, inclusive a peça capturada. O painel lista as casas a ocupar ou liberar. Quando a montagem voltar a coincidir com a referência, o verde libera uma tentativa nova. O mesmo procedimento vale para perda de aquisição.
 
-O painel desenha o tabuleiro na abertura, na consulta de posição e automaticamente após cada jogada. A1 fica no canto inferior esquerdo. As letras R, D, T, B, C e P representam rei, dama, torre, bispo, cavalo e peão. Maiúsculas indicam as brancas e minúsculas, as pretas. Um lance rejeitado preserva o desenho da última posição aceita.
-
-Na vez da máquina, procure a peça entre colchetes azuis e o destino entre parênteses amarelos. Um destino vazio aparece como `(+)`; em uma captura comum, os parênteses contêm a peça a retirar. As coordenadas também aparecem ao lado do desenho.
-
-No CMD, o ciano destaca comandos e leituras dos sensores. O verde indica sucesso, o amarelo pede atenção e o vermelho indica erro ou lance ilegal. Ao redirecionar a saída para um arquivo, o terminal grava texto simples.
-
-A conexão recupera o estado atual da placa. Posicione as peças iniciais e consulte `status`. Em `Tracking`, o ESP32 aceita o lance após 450 ms de ocupação estável. Se um ímã acionar duas casas, centralize a peça no destino. O firmware continua acompanhando o mesmo gesto. Uma pausa de 450 ms sobre outra casa que também complete um lance legal pode registrar esse lance.
-
-Em captura, retire a peça adversária e pouse a sua no destino. Se a casa ficou ocupada durante toda a troca ou se duas capturas parecem possíveis, levante e recoloque **apenas a peça no destino**. O terminal mostra as casas que diferem da posição oficial. A vez e o PGN só avançam quando a leitura identifica o lance.
-
-| Comando | Efeito |
+| Comando no terminal | Efeito |
 | --- | --- |
-| `promote Q` / `promote R` / `promote B` / `promote N` | Seleciona dama, torre, bispo ou cavalo. A escolha conclui a promoção. |
-| `status` / `pgn` | Mostra estado, FEN, ocupações, sinais, último SAN e xeque / exibe o PGN em RAM. |
-| `finish` / `resign white` / `resign black` | Encerra com resultado `*` / registra abandono da cor indicada. |
-| `new` | Descarta a sessão ativa e reinicia. Um PGN encerrado pendente de gravação bloqueia o comando. |
-| `save` | Repete a transferência pendente. Após sucesso, a placa responde `OK saved`. |
-| `pasta CAMINHO` | Seleciona no computador o destino da gravação. Aceita espaços no caminho. |
-| `ajuda` / `sair` | Lista os comandos / fecha a conexão. |
-| `metrics` | Somente na placa: heap livre, mínimo de heap e menor folga de pilha do loop em bytes. |
+| Enter / `confirm` | Solicita a validação do lance montado. |
+| 1 / `status`, 3 / `pgn` | Consulta posição e sensores ou exibe o PGN. `tecnico` inclui FEN, leituras e diagnóstico dos OLEDs. |
+| 4 / `maquina`, 5 / `local` | Escolhe máquina de pretas ou dois jogadores. A troca entre essas duas modalidades preserva a posição. Ao sair de uma lição, abre uma partida inicial. |
+| 6 / `nomes` | Edita os nomes dos jogadores. |
+| 2 / `tutorial` | Lista as lições. Também aceita `tutorial roque`, `tutorial promocao` e `tutorial en-passant`. |
+| `repetir` | Remonta a lição atual do primeiro passo. No protocolo, `tutorial restart`. |
+| `new` | Inicia outra partida e descarta a posição ativa. |
+| `finish` / `resign white` / `resign black` | Encerra com `*` ou registra abandono e oferece o PGN ao computador. |
+| `pasta CAMINHO` / `save` | Corrige o destino local e repete a gravação pendente. O arquivo pendente deve ser salvo antes de trocar de sessão. |
+| `oled 100` / `oled 400` | Na placa, seleciona a frequência de Wire1 em kHz e reinicializa os OLEDs. O boot começa em 100 kHz. |
+| `metrics` | Na placa, consulta heap e folga de pilha em bytes. |
+| `?` / `sair` | Mostra a ajuda ou fecha a conexão. |
 
-Ao montar a posição, o OLED conta as casas esperadas que já estão ocupadas e avisa se houver peças extras. Durante a partida, a faixa superior indica a vez e o último lance aparece em tamanho duplo. A tela também indica xeque, rejeição, resultado e gravação do PGN. Cada atualização transmite até quatro blocos de 8×8 pixels para intercalar a escrita com a leitura da matriz.
+A máquina escolhe um lance com `ChessEvaluation::GenLegalMoveListSorted` da THC. Execute a origem entre colchetes e o destino entre parênteses, incluindo a retirada da peça adversária se houver captura. Se a sugestão incluir promoção, use a peça anunciada. Enter confirma a resposta física. A lição de promoção pede também a escolha explícita da peça.
 
-Ao levantar uma peça, a primeira tela mostra a casa de origem. Ao pousar em uma casa antes vazia, mostra a prévia (por exemplo, E2>E4). Alterações complexas podem mostrar REVISAR. Use `status` no terminal para consultar as diferenças em relação à posição oficial; o ESP32 atualiza o registro e a vez ao reconhecer o lance completo.
+### Roteiro de apresentação
 
-A segunda tela (0x3D) mostra o nome de quem joga em letras de 32 pixels de altura. O nome entra pela direita, faz uma pausa para leitura e segue para a esquerda. Se o nome estiver em branco, aparece a cor. Na vez da máquina, o letreiro indica as casas de origem e destino.
+Cada linha abaixo começa em uma sessão independente. No simulador, `sync` monta a posição pedida. Para mover, use `lift CASA` e `place CASA`. Enter em uma linha vazia ou `confirm` conclui cada lance. Na placa, faça as mesmas ações com as peças. O desenho do terminal mostra a posição oficial mesmo durante a reposição.
 
-Quando a placa aceita um lance, a tela exibe uma animação curta. No lance comum, um peão salta sobre a notação do lance. A captura acende faíscas, o xeque mostra um raio e o mate mantém uma coroa com fogos. Se uma captura também der xeque ou mate, prevalece o aviso de xeque ou mate.
+| Cena e montagem | Ações | O que mostrar |
+| --- | --- | --- |
+| Dois jogadores, posição inicial | Leve E2 a E5 e pressione Enter. Volte a E2, aguarde verde, mova E2 a E4, espere e só então pressione Enter. | A rejeição conserva a vez das brancas e o PGN vazio. O lance válido aparece como `1. e4 *`. |
+| Máquina, mesma partida | Digite `maquina`. Execute a resposta preta destacada e confirme. Digite `finish`. | O tabuleiro muda de vez após a confirmação. Abra o PGN no caminho informado. |
+| `tutorial roque`. Reis em E1/E8 e torres em A1/H1/A8/H8 | Mova E1–G1 **e** H1–F1, depois Enter. Mova E8–C8 **e** A8–D8, depois Enter. | Rei e torre compartilham um lance. O lado do roque muda e o PGN contém `1. O-O O-O-O *`. |
+| `tutorial promocao`. Brancas com rei E1 e peão A7, pretas com rei H8 | Substitua o peão A7 por uma torre branca em A8. Enter, `promote R`, Enter. | A torre recém-promovida dá xeque na oitava fileira. Confira `a8=R+`. |
+| `tutorial en-passant`. Brancas com rei E1 e peão E5, pretas com rei A8 e peão D7 | Avance D7–D5 e confirme. Agora mova E5–D6, retire o peão de D5 e confirme. | A captura termina em uma casa antes vazia. O PGN contém `1... d5 2. exd6 *`. Use `repetir` para remontar. |
 
-O comando `status` informa a disponibilidade de cada tela em `OLED` (partida, 0x3C) e `OLED_TABULEIRO` (animação, 0x3D). Uma tela offline pode manter a última imagem. Com a matriz operacional, a placa volta a consultar cada endereço offline a cada três segundos e redesenha a partida atual quando a tela responde. O comando `tecnico` mostra também o último código de comunicação de cada tela em `I2C_OLED` durante a falha. [Ligação e endereço](hardware.md#oled-de-096)
+É possível trocar ou repetir uma lição em andamento. Ao completar o último passo, o terminal salva o PGN com o nome da lição, a FEN inicial e SetUp. Para abrir uma lição depois de jogar uma partida comum com lances registrados, encerre e salve a partida.
 
-Verde contínuo indica acompanhamento estável. Vermelho indica espera ou falha e o buzzer acompanha a rejeição. Na promoção, 1/2/3/4 pulsos verdes indicam Q/R/B/N. Após o encerramento, vermelho piscando indica PGN pendente e verde piscando indica gravação confirmada.
+### Apresentação nos OLEDs
+
+A tela esquerda (0x3D) sinaliza a vez, a lição ou a reposição. A direita (0x3C) mostra coordenadas, progresso da montagem e ação física. Ao aceitar o lance, as duas telas compartilham a cena. No roque viajam dois sprites. No en passant desaparece o peão ultrapassado. Na promoção aparece a letra da nova peça. Xeque, captura e mate têm indicações próprias.
+
+O renderizador prepara um quadro de 128×64 por tela a partir do mesmo instante. Cada alvo fica congelado até o envio dos trechos alterados, em blocos de até 64 bytes intercalados com a aquisição. O cache só avança após a confirmação da transmissão. A meta é um quadro a cada 40 ms (25 FPS). Quadros com mais pixels alterados podem levar mais tempo, especialmente a 100 kHz. As duas telas usam timeout de 12 ms por transação; o MCP usa seu próprio controlador.
+
+A placa consulta cada painel a cada três segundos, inclusive com a matriz indisponível. Após falha de comunicação, o painel passa por inicialização e repintura completa antes de ligar a imagem. Em `tecnico`, `OLED` corresponde à direita e `OLED_TABULEIRO` à esquerda. `OLED_HZ` informa a frequência configurada e `I2C_OLED` os códigos em caso de falha. Para forçar uma repintura, use também `oled 100` ou `oled 400`.
 
 ## Aquisição e gravação
 
 A [pinagem e os tempos](../firmware/board_config.h) são compartilhados com o diagnóstico. A aplicação tenta uma varredura completa a cada **25 ms**, I²C a 100 kHz, MCP `0x20`, uma coluna LOW e demais em alta impedância. Acomodação inicial de **300 µs**; `OLAT=0`, `GPPU=0` e pull-ups externos de 47 kΩ. Falha I²C do MCP descarta a varredura e mantém RESET LOW; há tentativa de reinicialização a cada segundo.
 
-`BoardApp::sample()` aplica debounce de **25 ms por casa**, preservando quadros com alterações estáveis. A referência inicial exige estabilização das 64 casas. O registro automático exige leitura disponível, recente e sem mudanças pendentes no filtro. Um intervalo **maior que 100 ms** sem amostra completa invalida a tentativa, inclusive quando provocado por processamento ou saída Serial prolongada. Recuperar exige nova leitura estável igual à ocupação oficial. Esses valores são iniciais e devem ser ajustados com a montagem.
+`BoardApp::sample()` aplica debounce de **25 ms por casa**, preservando quadros com alterações estáveis. A referência inicial exige estabilização das 64 casas. Na placa, o comando de confirmação solicita mais uma varredura. A confirmação exige leitura disponível, recente e sem mudanças pendentes no filtro. Um intervalo **maior que 100 ms** sem amostra completa invalida a tentativa, inclusive quando provocado por processamento ou saída Serial prolongada. Recuperar exige nova leitura estável igual à ocupação oficial. Esses valores são iniciais e devem ser ajustados com a montagem.
 
 A varredura não é instantânea: mudanças muito rápidas, entre leituras ou mais curtas que o filtro, podem não ser observadas. Isso também vale para a vacância de uma captura. Software não recupera transições que os sensores não entregaram.
 
-O terminal salva automaticamente no encerramento manual, abandono, mate, afogamento ou material insuficiente reconhecido. Por padrão, cria `build/partidas/` no diretório de execução. Use `--destino CAMINHO` na abertura para escolher outra pasta. O nome `partida-<identificador>.pgn` combina um identificador do boot com o número da sessão. Duas partidas com os mesmos lances recebem nomes distintos.
+O terminal salva automaticamente ao concluir uma lição e no encerramento manual, abandono, mate, afogamento ou material insuficiente reconhecido. Por padrão, cria `build/partidas/` no diretório de execução. Use `--destino CAMINHO` na abertura para escolher outra pasta. O nome `partida-<identificador>.pgn` combina um identificador do boot com o número da sessão. Duas partidas com os mesmos lances recebem nomes distintos.
 
 O computador verifica tamanho e CRC-32 do PGN, grava um temporário na pasta de destino, sincroniza e fecha o arquivo. Publica por renomeação exclusiva no Windows e por hard link em Linux/macOS (escolha um volume com suporte a links físicos). Se uma confirmação se perder, o terminal reconhece o arquivo idêntico na mesma pasta. Um arquivo preexistente com conteúdo diferente é preservado e a falha é informada. Use uma pasta local gravável e com espaço livre.
 
@@ -90,7 +96,9 @@ Em erro de escrita, mantenha o ESP32 ligado, corrija a pasta e envie `save`. Se 
 
 ## Protocolo e simulação
 
-USB serial a 115200 baud, 8N1, ASCII nos comandos e LF/CRLF. Cada comando recebe uma resposta encerrada por uma linha `DONE`. O ESP32 emite `READY protocol=2` no boot. Uma conexão aberta depois do boot pode enviar `hello` e verificar `PROTOCOL 2`. O simulador usa stdin/stdout e responde ao mesmo `hello`.
+USB serial a 115200 baud, 8N1, ASCII nos comandos e LF/CRLF. Cada comando recebe uma resposta encerrada por uma linha `DONE`. O ESP32 emite `READY protocol=3` no boot. Uma conexão aberta depois do boot pode enviar `hello` e verificar `PROTOCOL 3`. O simulador usa stdin/stdout e responde ao mesmo `hello`.
+
+A versão 3 exige confirmação explícita. Atualize terminal e firmware juntos. O protocolo bruto usa o comando `confirm` para a linha vazia do terminal Python.
 
 Ao encerrar, ou em resposta a `status` / `save` durante a pendência, o firmware inclui `SAVE_PENDING ID BYTES CRC32`. Tamanho e CRC-32/ISO-HDLC (decimal) referem-se ao PGN UTF-8 com quebras LF. O terminal pede `pgn ID`, confere o bloco entre `PGN_BEGIN` e `PGN_END`, inclusive as linhas em branco, e só transmite `saved ID` após a publicação. A placa rejeita identificadores de outra sessão. `pgn` sem argumento continua disponível para leitura em qualquer fase.
 
@@ -104,11 +112,11 @@ Ao encerrar, ou em resposta a `status` / `save` durante a pendência, o firmware
 | `interrupt` | Interrompe a aquisição simulada; `raw`, `observe` ou `sync` voltam a oferecer amostras. |
 | `new CENARIO` | Inicia uma posição conhecida, somente para experimentar situações especiais. |
 
-No terminal Python, `lift`, `place`, `observe` e `promote` também avançam o relógio em 500 ms para simular a pausa física. No protocolo bruto, use `wait 500` após o pouso. O relógio virtual só avança por comando. Há ticks de até 5 ms e amostras a cada 25 ms de tempo virtual. O terminal grava arquivos reais.
+O relógio virtual avança somente por comando. O filtro recebe amostras a cada 25 ms e o simulador executa ticks de até 5 ms. Uma espera arbitrariamente longa preserva o lance em aberto até a confirmação. O terminal grava arquivos reais.
 
 Cenários: `start`; `castle_w`/`castle_b`; `ep_w`/`ep_b`; `promotion_w`/`promotion_b`; `promotion_capture_w`/`promotion_capture_b`; `ambiguous`; `mate`; `stalemate`; `insufficient`; `busy`. As FENs estão em `SerialGame.cpp`; `status` mostra a posição. Não há parser público de FEN arbitrária. Cenários já encerrados também geram PGN automaticamente.
 
-Para demonstrar mate, envie `new` e `sync`. Execute f2–f3, e7–e5, g2–g4 e d8–h4 usando `lift ORIGEM`, `place DESTINO` no terminal Python. O terminal deve salvar o PGN com `1. f3 e5 2. g4 Qh4# 0-1`. Confira `Finished`, `Checkmate` e `saved=1` em `status`.
+Para demonstrar mate, envie `new` e `sync`. Execute f2–f3, e7–e5, g2–g4 e d8–h4 com `lift ORIGEM`, `place DESTINO` e Enter após cada par. O terminal deve salvar o PGN com `1. f3 e5 2. g4 Qh4# 0-1`. Confira `Finished`, `Checkmate` e `saved=1` em `status`.
 
 Para experimentar ruído na casa e2, iniciar com `new`, `sync`; enviar `raw ffff00000000efff`, `wait 25`, `raw ffff00000000ffff`, `wait 50`. A retirada curta é filtrada; `status` deve mostrar zero quadros de alterações. Para uma captura, manter cada alteração com `lift`/`place` ou oferecer leituras brutas suficientemente longas.
 
@@ -117,15 +125,15 @@ O receptor limita linhas a **96 caracteres**. Linha excedente, NUL, controles ou
 ## Do sensor ao PGN
 
 - **Acompanhamento.** Uma ocupação usa 64 bits (a1=0, h8=63). A primeira leitura cria a referência. Cada mudança estável registra casas retiradas e adicionadas, em ordem de observação. O limite é de 64 quadros de mudanças. Uma interrupção ou estouro invalida a tentativa até a reposição.
-- **Interpretação.** O interpretador compara a tentativa com os movimentos legais da posição oficial. A captura exige observar o destino vazio antes de reocupá-lo. No roque, mova o rei primeiro. Em en passant, o peão capturado pode sair antes ou depois de o outro chegar ao destino. A ocupação final precisa corresponder ao movimento completo.
+- **Interpretação.** O interpretador compara a tentativa com os movimentos legais da posição oficial. A captura exige observar o destino vazio antes de reocupá-lo. No roque, a ocupação final inclui rei e torre. Em en passant, o peão capturado pode sair antes ou depois de o outro chegar ao destino. A ocupação final precisa corresponder ao movimento completo.
 - **Regras.** A [biblioteca THC](../firmware/xadrez/src/thc/LICENSE) é a cópia MIT do commit `aa217cb9b4d759cd7c07e11c98526b0187b0a64b` de `billforsternz/thc-chess-library`. O adaptador fornece FEN, lances legais, SAN e estado da posição. O controle encerra por mate, afogamento ou material insuficiente reconhecido. Tripla repetição e 50 lances são indicadores consultáveis.
 - **Registro.** O registro gera o SAN na posição anterior, confere a FEN resultante e só acrescenta o lance se o contexto e o eventual resultado estiverem corretos. Lado e número do lance vêm da posição. O PGN aceita até 8192 bytes de texto de lances; ultrapassar o limite conserva o registro anterior e sinaliza falha. Partidas iniciadas em posição especial incluem FEN e SetUp. O PGN ativo termina em `*`.
 
 | Estado do Controle | Como prosseguir |
 | --- | --- |
 | `AwaitingPosition` | Repor a ocupação oficial e aguardar uma leitura estável. |
-| `Tracking` | Mover as peças. A mudança de vez indica que o lance foi aceito. |
-| `AwaitingPromotion` | Escolher a peça com `promote`. Alterar a ocupação cancela a seleção. |
+| `Tracking` | Mover as peças. Pressionar Enter ao concluir o gesto. |
+| `AwaitingPromotion` | Escolher a peça com `promote` e confirmar com Enter. Alterar a ocupação cancela a seleção. |
 | `Finished` | Aguardar a gravação e usar `new` para jogar de novo. |
 
 ## Diagnóstico de montagem

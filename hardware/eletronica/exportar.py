@@ -52,7 +52,11 @@ for rank in range(1,9):
     assert nets[f'ROW_{rank}']==row_nodes,('direct row topology',rank)
 for p,n in {1:'GND',2:'BUZZER_BASE',3:'BUZZER_LOW'}.items():expected('Q1',p,n)
 for p,n in {1:'3V3_IO',2:'BUZZER_LOW'}.items():expected('D67',p,n)
-for p,n in {1:'GND',2:'3V3_IO',3:'I2C_SCL',4:'I2C_SDA'}.items():expected('J2',p,n)
+for ref in ('J2', 'J3'):
+    for p, n in enumerate(('GND', '3V3_IO', 'OLED_SCL', 'OLED_SDA'), 1):
+        expected(ref, p, n)
+for net, header, pin in [('OLED_SDA', 'L6', '4'), ('OLED_SCL', 'L7', '3')]:
+    assert nets[net] == {('A1', header), ('J2', pin), ('J3', pin)}, (net, nets[net])
 # Front/component view, USB down. L/R are assembly coordinates, not GPIO numbers.
 headers={
     'L':['EN','GPIO36','GPIO39','GPIO34','GPIO35','GPIO32','GPIO33','GPIO25','GPIO26','GPIO27','GPIO14','GPIO12','GPIO13','GND','VIN'],
@@ -63,7 +67,7 @@ source=doc.find("./components/comp[@ref='A1']/libsource")
 part=doc.find(f"./libparts/libpart[@lib='{source.get('lib')}'][@part='{source.get('part')}']")
 actual_header={p.get('num'):p.get('name') for p in part.findall('./pins/pin')}
 assert len(part.findall('./pins/pin'))==30 and actual_header==expected_header,('DevKit 30-pin header',actual_header)
-connections={'L8':'LED_GREEN','L9':'LED_RED','L10':'BUZZER_EN','L11':'MCP_RESET','L14':'GND','R2':'I2C_SCL','R5':'I2C_SDA','R14':'GND','R15':'3V3_IO'}
+connections={'L6':'OLED_SDA','L7':'OLED_SCL','L8':'LED_GREEN','L9':'LED_RED','L10':'BUZZER_EN','L11':'MCP_RESET','L14':'GND','R2':'I2C_SCL','R5':'I2C_SDA','R14':'GND','R15':'3V3_IO'}
 for p,n in connections.items():expected('A1',p,n)
 for p in expected_header.keys()-connections.keys():
     assert nets[pins['A1',p]]=={('A1',p)} and 'no_connect' in pin_types['A1',p],('unused DevKit pin must be NC',p)
@@ -72,9 +76,14 @@ assert power_sources=={('A1','R15')},('3V3 must come only from onboard regulator
 
 # Compare actual GPIO/port functions in the netlist with the firmware constants.
 cfg = (ROOT.parents[1] / "firmware/board_config.h").read_text(encoding="utf8")
-constants = dict(re.findall(r"constexpr uint(?:8|16|32)_t (\w+) = (\d+);", cfg))
+constants = dict(re.findall(r"constexpr uint(?:8|16|32)_t (\w+) = (0x[0-9a-fA-F]+|\d+);", cfg))
+for const, ref, side in [('OLED_LEFT_ADDRESS', 'J2', 'esquerdo'), ('OLED_RIGHT_ADDRESS', 'J3', 'direito')]:
+    address = int(constants[const], 0)
+    assert components[ref] == f'OLED {side} 0x{address:02X}', (ref, const, address)
+
 for constant, expected_net in {
     "SDA_PIN": "I2C_SDA", "SCL_PIN": "I2C_SCL", "MCP_RESET_PIN": "MCP_RESET",
+    "OLED_SDA_PIN": "OLED_SDA", "OLED_SCL_PIN": "OLED_SCL",
     "LED_GREEN": "LED_GREEN", "LED_RED": "LED_RED", "BUZZER": "BUZZER_EN",
 }.items():
     gpio = "GPIO" + constants[constant]

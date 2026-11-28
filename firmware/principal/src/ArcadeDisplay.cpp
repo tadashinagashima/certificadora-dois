@@ -1,160 +1,210 @@
 #include "ArcadeDisplay.h"
 #include <algorithm>
+#include <bitset>
+#include <cstdio>
 #include <cstring>
-#include <utility>
 
 namespace principal {
 namespace arcade {
-namespace {
 using namespace chessboard;
-constexpr int width = 128, height = 64, chunkBytes = 32;
-constexpr unsigned chunkCount = width * height / 8 / chunkBytes;
-struct Animation {
-  uint8_t frame[height / 8][width]{}, shown[height / 8][width]{};
-  unsigned chunk = chunkCount;
-  std::uint32_t frameAt = 0, sceneAt = 0;
-  std::size_t plies = 0;
-  std::string message;
-  bool celebrating = false;
-} screen;
 
-void dot(int x, int y) {
-  if (x >= 0 && x < width && y >= 0 && y < height)
-    screen.frame[y / 8][x] |= uint8_t(1u << (y % 8));
+void Frame::dot(int x, int y) {
+  if (x >= 0 && x < 128 && y >= 0 && y < 64) pages[y / 8][x] |= uint8_t(1u << (y % 8));
 }
 
-// A narrow moving highlight fills the spaces between the virtual LEDs.
-void lettering(u8x8_t& oled, const char* text, int x, int y,
-               int scaleX, int scaleY, int highlight) {
-  for (; *text && x < width; ++text) {
-    if (x + 8 * scaleX > 0) {
-      uint8_t glyph[8];
-      u8x8_get_glyph_data(&oled, *text, glyph, 0);
-      for (int col = 0; col < 8; ++col) {
-        for (int row = 0; row < 8; ++row) {
-          if (!(glyph[col] & (1u << row))) continue;
-          const int left = x + col * scaleX, top = y + row * scaleY;
-          const int diagonal = left + top / 3 - highlight;
-          const bool lit = diagonal >= 0 && diagonal < 17;
-          for (int dx = 0; dx < scaleX; ++dx)
-            for (int dy = 0; dy < scaleY - (lit ? 0 : 1); ++dy)
-              dot(left + dx, top + dy);
-        }
-      }
-    }
-    x += 8 * scaleX;
+void Frame::text(const char* value, int x, int y, int scale) {
+  static u8x8_t font{};
+  u8x8_SetFont(&font, u8x8_font_chroma48medium8_r);
+  for (; *value && x < 128; ++value, x += 8 * scale) {
+    if (x + 8 * scale <= 0) continue;
+    uint8_t glyph[8];
+    u8x8_get_glyph_data(&font, *value, glyph, 0);
+    for (int col = 0; col < 8; ++col)
+      for (int row = 0; row < 8; ++row)
+        if (glyph[col] & (1 << row))
+          for (int dx = 0; dx < scale; ++dx)
+            for (int dy = 0; dy < scale; ++dy)
+              dot(x + scale * col + dx, y + scale * row + dy);
   }
 }
 
-// Chess-piece sprites and a lightning bolt for check, drawn at double size.
-constexpr uint16_t pawn[]  = {0x060,0x0f0,0x0f0,0x060,0x1f8,0x0f0,0x060,0x0f0,0x1f8,0x3fc,0x000,0x7fe};
-constexpr uint16_t crown[] = {0x000,0x402,0x462,0x6f6,0x7fe,0x3fc,0x3fc,0x1f8,0x000,0x3fc,0x3fc,0x000};
-constexpr uint16_t bolt[]  = {0x01c,0x038,0x070,0x0e0,0x1fc,0x3f8,0x030,0x060,0x0c0,0x180,0x100,0x000};
+void Frame::center(const char* value, int y, int scale) {
+  text(value, (128 - int(std::strlen(value)) * 8 * scale) / 2, y, scale);
+}
 
-void replay(u8x8_t& oled, const BoardApp& app, unsigned age, bool mate) {
-  const auto& san = app.record().lastSan();
-  const bool check = app.game().positionStatus().inCheck;
-  const bool capture = san.find('x') != std::string::npos;
-  const auto* sprite = mate ? crown : (check ? bolt : pawn);
-  const int t = std::min(age, 480u);
-  const int jump = 4 * 14 * t * (480 - t) / (480 * 480);
-  const int left = 30 + t / 14, top = 13 - jump;
-  for (int y = 0; y < 12; ++y)
-    for (int x = 0; x < 12; ++x)
-      if (sprite[y] & (1u << (11 - x)))
+namespace {
+constexpr uint16_t pawn[]  = {0x060,0x0f0,0x0f0,0x060,0x1f8,0x0f0,0x060,0x0f0,0x1f8,0x3fc,0,0x7fe};
+constexpr uint16_t crown[] = {0,0x402,0x462,0x6f6,0x7fe,0x3fc,0x3fc,0x1f8,0,0x3fc,0x3fc,0};
+constexpr uint16_t tower[] = {0x492,0x7fe,0x7fe,0x3fc,0x1f8,0x1f8,0x1f8,0x1f8,0x3fc,0x3fc,0,0x7fe};
+constexpr uint16_t bolt[]  = {0x01c,0x038,0x070,0x0e0,0x1fc,0x3f8,0x030,0x060,0x0c0,0x180,0x100,0};
+
+void sprite(Frame& panel, int x, int y, const uint16_t* shape) {
+  for (int row = 0; row < 12; ++row)
+    for (int col = 0; col < 12; ++col)
+      if (shape[row] & (1 << (11 - col)))
         for (int dy = 0; dy < 2; ++dy)
-          for (int dx = 0; dx < 2; ++dx) dot(left + 2*x + dx, top + 2*y + dy);
-  for (int x = left + 3 + jump / 2; x < left + 21 - jump / 2; ++x) dot(x, 38);
-  if ((capture || check || mate) && age >= 360) {
-    constexpr int rays[][2] = {{-2,-1},{-1,-2},{1,-2},{2,-1},{2,1},{-2,1}};
-    const unsigned burst = (age - 360) % 650;
-    if (burst < 450) {
-      const int radius = 4 + int(burst) / 55;
-      for (const auto& ray : rays) {
-        const int x = left + 12 + ray[0]*radius, y = top + 10 + ray[1]*radius;
-        if (y < 38) { dot(x,y); dot(x+1,y); dot(x,y+1); }
-      }
-    }
-  }
-  const char* label = mate ? "MATE" : (check ? "XEQUE" : (capture ? "CAPTURA" : san.c_str()));
-  lettering(oled, label, (width - int(std::strlen(label)) * 16) / 2, 40, 2, 3, int(age % 850) / 5);
+          for (int dx = 0; dx < 2; ++dx) panel.dot(x + col*2 + dx, y + row*2 + dy);
 }
 
-std::string messageFor(const BoardApp& app) {
-  const auto& game = app.game();
-  const auto side = game.position().sideToMove();
-  if (app.fault() != RecordStatus::Ok) return "ERRO DE REGISTRO";
-  if (app.record().finished()) {
-    switch (game.ending().reason) {
-      case EndReason::Stalemate: return "AFOGAMENTO";
-      case EndReason::InsufficientMaterial: return "EMPATE";
-      case EndReason::Resignation: return "ABANDONO";
-      default: return "FIM DE PARTIDA";
+void replay(Frame& left, Frame& right, const BoardApp& app, unsigned age) {
+  const auto& san = app.record().lastSan();
+  const bool castle = san.compare(0, 3, "O-O") == 0;
+  const auto promo = san.find('=');
+  const bool ep = app.lastEnPassant();
+  const bool check = app.game().positionStatus().inCheck;
+  const bool mate = app.game().ending().reason == EndReason::Checkmate;
+  const bool capture = san.find('x') != std::string::npos;
+  const char* title = castle ? "ROQUE" : ep ? "EN PASSANT" : promo != san.npos ? "PROMOCAO" :
+                      mate ? "XEQUE-MATE" : check ? "XEQUE" : capture ? "CAPTURA" : "LANCE ACEITO";
+  left.center(title, 2);
+  right.center(mate ? "XEQUE-MATE" : check ? "XEQUE" : "REGISTRADO", 2);
+  left.center(castle ? "REI + TORRE" : ep ? "CAPTURA AO LADO" : promo != san.npos ? "NOVA PECA" : ">>>", 53);
+  right.center(san.c_str(), 47, san.size() <= 8 ? 2 : 1);
+
+  // The piece crosses the bezel. A castle moves a second sprite; the bypassed
+  // pawn disappears behind its captor. The promotion changes at the last rank.
+  const int phase = std::min(age, 950u) * 170 / 950;
+  const int x = 16 + phase, y = 20 - (phase < 85 ? phase : 170 - phase) / 10;
+  const auto* piece = castle || mate ? crown : check && !ep && promo == san.npos ? bolt : pawn;
+  if (promo != san.npos && x >= 128) {
+    // Use the SAN symbol for all four possible promotion choices.
+    char promoted[] = {san[promo + 1], 0};
+    right.text(promoted, x - 128, y, 3);
+  } else {
+    sprite(left, x, y, piece);
+    sprite(right, x - 128, y, piece);
+  }
+  if (castle) {
+    sprite(left, x - 30, 21, tower);
+    sprite(right, x - 158, 21, tower);
+  }
+  if (ep && x < 112) sprite(left, 101, 28, pawn);
+  if ((capture || check || mate) && x > 150) {
+    const int radius = 4 + int(age / 45 % 15);
+    for (int sign : {-1, 1}) {
+      right.dot(x - 116 + sign * radius, 18 - radius / 2);
+      right.dot(x - 116 + sign * radius, 34 + radius / 2);
     }
   }
-  if (!app.readingAvailable()) return "AGUARDE SENSORES";
-  if (app.rejecting()) return "LANCE REJEITADO";
-  if (game.state() == GameState::AwaitingPosition) return "MONTE AS PECAS";
-  if (game.state() == GameState::AwaitingPromotion) return "PROMOVA NO PC";
-  if (app.suggestedMove().from != kInvalidSquare)
-    return (game.positionStatus().inCheck ? "XEQUE - " : "") + app.suggestedCoordinates();
-  const auto& name = app.record().playerName(side);
-  const std::string player = name != "?" ? name : (side == Color::White ? "Brancas" : "Pretas");
-  return game.positionStatus().inCheck ? "XEQUE - " + player : player;
 }
 
-void sign(u8x8_t& oled, unsigned age) {
-  const int textWidth = int(screen.message.size()) * 16;
-  const int rest = std::max(0, (width - textWidth) / 2);
-  const unsigned travel = unsigned(textWidth + rest) * 8; // 125 pixels/s, including long names
-  const unsigned t = age % (220 + 950 + travel);
-  const int x = t < 220 ? rest + int(220 - t) * (width - rest) / 220
-                        : rest - int(t > 1170 ? t - 1170 : 0) / 8;
-  lettering(oled, screen.message.c_str(), x, 16, 2, 4, int(age % 1200) / 6 - 20);
-  const int phase = int((age / 55) % 12);
-  for (int i = 0; i < width; ++i) {
-    if ((i + phase) % 12 < 3) dot(i, 7);
-    if ((width - i + phase) % 12 < 3) dot(i, 56);
-  }
+std::string firstSquare(Occupancy mask) {
+  for (uint8_t i = 0; i < 64; ++i)
+    if (mask & (Occupancy{1} << i)) return {char('A' + i % 8), board::squareRank(i)};
+  return {};
+}
+
+void border(Frame& panel, unsigned phase) {
+  for (int x = 0; x < 128; ++x)
+    if ((x + phase) % 14 < 3) { panel.dot(x, 13); panel.dot(127-x, 46); }
 }
 } // namespace
 
-void reset() { screen = Animation{}; }
+void render(Frame& left, Frame& right, const BoardApp& app, std::uint32_t now) {
+  left = {};
+  right = {};
+  const auto& game = app.game();
+  const auto& record = app.record();
+  const auto* lesson = app.tutorial();
+  const auto& san = record.lastSan();
+  const auto ply = record.plyCount();
+  static std::size_t lastPly = 0;
+  static std::uint32_t sceneAt = 0;
+  if (lastPly != ply) { lastPly = ply; sceneAt = now; }
 
-void update(u8x8_t& oled, const BoardApp& app, std::uint32_t now) {
-  if (screen.chunk == chunkCount) {
-    if (now - screen.frameAt < 40) return;
-    const auto ply = app.record().plyCount();
-    const bool mate = app.game().ending().reason == EndReason::Checkmate;
-    if (ply != screen.plies) {
-      screen.celebrating = ply > screen.plies;
-      screen.sceneAt = now;
-      screen.plies = ply;
-    }
-    std::memset(screen.frame, 0, sizeof(screen.frame));
-    if (mate || (screen.celebrating && now - screen.sceneAt < 900)) {
-      replay(oled, app, now - screen.sceneAt, mate);
-    } else {
-      auto text = messageFor(app);
-      if (screen.celebrating || text != screen.message) {
-        screen.message = std::move(text);
-        screen.sceneAt = now;
-        screen.celebrating = false;
-      }
-      sign(oled, now - screen.sceneAt);
-    }
-    screen.frameAt = now;
-    screen.chunk = 0;
-  }
-  while (screen.chunk < chunkCount) {
-    const unsigned chunk = screen.chunk++, band = chunk / 4, x = chunk % 4 * chunkBytes;
-    auto* pixels = &screen.frame[band][x];
-    auto* last = &screen.shown[band][x];
-    if (std::memcmp(pixels, last, chunkBytes) == 0) continue;
-    u8x8_DrawTile(&oled, x / 8, band, chunkBytes / 8, pixels);
-    std::memcpy(last, pixels, chunkBytes);
+  const bool finished = record.finished();
+  if (app.fault() != RecordStatus::Ok || (!app.readingAvailable() && !finished)) {
+    left.center(app.fault() != RecordStatus::Ok ? "REGISTRO" : "SENSORES", 24, 2);
+    right.center("Consulte o PC", 24);
     return;
   }
+  const auto expected = game.position().occupancy();
+  const auto observed = app.sensorOccupancy();
+  if (game.state() == GameState::AwaitingPosition) {
+    const auto reason = app.restoreReason();
+    const bool restore = reason != ConfirmationStatus::NoMove;
+    const char* title = lesson ? lesson->title : "PREPARACAO";
+    if (restore) {
+      switch (reason) {
+        case ConfirmationStatus::Ambiguous: title = "LANCE AMBIGUO"; break;
+        case ConfirmationStatus::NoLegalMatch: title = "LANCE ILEGAL"; break;
+        case ConfirmationStatus::UnexpectedMove: title = "LANCE DIFERENTE"; break;
+        case ConfirmationStatus::UnreliableInput: title = "LEITURA PERDIDA"; break;
+        default: title = "LANCE BLOQUEADO"; break;
+      }
+      border(left, now / 50);
+    }
+    left.center(title, 2);
+    left.center(restore ? "REPONHA" : "MONTE", 21, 2);
+    left.center(restore ? "Posicao anterior" : "Veja mapa no PC", 53);
+    char count[16];
+    std::snprintf(count, sizeof(count), "%u / %u", unsigned(std::bitset<64>(observed & expected).count()),
+                  unsigned(std::bitset<64>(expected).count()));
+    right.center("CASAS OCUPADAS", 2);
+    right.center(count, 21, 2);
+    const auto extra = observed & ~expected;
+    const auto hint = extra ? "Retire de " + firstSquare(extra) : "Ocupe " + firstSquare(expected & ~observed);
+    right.center(hint.c_str(), 53);
+    return;
+  }
+  if (ply && now - sceneAt < 1300 && game.state() != GameState::AwaitingPromotion) {
+    replay(left, right, app, now - sceneAt);
+    return;
+  }
+  if (finished) {
+    const bool complete = lesson && ply == lesson->count;
+    const auto end = game.ending();
+    const char* reason = complete ? "LICAO CONCLUIDA" : end.reason == EndReason::Checkmate ? "XEQUE-MATE" :
+      end.reason == EndReason::Stalemate ? "AFOGAMENTO" : end.reason == EndReason::InsufficientMaterial ?
+      "MATERIAL INSUF." : end.reason == EndReason::Resignation ? "ABANDONO" : "FIM DE PARTIDA";
+    left.center(reason, 4);
+    sprite(left, 52, 23, crown);
+    right.center(app.saved() ? "PGN SALVO" : "PGN PENDENTE", 4);
+    const char* result = end.result == GameResult::WhiteWin ? "1-0" : end.result == GameResult::BlackWin ?
+                         "0-1" : end.result == GameResult::Draw ? "1/2-1/2" : "*";
+    right.center(complete ? san.c_str() : result, 23, 2);
+    right.center(lesson ? "Repetir no PC" : "Nova mesa no PC", 53);
+    return;
+  }
+  if (game.state() == GameState::AwaitingPromotion) {
+    left.center("ULTIMA FILEIRA", 2);
+    sprite(left, 30, 22, pawn); sprite(left, 74, 22, crown);
+    right.center("PROMOCAO", 2);
+    right.center(game.selectedPromotion() == Promotion::None ? "Q R B N" : "ENTER", 22, 2);
+    right.center(lesson ? "Use promote R" : "Escolha no PC", 53);
+    return;
+  }
+  const auto side = game.position().sideToMove();
+  const char* color = side == Color::White ? "BRANCAS" : "PRETAS";
+  left.center(lesson ? lesson->title : game.positionStatus().inCheck ? "XEQUE" : "VEZ DE", 2);
+  border(left, now / 85);
+  const auto& name = record.playerName(side);
+  const std::string player = app.computerMode() && side == Color::Black ? "MAQUINA" :
+                             name == "?" ? color : name;
+  if (player.size() <= 8) {
+    const int center = (128 - int(player.size()) * 16) / 2;
+    const unsigned t = (now - sceneAt) % 3600;
+    const int entrance = t < 380 ? (128 - center) * int(380 - t) / 380 : 0;
+    const int exit = t > 3220 ? (128 - center) * int(t - 3220) / 380 : 0;
+    left.text(player.c_str(), center + entrance - exit, 23, 2);
+  } else {
+    const int travel = int(player.size()) * 16 + 128;
+    left.text(player.c_str(), 128 - int((now / 15) % travel), 23, 2);
+  }
+  left.center(game.positionStatus().inCheck ? "XEQUE" : lesson ? "AULA GUIADA  >>>" : "JOGADA       >>>", 53);
+  std::string focus = app.suggestedCoordinates();
+  const bool guided = !focus.empty();
+  if (!guided) {
+    const auto removed = expected & ~observed, added = observed & ~expected;
+    if (removed && !(removed & (removed - 1)) && !(added & (added - 1))) {
+      focus = firstSquare(removed);
+      if (added) focus += ">" + firstSquare(added);
+    } else focus = observed != expected ? "EM CURSO" : san.empty() ? "JOGUE" : san;
+  }
+  right.center(lesson ? app.step()->cue : guided ? "MOVA NO QUADRO" : observed != expected ? "LEITURA DA MESA" : "TABULEIRO", 2);
+  right.center(focus.c_str(), 22, focus.size() <= 8 ? 2 : 1);
+  right.center("Enter confirma", 53);
 }
-}
-}
+
+} // namespace arcade
+} // namespace principal

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <GameRecord.h>
+#include "Tutorial.h"
 #include <array>
 #include "../../board_config.h"
 
@@ -12,11 +13,12 @@ using board::Indicators;
 class BoardApp {
  public:
   BoardApp();
-  bool start(const chessboard::ChessAdapter& initial = chessboard::ChessAdapter{});
+  bool start(const chessboard::ChessAdapter& initial = chessboard::ChessAdapter{},
+             const Tutorial* lesson = nullptr);
   void sample(chessboard::Occupancy raw, std::uint32_t now);
   void inputLost();
   void tick(std::uint32_t now);
-  chessboard::ConfirmationStatus confirm(std::uint32_t now, bool allowPartial = false);
+  chessboard::ConfirmationStatus confirm(std::uint32_t now);
   bool promote(chessboard::Promotion piece);
   bool finish(bool resignation = false, chessboard::Color player = chessboard::Color::White);
   void setComputerMode(bool enabled);
@@ -28,8 +30,10 @@ class BoardApp {
   std::string suggestedCoordinates() const;
   bool saved() const { return saved_; }
   void acknowledgeSave() { saved_ = record_.finished(); }
-  bool rejecting() const { return rejecting_; }
-  chessboard::ConfirmationStatus adjustment() const { return adjustment_; }
+  chessboard::ConfirmationStatus restoreReason() const { return restoreReason_; }
+  const Tutorial* tutorial() const { return lesson_; }
+  const LessonStep* step() const;
+  bool lastEnPassant() const { return lastEnPassant_; }
   bool readingAvailable() const { return haveStable_; }
   chessboard::Occupancy sensorOccupancy() const { return filtered_; }
   Indicators indicators(std::uint32_t now) const;
@@ -49,11 +53,11 @@ class BoardApp {
   chessboard::RecordStatus fault_ = chessboard::RecordStatus::Ok;
   chessboard::Occupancy raw_ = 0, filtered_ = 0;
   std::array<std::uint32_t, 64> changed_{};
-  bool haveRaw_ = false, haveStable_ = false;
+  bool haveRaw_ = false, haveStable_ = false, allDebounced_ = false;
   std::uint32_t lastSample_ = 0;
-  std::uint32_t lastChange_ = 0;
-  bool landed_ = false, evaluateMove_ = false;
-  chessboard::ConfirmationStatus adjustment_ = chessboard::ConfirmationStatus::NoMove;
+  const Tutorial* lesson_ = nullptr;
+  chessboard::ConfirmationStatus restoreReason_ = chessboard::ConfirmationStatus::NoMove;
+  bool lastEnPassant_ = false;
   bool saved_ = false;
   bool rejecting_ = false;
   std::uint32_t rejectedAt_ = 0;

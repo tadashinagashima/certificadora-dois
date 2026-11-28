@@ -16,13 +16,15 @@ class Hardware {
       digitalWrite(pin, LOW);
       pinMode(pin, OUTPUT);
     }
-    wireReady_ = Wire.begin(SDA_PIN, SCL_PIN, I2C_HZ);
-    Wire.setTimeOut(25);
     initialiseMatrix();
   }
 
   bool initialiseMatrix() {
-    if (!wireReady_) return fail("controlador I2C indisponivel");
+    if (!wireReady_) {
+      wireReady_ = Wire.begin(SDA_PIN, SCL_PIN, I2C_HZ);
+      if (!wireReady_) return fail("controlador I2C indisponivel");
+      Wire.setTimeOut(25);
+    }
     digitalWrite(MCP_RESET_PIN, LOW);
     delay(2);
     digitalWrite(MCP_RESET_PIN, HIGH); // Release to the external 10k pull-up.
@@ -72,7 +74,6 @@ class Hardware {
   }
 
   bool ready() const { return error_ == nullptr; }
-  bool busReady() const { return wireReady_; }
   const char* error() const { return error_; }
 
  private:

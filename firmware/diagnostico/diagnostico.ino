@@ -2,6 +2,7 @@
 #include "../BoardHardware.h"
 
 board::Hardware hardware;
+bool oledBusReady = false;
 bool haveSnapshot = false;
 bool indicatorTest = false;
 bool measurementColumnHeld = false;
@@ -93,6 +94,8 @@ void printHelp() {
 void setup() {
   Serial.begin(115200);
   hardware.setup();
+  oledBusReady = Wire1.begin(board::OLED_SDA_PIN, board::OLED_SCL_PIN, board::OLED_HZ);
+  Wire1.setTimeOut(12);
   printHelp();
   reportInitialisation();
 }
@@ -109,10 +112,11 @@ void loop() {
       case 'r': hardware.initialiseMatrix(); reportInitialisation(); break;
       case 'v': toggleMeasurementColumn(); break;
       case 'o':
-        for (uint8_t address : {board::OLED_ADDRESS, board::BOARD_OLED_ADDRESS}) {
-          Wire.beginTransmission(address);
+        if (!oledBusReady) { Serial.println("Wire1 indisponivel"); break; }
+        for (uint8_t address : {board::OLED_LEFT_ADDRESS, board::OLED_RIGHT_ADDRESS}) {
+          Wire1.beginTransmission(address);
           Serial.printf("OLED 0x%02X: %s\n", address,
-                        Wire.endTransmission() == 0 ? "ACK" : "sem resposta");
+                        Wire1.endTransmission() == 0 ? "ACK" : "sem resposta");
         }
         break;
       case 't':

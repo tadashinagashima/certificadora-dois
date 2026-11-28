@@ -22,8 +22,6 @@ struct AttemptSnapshot {
   Occupancy currentOccupancy = 0;
   std::array<FrameChanges, kHistoryCapacity> frames{};
   std::size_t frameCount = 0;
-  // After two plausible captures, only a new touch may identify the destination.
-  std::size_t captureEvidenceFrom = 0;
   bool initialized = false;
   bool readingAvailable = false;
   bool historyOverflow = false;
@@ -46,7 +44,6 @@ class MoveTracker {
   // Start another attempt at the last observed occupancy.
   // A missing reading remains unavailable until observe receives a valid one.
   void discardAttempt();
-  void requireFreshCaptureTarget() { attempt_.captureEvidenceFrom = attempt_.frameCount; }
 
  private:
   AttemptSnapshot attempt_{};

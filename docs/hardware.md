@@ -4,7 +4,7 @@ As fontes editáveis são o [projeto KiCad 10](../hardware/eletronica/tabuleiro-
 
 ## Eletrônica adotada
 
-A montagem usa uma DevKit V1 com ESP-WROOM-32, módulo CJMCU-2317 com MCP23017-E/SS, 64 reeds normalmente abertos, 64 diodos 1N4148 PTH, dois LEDs, buzzer e OLED I²C opcional. O computador alimenta o protótipo, controla a partida por USB serial e recebe o PGN.
+A montagem usa uma DevKit V1 com ESP-WROOM-32, módulo CJMCU-2317 com MCP23017-E/SS, 64 reeds normalmente abertos, 64 diodos 1N4148 PTH, dois LEDs, buzzer e dois OLEDs I²C opcionais. O computador alimenta o protótipo, controla a partida por USB serial e recebe o PGN.
 
 O pino **3V3/R15** alimenta a rede `3V3_IO`; GND é comum. **VIN/L15 fica desconectado.** Não usar fonte externa nem aplicar 5 V ao MCP, OLED ou sinais. Wi-Fi e Bluetooth não são necessários e não são inicializados pelo diagnóstico. O regulador marcado `1117C 33 D405` pertence à placa; sua capacidade útil será conferida no teste com o computador e cabo da demonstração.
 
@@ -16,7 +16,8 @@ A1 usa identificadores **L1…L15 e R1…R15**, definidos neste projeto de cima 
 
 | Função | GPIO | Posição em A1 | Configuração |
 | --- | --- | --- | --- |
-| SDA / SCL | 21 / 22 | R5 / R2 | I²C a 100 kHz, pull-ups a 3,3 V |
+| Wire · SDA / SCL do MCP | 21 / 22 | R5 / R2 | 100 kHz, pull-ups existentes a 3,3 V |
+| Wire1 · SDA / SCL dos OLEDs | 32 / 33 | L6 / L7 | 100 ou 400 kHz, pull-ups integrados nos módulos |
 | LED verde / vermelho | 25 / 26 | L8 / L9 | Ativos HIGH, resistores de 1 kΩ |
 | Buzzer | 27 | L10 | Ativo HIGH, estágio NPN |
 | RESET MCP | 14 | L11 | Open-drain, pull-up externo de 10 kΩ |
@@ -44,22 +45,25 @@ A varredura mantém `OLATA=OLATB=0` e `GPPU=0`, libera a coluna anterior e selec
 
 ### Periféricos
 
-#### OLED de 0,96"
+#### OLEDs de 0,96"
 
-O módulo disponível foi anunciado como SSD1315 (`NFP1315-157BY`). O firmware adota 128×64 pixels e o perfil SSD1315 NONAME da biblioteca U8g2 2.36.18 em modo U8x8. Confira controlador e resolução no módulo adquirido. Um ACK indica que há um dispositivo no endereço; letras legíveis na tela confirmam a configuração do painel. [Driver SSD1315 da U8g2](https://github.com/olikraus/u8g2/wiki/u8x8setupcpp)
+Os módulos de 128×64 foram anunciados como SSD1315 (`NFP1315-157BY`). O firmware usa a inicialização SSD1315 NONAME da U8g2 2.36.18. Confira o controlador e a resolução do lote pela legibilidade do quadro inteiro. [Perfil da U8g2](https://github.com/olikraus/u8g2/wiki/u8x8setupcpp) · [Datasheet SSD1315](https://files.waveshare.com/upload/f/f0/SSD1315_1.1.pdf)
 
-| Serigrafia do OLED | Ligação em J2 |
-| --- | --- |
-| GND | 1 — GND comum |
-| VCC | 2 — 3V3_IO |
-| SCL | 3 — GPIO22/R2, mesma rede SCL do MCP |
-| SDA | 4 — GPIO21/R5, mesma rede SDA do MCP |
+| Vista de quem joga | Referência no esquema | Endereço de 7 bits | Marcação no módulo |
+| --- | --- | --- | --- |
+| Esquerda | J2 | 0x3D | 0x7A, R12 |
+| Direita | J3 | 0x3C | 0x78, R11 |
 
-Confira os nomes dos quatro pinos antes de ligar. A tela da partida usa `0x3C` e a da animação usa `0x3D` (endereços de 7 bits). Nos módulos da montagem, o resistor de seleção fica em R11/0x78 na primeira tela e em R12/0x7A na segunda. O MCP usa `0x20`. Mantenha o barramento a 100 kHz e verifique a resistência equivalente dos pull-ups dos dois módulos e sua ligação a 3,3 V. A biblioteca usa o Wire já inicializado, sem pino de reset dedicado. [Datasheet SSD1315](https://files.waveshare.com/upload/f/f0/SSD1315_1.1.pdf)
+| Pino lógico de J2 e J3 | Rede | DevKit V1 |
+| --- | --- | --- |
+| 1 · GND | GND | L14 ou R14 |
+| 2 · VCC | 3V3_IO | R15 |
+| 3 · SCL | OLED_SCL | GPIO33/L7 |
+| 4 · SDA | OLED_SDA | GPIO32/L6 |
 
-As duas telas compartilham SDA, SCL, 3,3 V e GND. Use endereços distintos para enviar uma imagem a cada módulo. Considere os pull-ups da segunda tela na resistência equivalente do barramento. Confira a imagem em cada tela após verificar os endereços pelo terminal.
+Confira a serigrafia antes de ligar os conectores. Os módulos ficam lado a lado, em paralelo em **Wire1**. Cada módulo traz 4,7 kΩ para 3,3 V em SDA e em SCL. Com ambos conectados, cada linha tem aproximadamente 2,35 kΩ. A montagem usa esses resistores integrados e os capacitores já instalados. O MCP23017 permanece em **Wire**, endereço 0x20, com as redes I2C_SDA e I2C_SCL e os pull-ups existentes.
 
-O firmware verifica os dois endereços no boot e repete a consulta a cada três segundos para cada tela offline enquanto a matriz está operacional. Se apenas as telas continuarem offline, salve a partida, desligue a alimentação e confira os quatro fios no trecho que atende os OLEDs. Um curto que prenda SDA ou SCL afeta todo o barramento.
+No boot os dois barramentos operam a 100 kHz. No terminal da partida, `oled 400` seleciona 400 kHz nos OLEDs e `oled 100` retorna a 100 kHz. Ambos os comandos reinicializam as telas. `tecnico` informa a frequência, os dois endereços e o estado de cada módulo. Uma falha de comunicação em Wire1 permite continuar a varredura da matriz em Wire.
 
 #### LEDs e buzzer
 
@@ -92,7 +96,7 @@ Fundo e suporte medem 350×350×6 mm, com quatro escareados de 90°, Ø6,8×1,7 
 
 O suporte tem 64 furos, canais, coletores e passagem de chicote 8×28 mm. Vidro apoiado em junta periférica externa 346×346 mm, com duas pegas laterais R10. A frente recebe os dois LEDs. A abertura lateral de 70×20 mm dá acesso ao USB. Conferir bordas lapidadas, apoio, remoção e retenção no transporte. Fios, soldas, cruzamentos e terminais dobrados não estão modelados; manter redes distintas isoladas e abaixo do apoio do vidro.
 
-Reservas `REF` são envelopes, não desenhos de fabricante: ESP32/USB 58×30×15 mm, placa MCP/interfaces 85×65×18 mm, buzzer 16×16×12 mm. Há 7 mm nominais entre a placa e os terminais inferiores dos reeds, sem fios/conectores. Medir módulos, USB e furação antes de fabricar suportes. Para a demonstração, posicionar o OLED externamente com os quatro fios acessíveis. O modelo não prevê recorte para esse módulo.
+Reservas `REF` são envelopes, não desenhos de fabricante: ESP32/USB 58×30×15 mm, placa MCP/interfaces 85×65×18 mm, buzzer 16×16×12 mm. Há 7 mm nominais entre a placa e os terminais inferiores dos reeds, sem fios/conectores. Medir módulos, USB e furação antes de fabricar suportes. Para a demonstração, posicionar os dois OLEDs lado a lado fora da caixa, com os cabos acessíveis. O modelo mecânico usa montagem externa para as telas.
 
 ## Editar, exportar e conferir
 
@@ -119,6 +123,8 @@ A exportação não salva nem substitui o FCStd; os resultados ficam em `hardwar
 3. Com os 47 kΩ, usar `v` do diagnóstico para medir VDD, coluna e ROW com zero, um e oito contatos fechados. Exigir ROW ocupada <0,2×VDD e vazia >0,8×VDD (0,66/2,64 V a 3,3 V), com margem. Não usar média da varredura no multímetro como nível LOW.
 4. Retomar a varredura e testar todas as casas, cantos, colunas g/h, posição inicial e retângulos de três/quatro contatos. Não devem existir casas fantasma ou instabilidade. Conferir acomodação dos 300 µs com a fiação real.
 5. Com o USB e cabo da demonstração, medir o 3V3 na placa e nos módulos durante varredura, atualização do OLED e teste `t`. Conferir 3,0…3,6 V, aquecimento e ausência de resets ou desconexões.
-6. Testar a mesma sequência de comandos primeiro sem OLED e depois com ele, desligando antes de mudar a ligação. Conferir a resposta a `o` no diagnóstico, a legibilidade do SAN, indicação de xeque e gravação do PGN pelo terminal. Verificar isolamento, apoio do vidro e acesso ao fundo/USB.
+6. Em `o` do diagnóstico, conferir ACK à esquerda em 0x3D e à direita em 0x3C. Na aplicação, abrir `tecnico` e executar o roteiro de roque nas duas velocidades (`oled 100` e `oled 400`). Observar se o sprite atravessa a emenda na direção correta, se todas as oito páginas são desenhadas e se algum pedaço da cena anterior persiste. Conferir estabilidade e ausência de falsos movimentos durante vários ciclos.
+7. Se houver analisador lógico, medir SDA/SCL nos dois pares durante a animação. Conferir frequência, subida, ACK e intervalos entre varreduras. Para estimar FPS reais com carga, filmar a animação com taxa conhecida e contar quadros distintos no intervalo. Usar 400 kHz na apresentação se os módulos e o chicote sustentarem a comunicação. Registrar em bancada a frequência e a fluidez obtidas.
+8. Desligar para montar com apenas um OLED e repetir a jogada. Repetir com o outro. Confirmar que a tela presente e o registro USB funcionam. Para exercitar a recuperação em operação, isolar temporariamente SDA de **um** painel com uma chave preparada sem energia, mantendo alimentação e terra. Após reconectar, esperar a sondagem e conferir a repintura completa. Verificar também o retorno à posição válida após lance rejeitado, o PGN no computador, isolamento e acesso ao fundo/USB.
 
 A aquisição física já está integrada ao firmware principal, com filtro por casa e sinalização de perdas. A montagem completa e os tempos de aquisição ainda precisam dessa validação. Compilação, ERC e geometria não demonstram comportamento elétrico, magnético, térmico ou resistência mecânica.

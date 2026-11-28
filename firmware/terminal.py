@@ -5,6 +5,8 @@ from functools import lru_cache
 import os
 from pathlib import Path
 import re
+import shutil
+import textwrap
 import subprocess
 import sys
 import tempfile
@@ -13,14 +15,29 @@ import unicodedata
 import zlib
 
 
+LESSONS = {
+    "roque": ("Roque", "O rei anda duas casas e a torre passa para o outro lado dele. "
+              "O caminho precisa estar livre. O rei deve sair, passar e chegar a casas sem ataque. "
+              "O direito ao roque exige que rei e torre ainda não tenham se movido."),
+    "promocao": ("Promoção", "Ao chegar à última fileira, o peão vira dama, torre, bispo ou cavalo. "
+                 "Nesta lição escolha a torre. Em A8, ela dá xeque ao longo da oitava fileira."),
+    "en-passant": ("En passant", "Avance o peão preto duas casas até ficar ao lado do branco. "
+                   "Só na resposta imediata o branco pode capturá-lo como se ele tivesse avançado uma casa. "
+                   "O destino da captura fica vazio e o peão capturado sai da casa vizinha."),
+}
+
 HELP = """Comandos de partida
+  Enter             Confirma o gesto completo. Também aceita confirm.
+  tutorial          Escolhe roque, promoção ou en passant.
+  repetir           Reinicia a montagem da lição atual.
   nomes             Escolhe os nomes exibidos no letreiro do OLED.
   new               Inicia outra partida e descarta a posição ativa.
-  promote Q|R|B|N   Promove o peão a dama, torre, bispo ou cavalo.
+  promote Q|R|B|N   Escolhe a peça da promoção. Enter conclui o lance.
   finish            Encerra e salva o PGN.
   resign white|black  Registra abandono das brancas ou pretas e salva.
   status / pgn      Consulta os sensores e a posição / exibe o registro.
   maquina / local    Máquina joga de pretas / dois jogadores. Mantém a posição.
+  oled 100|400      Seleciona a frequência em kHz e redesenha os dois OLEDs.
   tecnico           Mostra o status bruto da placa, incluindo FEN e diagnóstico.
   save              Tenta novamente uma gravação pendente.
   pasta CAMINHO     Altera a pasta dos próximos PGNs.
@@ -28,15 +45,19 @@ HELP = """Comandos de partida
 
 HINTS = {
     "CONFIRM Accepted": "Lance aceito.",
-    "CONFIRM UnexpectedMove": "Reponha a posição anterior e execute o lance indicado pela máquina.",
+    "CONFIRM UnexpectedMove": "Reponha a posição anterior e execute o lance indicado.",
     "CONFIRM NoMove": "Nenhum movimento detectado.",
     "CONFIRM PromotionRequired": "Escolha a peça com promote Q, R, B ou N.",
-    "CONFIRM UnreliableInput": "Aguarde os sensores. Confira a posição com status.",
+    "CONFIRM UnreliableInput": "Aguarde os sensores e reponha a última posição aceita.",
     "CONFIRM NoLegalMatch": "Lance inválido. Reponha a posição anterior e refaça o lance.",
     "CONFIRM Ambiguous": "Movimento ambíguo. Reponha a posição anterior.",
     "CONFIRM PositionMismatch": "Reponha as peças na última posição aceita.",
     "ERROR SavePending": "Use save antes de iniciar outra partida.",
     "ERROR Command": "Comando desconhecido. Digite ajuda para ver as opções.",
+    "ERROR ActiveGame": "Use finish para salvar esta partida antes de abrir uma lição.",
+    "ERROR Tutorial": "Escolha tutorial roque, tutorial promocao ou tutorial en-passant.",
+    "ERROR OledBus": "Falha ao iniciar Wire1. Consulte tecnico para verificar as telas.",
+    "ERROR Promotion": "Mova o peão, pressione Enter e então selecione Q, R, B ou N.",
     "ERROR PlayerName": "Use até 24 letras, números, espaços, pontos, apóstrofos ou hífens.",
     "CONFIRM GameFinished": "A partida terminou. Use new para começar outra.",
     "CONFIRM ApplyFailed": "Falha ao aplicar o lance. Consulte o diagnóstico com tecnico.",
@@ -69,7 +90,7 @@ def colored(text, color, stream=None):
 
 
 def response_color(line):
-    if line.startswith("ERROR ") or line.startswith(("CONFIRM NoLegalMatch", "CONFIRM ApplyFailed")):
+    if line.startswith("ERROR ") or line.startswith(("CONFIRM NoLegalMatch", "CONFIRM Ambiguous", "CONFIRM UnexpectedMove", "CONFIRM ApplyFailed")):
         return RED
     if line.startswith("STATE ") and "fault=Ok" not in line:
         return RED
@@ -117,42 +138,54 @@ def show_position(lines, notice=""):
     io = dict(item.split("=") for item in sections["IO"].split())
     position, turn, *_, number = sections["FEN"].split()
     cpu = sections.get("MODE") == "cpu"
-    move = sections.get("CPU", "").upper()
+    lesson_info = sections.get("LESSON", "").split()
+    lesson = LESSONS.get(lesson_info[0]) if lesson_info else None
+    move = sections.get("TARGET", sections.get("CPU", "")).upper() if state == "Tracking" else ""
     side = "Brancas" if turn == "w" else "Pretas"
     player = sections.get("WHITE_NAME" if turn == "w" else "BLACK_NAME", "")
     if turn == "b" and cpu:
         player = "Máquina"
-    titles = {"Tracking": f"Vez das {side.lower()}", "AwaitingPosition": "Monte a posição",
-              "AwaitingPromotion": "Escolha a promoção", "Finished": "Partida encerrada"}
+    restoring = "RESTORE" in sections
+    mode = f"Tutorial  /  {lesson[0]}" if lesson else "Contra a máquina" if cpu else "Dois jogadores"
     if console_colors(sys.stdout):
         print("\033[2J\033[H", end="")
-    print(colored("XADREZ", CYAN) + "   /   " + ("Contra a máquina" if cpu else "Dois jogadores"))
+    print(colored("XADREZ", CYAN) + "   /   " + mode)
     print()
-    rail = [colored(titles.get(state, state) + (" · " + player if player and state == "Tracking" else ""),
-                    YELLOW if io["check"] == "1" else CYAN),
-            f"Jogada {number}   ·   Último lance: {io['last']}", "",
-            "PRÓXIMA AÇÃO", "Jogue no tabuleiro."]
+    rail = [colored(f"{number}  ·  {side}" + (f"  ·  {player}" if player else ""), CYAN),
+            f"Último lance   {io['last']}", ""]
     if state == "Finished":
         reason, result = sections["ENDING"].split()
         endings = {"Manual": "Encerramento manual", "Checkmate": "Xeque-mate", "Stalemate": "Afogamento",
                    "InsufficientMaterial": "Material insuficiente", "Resignation": "Abandono"}
-        rail[3:] = [endings.get(reason, reason), result.removeprefix("result=")]
+        complete = lesson and flags["plies"] == lesson_info[1]
+        rail += [colored("Lição concluída" if complete else endings.get(reason, reason), GREEN),
+                 result.removeprefix("result="), "PGN salvo" if io["saved"] == "1" else "PGN pendente"]
+        if lesson:
+            rail.append("Use repetir ou escolha outra lição.")
     elif state == "AwaitingPosition":
-        rail[4] = "Reponha as peças indicadas abaixo."
+        if restoring:
+            reason = {"Ambiguous": "Leitura ambígua", "NoLegalMatch": "Lance ilegal",
+                      "UnexpectedMove": "Lance diferente do indicado", "UnreliableInput": "Leitura interrompida"}
+            rail.append(reason.get(sections["RESTORE"], "Posição diferente da esperada"))
+        rail += [colored("REPONHA A POSIÇÃO" if restoring else "MONTAGEM", RED if restoring else YELLOW),
+                 "Use o desenho como referência.", "Confira as peças e as cores."]
     elif state == "AwaitingPromotion":
-        rail[4] = "Digite promote Q, R, B ou N."
-    elif move:
-        rail[3:] = ["RESPOSTA DA MÁQUINA", colored(move.replace(">", " → "), YELLOW),
-                    f"[ ] Origem: {move[:2]}   ( ) Destino: {move[3:5]}", "Mova a peça indicada."]
-    if "ADJUST" in sections:
-        if sections["ADJUST"] == "Ambiguous":
-            rail[4:] = ["Captura ambígua.", "Levante e recoloque a peça no destino."]
-        elif move:
-            rail[-1] = "Ajuste a peça até o destino indicado."
+        rail += [colored("PROMOÇÃO", YELLOW)]
+        if flags["promotion"] == "None":
+            rail.append("Digite promote R." if lesson else "Digite promote Q, R, B ou N.")
         else:
-            rail[4] = "Ajuste as peças nas casas pretendidas."
+            rail.append(f"Seleção: {flags['promotion']}   ·   Enter confirma.")
+    elif move:
+        heading = f"PASSO {int(flags['plies']) + 1} DE {lesson_info[1]}" if lesson else "RESPOSTA DA MÁQUINA"
+        rail += [colored(heading, CYAN), colored(move.replace(">", " → "), YELLOW)]
+        if "CUE" in sections:
+            rail.append(sections["CUE"])
+        rail.append("Complete o gesto e pressione Enter.")
+    else:
+        rail += ["SUA JOGADA", "Mova as peças. Enter confirma."]
     if io["check"] == "1" and state != "Finished":
         rail.append(colored("XEQUE", YELLOW))
+    wide = shutil.get_terminal_size().columns >= 76
     pieces = str.maketrans("KQRBNPkqrbnp", "RDTBCPrdtbcp")
     for y, row in enumerate(position.split("/")):
         squares = "".join("." * int(c) if c.isdigit() else c.translate(pieces) for c in row)
@@ -167,17 +200,24 @@ def show_position(lines, notice=""):
                 bg = 238 if (x + y) % 2 else 242
                 fg = 37 if piece == "." else (97 if piece.isupper() else 93)
                 cells.append(colored(f" {piece} ", f"{fg};48;5;{bg}"))
-        print(f"{8-y}  " + "".join(cells) + "    " + (rail[y] if y < len(rail) else ""))
+        print(f"{8-y}  " + "".join(cells) + ("    " + rail[y] if wide and y < len(rail) else ""))
     print("    A  B  C  D  E  F  G  H")
-    print("   Brancas em maiúsculas · Pretas em minúsculas")
+    for line in rail[8:] if wide else rail:
+        print(line)
+    print("   Maiúsculas · brancas     Minúsculas · pretas")
+    if state == "AwaitingPosition":
+        print("   R rei · D dama · T torre · B bispo · C cavalo · P peão")
+    if lesson:
+        print()
+        print(textwrap.fill(lesson[1], min(76, max(32, shutil.get_terminal_size().columns))))
     if notice:
-        print(colored(notice, YELLOW if notice != HINTS["CONFIRM Accepted"] else GREEN))
+        print(colored(notice, RED if restoring or notice.startswith("PGN pendente") else GREEN if notice.startswith(("Lance aceito", "PGN gravado")) else YELLOW))
     if flags["fault"] != "Ok":
         print(colored(f"Falha de registro: {flags['fault']}", RED))
-    if flags["interrupted"] == "1" or flags["overflow"] == "1":
+    if state != "Finished" and (flags["interrupted"] == "1" or flags["overflow"] == "1"):
         print(colored("Leitura interrompida. Reponha a última posição aceita.", YELLOW))
     show_squares(sections["OCC"], setup=state == "AwaitingPosition")
-    offline = [label for key, label in (("OLED", "partida"), ("OLED_TABULEIRO", "animação"))
+    offline = [label for key, label in (("OLED", "direita · 0x3C"), ("OLED_TABULEIRO", "esquerda · 0x3D"))
                if sections.get(key, "").endswith("offline")]
     if offline:
         print(colored("Tela indisponível: " + ", ".join(offline), YELLOW))
@@ -313,45 +353,72 @@ def live_command(refresh):
             next_refresh = time.monotonic() + 0.4
 
 
+def choose_lesson(interactive):
+    print(colored("ESCOLHA A LIÇÃO", CYAN))
+    for index, (key, (title, _)) in enumerate(LESSONS.items(), 1):
+        print(f"  [{index}] {title:<12}  tutorial {key}")
+    if interactive:
+        choice = input("Número ou nome · Enter volta > ").strip().lower()
+        aliases = dict(zip(("1", "2", "3"), LESSONS))
+        if choice == "promoção":
+            choice = "promocao"
+        key = aliases.get(choice, choice.replace(" ", "-"))
+        if key in LESSONS:
+            return "tutorial " + key
+        if choice:
+            print(colored("Lição desconhecida.", YELLOW))
+    return None
+
+
 def interact(writer, reader, args):
     def send(command):
         return request(writer, reader, command)
 
-    if "PROTOCOL 2" not in send("hello"):
-        raise ValueError("O dispositivo não respondeu com o protocolo 2 do tabuleiro.")
+    if "PROTOCOL 3" not in send("hello"):
+        raise ValueError("O dispositivo não respondeu com o protocolo 3. Atualize o firmware e o terminal juntos.")
     directory = args.destino.resolve()
     interactive = sys.stdin.isatty() and sys.stdout.isatty()
     print(colored("TABULEIRO DE XADREZ", CYAN), " · ", args.port or "Simulador", sep="")
     if args.sim:
-        print("Simulação: sync monta a posição inicial. Experimente lift e2 e place e4.")
+        print("Simulação: sync monta a posição inicial. Use lift e2, place e4 e Enter para confirmar.")
     print(f"Pasta dos PGNs: {directory}")
     pending = False
     last_panel = None
+    receipt = ""
 
     def execute(command, raw=False, save_offered=True, notice="", changes_only=False):
-        nonlocal pending, last_panel
+        nonlocal pending, last_panel, receipt
         lines = send(command)
         panel = interactive and command == "status" and not raw and any(line.startswith("STATE ") for line in lines)
+        offer = next((line for line in lines if line.startswith("SAVE_PENDING ")), None)
+        if offer and save_offered:
+            pending = not save_pending(send, offer, directory)
+            if not pending:
+                receipt = f"PGN gravado em {directory / ('partida-' + offer.split()[1] + '.pgn')}"
+                if panel:
+                    lines = send("status")
         if panel:
             # Ignore blinking indicators and intermediate lifts while a move is in flight.
             key = tuple(line.split(" frames=")[0] for line in lines
-                        if line.startswith(("STATE ", "FEN ", "CPU ", "MODE ", "WHITE_NAME ", "BLACK_NAME ", "OLED", "ADJUST ")))
-            if any(line.startswith(("STATE AwaitingPosition", "ADJUST ")) for line in lines):
+                        if line.startswith(("STATE ", "FEN ", "CPU ", "MODE ", "WHITE_NAME ", "BLACK_NAME ", "OLED", "LESSON ", "RESTORE ", "TARGET ", "CUE ")))
+            if any(line.startswith("STATE AwaitingPosition") for line in lines):
                 key += tuple(line for line in lines if line.startswith("OCC "))
-            if changes_only and key == last_panel:
+            if changes_only and key == last_panel and not (offer and save_offered):
                 return []
             last_panel = key
-            show_position(lines, notice)
-            print("[1] Posição   [3] PGN   [4] Máquina   [5] Dois jogadores   [6] Nomes   [?] Ajuda")
+            if not any(line.startswith("STATE Finished") for line in lines):
+                receipt = ""
+            if pending:
+                notice = "PGN pendente. Use pasta CAMINHO e save."
+            show_position(lines, receipt or notice)
+            print()
+            print(colored("[Enter] Confirmar", CYAN) + "   [1] Posição   [2] Tutorial   [3] PGN   [?] Ajuda")
         for line in lines:
             if interactive and command == "pgn" and line in ("PGN_BEGIN", "PGN_END"):
                 if line == "PGN_BEGIN":
                     print(colored("Registro da partida (PGN)", CYAN))
                 continue
-            if line.startswith("SAVE_PENDING "):
-                if save_offered:
-                    pending = not save_pending(send, line, directory)
-            elif not panel:
+            if not panel and not line.startswith("SAVE_PENDING "):
                 color = response_color(line)
                 if not interactive or line not in HINTS:
                     print(colored(line, color))
@@ -379,15 +446,22 @@ def interact(writer, reader, args):
 
     initial = execute("status")  # Também recupera PGNs pendentes.
     fresh = any(line.startswith("STATE ") and " plies=0 " in line and " record_finished=0 " in line for line in initial)
-    if interactive and fresh and "MODE cpu" not in initial and not any(
+    if interactive and fresh and "MODE cpu" not in initial and "MODE tutorial" not in initial and not any(
             line.startswith(("WHITE_NAME ", "BLACK_NAME ")) for line in initial):
         try:
-            mode = input("Começar: [Enter] Dois jogadores   [4] Máquina > ").strip()
-            while mode not in ("", "5", "4"):
-                mode = input("Use Enter ou 5 para dois jogadores, ou 4 para máquina > ").strip()
+            mode = input("Começar: [Enter] Dois jogadores   [2] Tutorial   [4] Máquina > ").strip()
+            while mode not in ("", "5", "4", "2"):
+                mode = input("Use Enter, 2, 4 ou 5 > ").strip()
         except EOFError:
             return 0
-        if mode == "4":
+        if mode == "2":
+            try:
+                command = choose_lesson(True)
+            except EOFError:
+                return 0
+            if command:
+                execute(command)
+        elif mode == "4":
             execute("mode cpu")
         else:
             ask_names()
@@ -401,9 +475,17 @@ def interact(writer, reader, args):
             command = command.strip()
         except EOFError:
             break
-        command = {"1": "status", "3": "pgn", "4": "mode cpu", "5": "mode local",
+        command = {"": "confirm", "1": "status", "2": "tutorial", "3": "pgn",
+                   "4": "mode cpu", "5": "mode local", "repetir": "tutorial restart",
                    "maquina": "mode cpu", "máquina": "mode cpu", "local": "mode local",
                    "6": "nomes", "?": "ajuda"}.get(command, command)
+        if command == "tutorial":
+            try:
+                command = choose_lesson(interactive)
+            except EOFError:
+                break
+            if not command:
+                continue
         if command in ("sair", "exit", "quit"):
             break
         if command in ("ajuda", "help"):
@@ -422,23 +504,16 @@ def interact(writer, reader, args):
             print("A confirmação de gravação é enviada automaticamente.")
         elif command and len(command) <= 96 and command.isascii() and command.isprintable():
             reply = execute(command)
-            sim_motion = args.sim and command.split()[0] in ("lift", "place", "observe", "promote")
-            if sim_motion and reply and reply[0].startswith("OK"):
-                reply += execute("wait 500")
             if interactive and reply and reply[0].startswith("OK") and (
                     command == "mode local" or (command == "new" and "MODE cpu" not in send("status"))):
                 ask_names()
-            if interactive and (sim_motion or command.startswith(("wait ", "mode ", "promote ")) or command == "new"):
-                # Keep save receipts and failures visible when the game ends.
-                saved_now = any(line.startswith("SAVE_PENDING ") for line in reply)
-                if not saved_now or not pending:
-                    note = HINTS.get(reply[0], reply[0]) if reply else ""
-                    if saved_now:
-                        game_id = next(line.split()[1] for line in reply if line.startswith("SAVE_PENDING "))
-                        note = f"PGN gravado em {directory / ('partida-' + game_id + '.pgn')}"
-                    elif reply and reply[0].startswith("OK"):
-                        note = ""
-                    execute("status", save_offered=not pending, notice=note)
+            verb = command.split()[0]
+            if interactive and verb in ("confirm", "sync", "lift", "place", "observe", "interrupt", "wait",
+                                        "new", "mode", "tutorial", "promote", "finish", "resign", "save", "oled"):
+                # A failed save leaves the path/error visible until the operator retries.
+                if reply and not pending and not reply[0].startswith("ERROR"):
+                    note = HINTS.get(reply[0], "")
+                    execute("status", save_offered=False, notice=note)
         else:
             print(colored("Digite um comando ASCII com até 96 caracteres. Use ajuda.", YELLOW))
 

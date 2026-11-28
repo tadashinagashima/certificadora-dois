@@ -33,7 +33,7 @@ void GameController::markInputInterrupted() {
   state_ = GameState::AwaitingPosition;
 }
 
-ConfirmationResult GameController::confirm(const Move* expected, bool allowPartial) {
+ConfirmationResult GameController::confirm(const Move* expected, bool useSuggestedPromotion) {
   if (state_ == GameState::Finished) return {ConfirmationStatus::GameFinished, {}};
 
   const auto snapshot = tracker_.snapshot();
@@ -42,16 +42,20 @@ ConfirmationResult GameController::confirm(const Move* expected, bool allowParti
                                 : ConfirmationStatus::UnreliableInput, {}};
   }
 
-  const auto interpretation = interpretMove(snapshot, position_, expected ? expected->promotion : selection_, expected, allowPartial);
+  const auto piece = expected && selection_ == Promotion::None ? expected->promotion : selection_;
+  const auto interpretation = interpretMove(snapshot, position_, piece);
   ConfirmationStatus failure = ConfirmationStatus::ApplyFailed;
   switch (interpretation.status) {
-    case InterpretationStatus::InProgress:
-      return {ConfirmationStatus::InProgress, {}};
     case InterpretationStatus::Identified:
       if (expected && (expected->from != interpretation.move.from || expected->to != interpretation.move.to ||
                        expected->promotion != interpretation.move.promotion)) {
         failure = ConfirmationStatus::UnexpectedMove;
         break;
+      }
+      if (interpretation.move.promotion != Promotion::None && selection_ == Promotion::None &&
+          !useSuggestedPromotion) {
+        state_ = GameState::AwaitingPromotion;
+        return {ConfirmationStatus::PromotionRequired, {}};
       }
       if (position_.apply(interpretation.move)) {
         tracker_.discardAttempt();
@@ -67,7 +71,7 @@ ConfirmationResult GameController::confirm(const Move* expected, bool allowParti
       state_ = GameState::Tracking;
       return {ConfirmationStatus::NoMove, {}};
     case InterpretationStatus::PromotionRequired:
-      if (expected) {
+      if (expected && expected->promotion == Promotion::None) {
         failure = ConfirmationStatus::UnexpectedMove;
         break;
       }

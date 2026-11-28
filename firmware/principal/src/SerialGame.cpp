@@ -32,7 +32,6 @@ const char* name(RecordStatus value) {
 const char* name(ConfirmationStatus value) {
   switch (value) {
     case ConfirmationStatus::Accepted: return "Accepted";
-    case ConfirmationStatus::InProgress: return "InProgress";
     case ConfirmationStatus::NoMove: return "NoMove";
     case ConfirmationStatus::NoLegalMatch: return "NoLegalMatch";
     case ConfirmationStatus::Ambiguous: return "Ambiguous";
@@ -76,6 +75,21 @@ const char* name(GameResult value) {
   }
   return "Unknown";
 }
+
+constexpr Square square(const char (&coord)[3]) {
+  return board::squareIndex(coord[0] - 'a', coord[1] - '1');
+}
+
+constexpr Tutorial tutorials[] = {
+  {"roque", "r3k2r/8/8/8/8/8/8/R3K2R w KQkq - 0 1", "ROQUE", 2, {
+    {{square("e1"), square("g1")}, "Torre H1 > F1"},
+    {{square("e8"), square("c8")}, "Torre A8 > D8"}}},
+  {"promocao", "7k/P7/8/8/8/8/8/4K3 w - - 0 1", "PROMOCAO", 1, {
+    {{square("a7"), square("a8"), chessboard::Promotion::Rook}, "Troque por torre"}, {}}},
+  {"en-passant", "k7/3p4/8/4P3/8/8/8/4K3 b - - 0 1", "EN PASSANT", 2, {
+    {{square("d7"), square("d5")}, "Avance 2 casas"},
+    {{square("e5"), square("d6")}, "Retire o de D5"}}}
+};
 
 struct Scenario { const char* id; const char* fen; };
 // Trusted fixtures, not a public arbitrary-FEN parser (THC accepts a dialect).
@@ -129,18 +143,19 @@ std::string SerialGame::fault(RecordStatus error) {
   return std::string("ERROR RecordFailure ") + name(error) + "\n";
 }
 
-std::string SerialGame::start(const std::string& scenario) {
+std::string SerialGame::start(const std::string& scenario, const Tutorial* lesson) {
   if (!simulation_ && scenario != "start") return "ERROR SimulationOnly\n";
   const Scenario* selected = nullptr;
   for (const auto& item : scenarios) if (scenario == item.id) selected = &item;
   if (!selected) return "ERROR Scenario\n";
   if (app_.record().finished() && !app_.saved()) return "ERROR SavePending\n";
   ChessAdapter initial;
-  if (selected->fen && !initial.loadFen(selected->fen)) return "ERROR Fixture\n";
-  if (!app_.start(initial)) return fault(app_.fault());
+  const char* fen = lesson ? lesson->fen : selected->fen;
+  if (fen && !initial.loadFen(fen)) return "ERROR Fixture\n";
+  if (!app_.start(initial, lesson)) return fault(app_.fault());
   simAvailable_ = false;
   ++session_;
-  return "OK new " + scenario + "\n";
+  return lesson ? std::string("OK tutorial ") + lesson->id + "\n" : "OK new " + scenario + "\n";
 }
 
 std::string SerialGame::confirm() {
@@ -201,8 +216,13 @@ std::string SerialGame::status() const {
     if (app_.suggestedMove().from != kInvalidSquare)
       output += "CPU " + app_.suggestedCoordinates() + "\n";
   }
-  if (app_.adjustment() != ConfirmationStatus::NoMove)
-    output += std::string("ADJUST ") + name(app_.adjustment()) + "\n";
+  if (app_.restoreReason() != ConfirmationStatus::NoMove)
+    output += std::string("RESTORE ") + name(app_.restoreReason()) + "\n";
+  if (const auto* lesson = app_.tutorial()) {
+    output += std::string("MODE tutorial\nLESSON ") + lesson->id + " " + std::to_string(lesson->count) + "\n";
+    if (const auto* step = app_.step())
+      output += "TARGET " + app_.suggestedCoordinates() + "\nCUE " + step->cue + "\n";
+  }
   const auto& record = app_.record();
   if (record.playerName(Color::White) != "?") output += "WHITE_NAME " + record.playerName(Color::White) + "\n";
   if (record.playerName(Color::Black) != "?") output += "BLACK_NAME " + record.playerName(Color::Black) + "\n";
@@ -245,17 +265,30 @@ std::string SerialGame::dispatch(const std::string& line) {
   }
   if (verb == "help" && bare) {
     if (!simulation_)
-      return "COMMANDS new, mode cpu|local, promote Q|R|B|N, finish, resign white|black, save, status, pgn, metrics, help\n";
-    std::string text = "COMMANDS new [scenario], sync, observe HEX16, lift SQ, place SQ, promote Q|R|B|N, interrupt, finish, resign white|black, status, pgn, help\nSCENARIOS";
+      return "COMMANDS new, confirm, tutorial roque|promocao|en-passant|restart, mode cpu|local, oled 100|400, promote Q|R|B|N, finish, resign white|black, save, status, pgn, metrics, help\n";
+    std::string text = "COMMANDS new [scenario], confirm, tutorial roque|promocao|en-passant|restart, sync, observe HEX16, lift SQ, place SQ, promote Q|R|B|N, interrupt, finish, resign white|black, status, pgn, help\nSCENARIOS";
     for (const auto& item : scenarios) text += std::string(" ") + item.id;
     return text + "\nIO mode cpu|local, save, raw HEX16, wait MS\n";
   }
+  if (verb == "tutorial") {
+    const Tutorial* selected = nullptr;
+    if (arg == "restart") selected = app_.tutorial();
+    for (const auto& lesson : tutorials) if (arg == lesson.id) selected = &lesson;
+    if (!selected) return "ERROR Tutorial\n";
+    if (!app_.tutorial() && app_.record().plyCount() && !app_.record().finished())
+      return "ERROR ActiveGame\n";
+    return start("start", selected);
+  }
   if (verb == "mode" && (arg == "cpu" || arg == "local")) {
+    if (app_.tutorial()) {
+      const auto reply = start("start");
+      if (reply.compare(0, 2, "OK") != 0) return reply;
+    }
     app_.setComputerMode(arg == "cpu");
     return "OK mode " + arg + "\n";
   }
   if (verb == "status" && bare) return status();
-  if (verb == "hello" && bare) return "PROTOCOL 2\n";
+  if (verb == "hello" && bare) return "PROTOCOL 3\n";
   if (verb == "pgn") {
     if (!bare && (!app_.record().finished() || arg != sessionId())) return "ERROR Session\n";
     return "PGN_BEGIN\n" + app_.record().pgn() + "PGN_END\n";

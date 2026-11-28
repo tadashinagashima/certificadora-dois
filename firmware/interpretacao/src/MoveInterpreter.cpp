@@ -3,23 +3,18 @@
 namespace chessboard {
 namespace {
 
-bool readHistory(const AttemptSnapshot& attempt, bool automatic, Occupancy& captureTargets) {
+bool readHistory(const AttemptSnapshot& attempt, Occupancy& removed, Occupancy& landed) {
   if (!attempt.reliable() || attempt.frameCount > attempt.frames.size()) return false;
   Occupancy occupied = attempt.initialOccupancy;
-  const Occupancy missing = occupied & ~attempt.currentOccupancy;
+  const Occupancy origins = occupied & ~attempt.currentOccupancy;
   for (std::size_t i = 0; i < attempt.frameCount; ++i) {
     const auto& frame = attempt.frames[i];
     if ((frame.removed & frame.added) || (frame.removed & ~occupied) ||
         (frame.added & occupied) || !(frame.removed | frame.added)) return false;
     occupied = (occupied & ~frame.removed) | frame.added;
-    if (!automatic) {
-      captureTargets |= frame.removed;
-    } else if (i >= attempt.captureEvidenceFrom) {
-      // For an ordinary capture only the origin ends empty. A target touched
-      // and restored before the moving piece was lifted is no landing evidence.
-      if (frame.removed & missing) captureTargets = 0;
-      if (!(occupied & missing)) captureTargets |= frame.added;
-    }
+    removed |= frame.removed;
+    if (frame.removed & origins) landed = 0; // Another lift starts a new landing.
+    if ((occupied & origins) == 0) landed |= frame.added;
   }
   return occupied == attempt.currentOccupancy;
 }
@@ -28,9 +23,9 @@ bool readHistory(const AttemptSnapshot& attempt, bool automatic, Occupancy& capt
 
 InterpretationResult interpretMove(const AttemptSnapshot& attempt,
                                    const ChessAdapter& position,
-                                   Promotion selection, const Move* expected, bool allowPartial) {
-  Occupancy captureTargets = 0;
-  if (!readHistory(attempt, allowPartial, captureTargets)) return {InterpretationStatus::UnreliableInput, {}};
+                                   Promotion selection) {
+  Occupancy removed = 0, landed = 0;
+  if (!readHistory(attempt, removed, landed)) return {InterpretationStatus::UnreliableInput, {}};
   if (attempt.initialOccupancy != position.occupancy()) {
     return {InterpretationStatus::PositionMismatch, {}};
   }
@@ -39,48 +34,33 @@ InterpretationResult interpretMove(const AttemptSnapshot& attempt,
   }
 
   const auto legal = position.legalMoves();
-  Move candidate;
-  std::size_t matches = 0;
-  bool samePromotionPath = true;
-  bool partial = false;
-  const Occupancy changed = attempt.initialOccupancy ^ attempt.currentOccupancy;
+  Move path, chosen;
   for (std::size_t i = 0; i < legal.count; ++i) {
     const auto& move = legal.moves[i];
     if (attempt.currentOccupancy & (Occupancy{1} << move.from)) continue;
-    if (selection != Promotion::None && move.promotion != selection) continue;
 
     // A capture keeps its destination occupied; the vacancy must have been observed.
     const Occupancy destination = Occupancy{1} << move.to;
-    if ((attempt.initialOccupancy & destination) && !(captureTargets & destination)) continue;
+    if (!(attempt.currentOccupancy & destination)) continue;
+    if ((attempt.initialOccupancy & destination) && !(removed & destination)) continue;
 
     ChessAdapter simulated = position;
-    if (!simulated.apply(move)) continue;
-    const Occupancy final = simulated.occupancy();
-    if (final != attempt.currentOccupancy) {
-      // King placed before rook, or pawn placed before removing the en passant victim.
-      const Occupancy path = final ^ attempt.initialOccupancy;
-      const Occupancy mainPiece = (Occupancy{1} << move.from) | destination;
-      if (allowPartial && (path & ~mainPiece) && !(changed & ~path) &&
-          (changed & mainPiece) == mainPiece) partial = true;
-      continue;
-    }
-    // The announced move resolves ties only after its physical evidence matches.
-    if (expected && move.from == expected->from && move.to == expected->to &&
-        move.promotion == expected->promotion) return {InterpretationStatus::Identified, move};
-    if (move.promotion == Promotion::None ||
-        (matches && (candidate.from != move.from || candidate.to != move.to))) {
-      samePromotionPath = false;
-    }
-    if (matches == 0) candidate = move;
-    ++matches;
+    if (!simulated.apply(move) || simulated.occupancy() != attempt.currentOccupancy) continue;
+    if (path.from != kInvalidSquare && (path.from != move.from || path.to != move.to))
+      return {InterpretationStatus::Ambiguous, {}};
+    path = move;
+    if (move.promotion == selection) chosen = move;
   }
 
-  if (matches == 0) return {partial ? InterpretationStatus::InProgress : InterpretationStatus::NoLegalMatch, {}};
-  if (selection == Promotion::None && samePromotionPath) {
+  if (path.from == kInvalidSquare) return {InterpretationStatus::NoLegalMatch, {}};
+  // A touched and replaced victim before the mover was lifted is not a capture.
+  const Occupancy target = Occupancy{1} << path.to;
+  if ((attempt.initialOccupancy & target) && !(landed & target))
+    return {InterpretationStatus::NoLegalMatch, {}};
+  if (path.promotion != Promotion::None && selection == Promotion::None)
     return {InterpretationStatus::PromotionRequired, {}};
-  }
-  if (matches > 1) return {InterpretationStatus::Ambiguous, {}};
-  return {InterpretationStatus::Identified, candidate};
+  if (chosen.from == kInvalidSquare) return {InterpretationStatus::NoLegalMatch, {}};
+  return {InterpretationStatus::Identified, chosen};
 }
 
 }  // namespace chessboard

@@ -15,6 +15,13 @@ std::uint32_t lastScan = 0, lastRetry = 0;
 std::atomic<bool> uartError{false};
 std::uint32_t lastByteMs = 0;
 
+void acquire() {
+  lastScan = millis();
+  chessboard::Occupancy raw;
+  if (hardware.scan(raw)) game->app().sample(raw, millis());
+  else game->app().inputLost();
+}
+
 void metrics() {
   Serial.printf("METRICS heap_bytes=%u heap_min_bytes=%u stack_free_bytes=%u\n",
       unsigned(ESP.getFreeHeap()), unsigned(ESP.getMinFreeHeap()),
@@ -27,13 +34,13 @@ void setup() {
   Serial.begin(115200);
   Serial.onReceiveError([](hardwareSerial_error_t) { uartError.store(true); });
   enableLoopWDT();
-  Serial.println("BOOT firmware=principal protocol=2 mode=physical");
+  Serial.println("BOOT firmware=principal protocol=3 mode=physical");
   const auto bootId = (std::uint64_t{esp_random()} << 32) | esp_random();
   static principal::SerialGame instance(false, bootId);
   game = &instance;
   hardware.setup();
-  if (hardware.busReady()) principal::display::begin();
-  Serial.println("READY protocol=2");
+  principal::display::begin();
+  Serial.println("READY protocol=3");
 }
 
 void loop() {
@@ -42,15 +49,10 @@ void loop() {
     lastRetry = now;
     hardware.initialiseMatrix();
   }
-  if (now - lastScan >= board::SCAN_INTERVAL_MS) {
-    lastScan = now;
-    chessboard::Occupancy raw;
-    if (hardware.scan(raw)) game->app().sample(raw, millis());
-    else game->app().inputLost();
-  }
+  if (now - lastScan >= board::SCAN_INTERVAL_MS) acquire();
   game->app().tick(millis());
   hardware.indicate(game->app().indicators(millis()));
-  if (hardware.ready()) principal::display::update(game->app(), millis());
+  principal::display::update(game->app(), millis());
   if (receiver.pending() && millis() - lastByteMs > 2000) receiver.discard();
   for (unsigned budget = 0; budget < 64 && Serial.available(); ++budget) {
     if (uartError.exchange(false)) receiver.discard();
@@ -60,15 +62,22 @@ void loop() {
     if (result == principal::LineReceiver::Result::Invalid) {
       Serial.println("ERROR Line");
     } else {
-      if (std::string(receiver.line()) == "metrics") metrics();
+      const std::string line = receiver.line();
+      if (line == "metrics") metrics();
+      else if (line == "oled 100" || line == "oled 400") {
+        const bool ready = principal::display::setFrequency(line == "oled 100" ? 100000 : 400000);
+        Serial.println(ready ? "OK oled" : "ERROR OledBus");
+      }
       else {
-        Serial.print(game->command(receiver.line(), millis()).c_str());
-        if (std::string(receiver.line()) == "status") {
-          Serial.printf("OLED %s\n", principal::display::available() ? "online" : "offline");
-          Serial.printf("OLED_TABULEIRO 0x%02X %s\n", board::BOARD_OLED_ADDRESS,
-                        principal::display::boardAvailable() ? "online" : "offline");
-          if (!principal::display::available() || !principal::display::boardAvailable())
-            Serial.printf("I2C_OLED 0x3C=%u 0x3D=%u\n", principal::display::matchError(), principal::display::boardError());
+        if (line == "confirm") acquire();
+        Serial.print(game->command(line, millis()).c_str());
+        if (line == "status") {
+          Serial.printf("OLED_HZ %u\n", unsigned(principal::display::busFrequency()));
+          Serial.printf("OLED 0x%02X %s\n", board::OLED_RIGHT_ADDRESS, principal::display::rightOnline() ? "online" : "offline");
+          Serial.printf("OLED_TABULEIRO 0x%02X %s\n", board::OLED_LEFT_ADDRESS,
+                        principal::display::leftOnline() ? "online" : "offline");
+          if (!principal::display::rightOnline() || !principal::display::leftOnline())
+            Serial.printf("I2C_OLED 0x3C=%u 0x3D=%u\n", principal::display::rightError(), principal::display::leftError());
         }
       }
     }

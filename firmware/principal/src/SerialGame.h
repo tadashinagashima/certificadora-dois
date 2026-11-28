@@ -17,7 +17,7 @@ class SerialGame {
  private:
   std::string dispatch(const std::string& line);
   std::string sessionId() const;
-  std::string start(const std::string& scenario);
+  std::string start(const std::string& scenario, const Tutorial* lesson = nullptr);
   std::string confirm();
   std::string end(bool resignation, chessboard::Color player);
   std::string status() const;

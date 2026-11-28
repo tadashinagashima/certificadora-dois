@@ -9,8 +9,11 @@ constexpr uint8_t SDA_PIN = 21;
 constexpr uint8_t SCL_PIN = 22;
 constexpr uint8_t MCP_RESET_PIN = 14;
 constexpr uint8_t MCP_ADDRESS = 0x20;
-constexpr uint8_t OLED_ADDRESS = 0x3C;
-constexpr uint8_t BOARD_OLED_ADDRESS = 0x3D;
+constexpr uint8_t OLED_SDA_PIN = 32;
+constexpr uint8_t OLED_SCL_PIN = 33;
+constexpr uint32_t OLED_HZ = 100000;
+constexpr uint8_t OLED_RIGHT_ADDRESS = 0x3C;
+constexpr uint8_t OLED_LEFT_ADDRESS = 0x3D;
 constexpr uint32_t I2C_HZ = 100000;
 constexpr uint8_t LED_GREEN = 25;
 constexpr uint8_t LED_RED = 26;
@@ -21,7 +24,6 @@ constexpr uint8_t BUZZER = 27;
 constexpr uint16_t COLUMN_SETTLE_US = 300;
 constexpr uint32_t SCAN_INTERVAL_MS = 25;
 constexpr uint32_t REED_DEBOUNCE_MS = 25;
-constexpr uint32_t MOVE_SETTLE_MS = 450;
 constexpr uint32_t MAX_SAMPLE_GAP_MS = 100;
 
 // MCP bit 0..7 = GPA0..7; bit 8..15 = GPB0..7.

@@ -15,7 +15,7 @@ struct GameEnd {
 
 enum class ConfirmationStatus {
   Accepted, NoMove, NoLegalMatch, Ambiguous, PromotionRequired,
-  UnreliableInput, PositionMismatch, ApplyFailed, GameFinished, UnexpectedMove, InProgress
+  UnreliableInput, PositionMismatch, ApplyFailed, GameFinished, UnexpectedMove
 };
 
 struct ConfirmationResult {
@@ -33,8 +33,7 @@ class GameController {
   void observe(Occupancy occupancy, std::uint32_t timestampMs);
   void markInputInterrupted();
   void clearAttempt() { tracker_.discardAttempt(); }
-  void requireFreshCaptureTarget() { tracker_.requireFreshCaptureTarget(); }
-  ConfirmationResult confirm(const Move* expected = nullptr, bool allowPartial = false);
+  ConfirmationResult confirm(const Move* expected = nullptr, bool useSuggestedPromotion = false);
   bool selectPromotion(Promotion selection);
   bool resign(Color player);
   bool finish();
